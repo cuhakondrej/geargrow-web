@@ -90,8 +90,8 @@
   legend .step { display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--p-mint); color: var(--ink); font-size: .8rem; }
   fieldset:nth-of-type(2) legend .step { background: var(--p-peach); }
   fieldset:nth-of-type(3) legend .step { background: var(--p-sky); }
-  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .field { display: grid; gap: 5px; min-width: 0; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: start; }
+  .field { display: grid; gap: 5px; min-width: 0; align-content: start; }
   .field label, .field .label { font-weight: 600; font-size: .92rem; }
   .field .hint { color: var(--muted); font-size: .8rem; }
   .field.full { grid-column: 1 / -1; }
@@ -153,12 +153,6 @@
   table.allow { width: 100%; border-collapse: collapse; font-size: .9rem; margin-top: 4px; }
   table.allow td { padding: 5px 0; border-bottom: 1px dashed var(--line); }
   table.allow td:last-child { text-align: right; font-variant-numeric: tabular-nums; font-weight: 700; white-space: nowrap; padding-left: 10px; }
-  .cats { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
-  .cats span { border-radius: 999px; padding: 5px 12px; font-size: .88rem; background: var(--p-mint); }
-  .cats span:nth-child(5n+2) { background: var(--p-peach); }
-  .cats span:nth-child(5n+3) { background: var(--p-sky); }
-  .cats span:nth-child(5n+4) { background: var(--p-lilac); }
-  .cats span:nth-child(5n+5) { background: var(--p-butter); }
 
   section.partners { background: var(--band); color: var(--band-ink); border-top: 0; }
   section.partners .eyebrow { color: var(--accent); }
@@ -356,7 +350,6 @@
             č. 4 pre 8–12 rokov a č. 5 od 12 rokov. Prilby a čiapky sa riadia obvodom hlavy.</p>
         </div>
       </div>
-      <div class="cats" id="cats" aria-label="Kategórie v kalkulačke"></div>
     </div>
   </section>
 
@@ -743,7 +736,6 @@
     groups[cat].forEach(function (it) { var o = document.createElement("option"); o.value = it.id; o.textContent = it.name; og.appendChild(o); });
     itemSel.appendChild(og);
   });
-  $("cats").innerHTML = Object.keys(groups).map(function (c) { return "<span>" + esc(c) + " · " + groups[c].length + "</span>"; }).join("");
 
   var targetSel = $("target");
   var targetOpts = [["now", "Hneď (do 2 týždňov)"]];
