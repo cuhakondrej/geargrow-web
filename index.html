@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="color-scheme" content="light dark">
+<meta name="color-scheme" content="light">
 <meta property="og:title" content="GearGrow – veľkosti detskej výbavy na budúcu sezónu">
 <meta property="og:description" content="Zadajte výšku a chodidlo dieťaťa a zistite, akú veľkosť oblečenia, obuvi a športovej výbavy bude potrebovať.">
 <meta property="og:type" content="website">
@@ -18,38 +18,35 @@
      form and a sticky result card sit side by side. No external fonts or
      requests: system faces only, so nothing leaves the visitor's device. */
   :root {
-    --bg: #f3f6f2;
+    /* Pastel palette: cream paper, mint (growth), peach, sky, lilac and a butter-yellow tape measure.
+       Text colours stay dark enough for comfortable reading; pastels are used for surfaces only. */
+    --bg: #fffcf7;
     --surface: #ffffff;
-    --ink: #13221a;
-    --muted: #57695d;
-    --line: #d9e2da;
-    --accent: #176b3a;
+    --ink: #2d2b3d;
+    --muted: #666377;
+    --line: #ebe5dc;
+    --accent: #2b7a63;
     --accent-ink: #ffffff;
-    --accent-soft: #e2f1e6;
-    --tape: #f2c14e;
-    --tape-ink: #3d2f0b;
-    --warn: #8a4b06;
-    --warn-soft: #fdf3e2;
-    --band: #0f3b23;
-    --band-ink: #e8f3ea;
-    --band-muted: #a9c9b3;
+    --accent-soft: #dcf2e8;
+    --btn: #a8e0c9;
+    --btn-ink: #173d31;
+    --tape: #ffd97a;
+    --tape-ink: #5a4410;
+    --warn: #a24a14;
+    --warn-soft: #ffeedd;
+    --band: #ece7fb;
+    --band-ink: #2d2b3d;
+    --band-muted: #5c5873;
+    --p-mint: #dcf2e8;
+    --p-peach: #ffe6d6;
+    --p-sky: #dcecfb;
+    --p-lilac: #ece7fb;
+    --p-butter: #fff3c8;
+    --shade: 45 43 61;
     --font-display: ui-rounded, "SF Pro Rounded", "Segoe UI Variable Display", "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
     --font-body: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    --radius: 14px;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --bg: #0e1511; --surface: #16201a; --ink: #e5eee7; --muted: #9db0a3; --line: #2a3a30;
-      --accent: #5cc98a; --accent-ink: #08140d; --accent-soft: #1b3325; --tape: #e6b543; --tape-ink: #2a1f05;
-      --warn: #f0b467; --warn-soft: #2e2212; --band: #0a2617; --band-ink: #e5eee7; --band-muted: #93b59e;
-      color-scheme: dark;
-    }
-  }
-  :root[data-theme="dark"] {
-    --bg: #0e1511; --surface: #16201a; --ink: #e5eee7; --muted: #9db0a3; --line: #2a3a30;
-    --accent: #5cc98a; --accent-ink: #08140d; --accent-soft: #1b3325; --tape: #e6b543; --tape-ink: #2a1f05;
-    --warn: #f0b467; --warn-soft: #2e2212; --band: #0a2617; --band-ink: #e5eee7; --band-muted: #93b59e;
-    color-scheme: dark;
+    --radius: 18px;
+    color-scheme: light; /* always the light pastel look, even when the device uses dark mode */
   }
 
   * { box-sizing: border-box; }
@@ -57,7 +54,7 @@
   body { margin: 0; }
   html { scroll-behavior: smooth; scroll-padding-top: 70px; }
   @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; animation: none !important; } }
-  body { background: var(--bg); color: var(--ink); font: 16px/1.55 var(--font-body); -webkit-text-size-adjust: 100%; }
+  body { background: radial-gradient(720px 360px at 6% -40px, var(--p-mint), transparent 70%), radial-gradient(640px 340px at 96% 0, var(--p-peach), transparent 70%), radial-gradient(560px 300px at 50% 120px, var(--p-butter), transparent 72%), var(--bg); background-repeat: no-repeat; color: var(--ink); font: 16px/1.55 var(--font-body); -webkit-text-size-adjust: 100%; }
   a { color: var(--accent); }
   .wrap { max-width: 1080px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
   h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; line-height: 1.15; margin: 0; letter-spacing: -0.01em; }
@@ -85,12 +82,14 @@
 
   /* calculator */
   .calc { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 22px; align-items: start; padding-bottom: 46px; }
-  .panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; min-width: 0; }
+  .panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; min-width: 0; box-shadow: 0 8px 24px rgb(var(--shade) / .06); }
   .sample { display: flex; gap: 10px; align-items: center; background: var(--warn-soft); color: var(--warn); border-radius: 10px; padding: 9px 12px; font-size: .9rem; margin-bottom: 14px; }
   fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
   fieldset + fieldset { margin-top: 22px; padding-top: 18px; border-top: 1px dashed var(--line); }
   legend { font-family: var(--font-display); font-weight: 800; font-size: 1.05rem; padding: 0; margin-bottom: 10px; display: flex; gap: 8px; align-items: baseline; }
-  legend .step { display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); font-size: .8rem; }
+  legend .step { display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--p-mint); color: var(--ink); font-size: .8rem; }
+  fieldset:nth-of-type(2) legend .step { background: var(--p-peach); }
+  fieldset:nth-of-type(3) legend .step { background: var(--p-sky); }
   .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   .field { display: grid; gap: 5px; min-width: 0; }
   .field label, .field .label { font-weight: 600; font-size: .92rem; }
@@ -116,6 +115,7 @@
   .needs .unit input { border-color: var(--warn); }
 
   /* result */
+  .result { background: linear-gradient(180deg, var(--p-mint), var(--surface) 150px); border-top: 6px solid var(--tape); }
   .result { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 76px); display: grid; gap: 14px; }
   .result .label { color: var(--muted); font-size: .88rem; }
   .size { font-family: var(--font-display); font-weight: 800; font-size: clamp(2.6rem, 9vw, 4rem); line-height: 1; color: var(--accent); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
@@ -131,9 +131,9 @@
   .error button { margin-top: 8px; }
 
   .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; font: inherit; font-weight: 700; border-radius: 999px; padding: 11px 20px;
-    border: 1px solid transparent; background: var(--accent); color: var(--accent-ink); cursor: pointer; text-decoration: none; }
+    border: 1px solid transparent; background: var(--btn); color: var(--btn-ink); cursor: pointer; text-decoration: none; }
   .btn:hover { filter: brightness(1.06); }
-  .btn.ghost { background: transparent; color: var(--accent); border-color: var(--line); }
+  .btn.ghost { background: var(--surface); color: var(--accent); border-color: var(--line); }
   .btn:focus-visible, a:focus-visible, summary:focus-visible { outline: 3px solid color-mix(in srgb, var(--accent) 45%, transparent); outline-offset: 2px; }
 
   /* sections */
@@ -141,34 +141,58 @@
   .section-head { display: grid; gap: 8px; margin-bottom: 22px; max-width: 70ch; }
   .section-head p { color: var(--muted); }
   .cols3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  .method { border-color: transparent; box-shadow: none; }
+  .method:nth-child(1) { background: var(--p-mint); }
+  .method:nth-child(2) { background: var(--p-peach); }
+  .method:nth-child(3) { background: var(--p-sky); }
+  .method p, .method table.allow td { color: var(--ink); }
+  .method table.allow td { border-bottom-color: rgb(var(--shade) / .14); }
   .method { display: grid; gap: 8px; align-content: start; }
   .method .k { font-family: var(--font-display); font-weight: 800; color: var(--accent); font-size: 1.6rem; font-variant-numeric: tabular-nums; }
-  .method p { color: var(--muted); font-size: .94rem; }
+  .method p { font-size: .94rem; opacity: .85; }
   table.allow { width: 100%; border-collapse: collapse; font-size: .9rem; margin-top: 4px; }
   table.allow td { padding: 5px 0; border-bottom: 1px dashed var(--line); }
   table.allow td:last-child { text-align: right; font-variant-numeric: tabular-nums; font-weight: 700; white-space: nowrap; padding-left: 10px; }
   .cats { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
-  .cats span { border: 1px solid var(--line); border-radius: 999px; padding: 5px 12px; font-size: .88rem; background: var(--surface); }
+  .cats span { border-radius: 999px; padding: 5px 12px; font-size: .88rem; background: var(--p-mint); }
+  .cats span:nth-child(5n+2) { background: var(--p-peach); }
+  .cats span:nth-child(5n+3) { background: var(--p-sky); }
+  .cats span:nth-child(5n+4) { background: var(--p-lilac); }
+  .cats span:nth-child(5n+5) { background: var(--p-butter); }
 
   section.partners { background: var(--band); color: var(--band-ink); border-top: 0; }
-  section.partners .eyebrow { color: var(--tape); }
+  section.partners .eyebrow { color: var(--accent); }
   section.partners .section-head p, section.partners .offer p { color: var(--band-muted); }
   .offers { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
-  .offer { border: 1px solid color-mix(in srgb, var(--band-ink) 18%, transparent); border-radius: var(--radius); padding: 18px; display: grid; gap: 6px; align-content: start; }
+  .offer { background: color-mix(in srgb, var(--surface) 70%, transparent); border: 1px solid color-mix(in srgb, var(--band-ink) 10%, transparent); border-radius: var(--radius); padding: 18px; display: grid; gap: 6px; align-content: start; }
   .offer h3 { color: var(--band-ink); }
+  .pricing-title { margin: 30px 0 12px; font-size: 1.25rem; }
+  .pricing { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+  .price-card { background: var(--surface); border-radius: var(--radius); padding: 18px; display: grid; gap: 8px; align-content: start;
+    box-shadow: 0 8px 24px rgb(var(--shade) / .07); border-top: 6px solid var(--p-mint); }
+  .price-card:nth-child(2) { border-top-color: var(--p-peach); }
+  .price-card:nth-child(3) { border-top-color: var(--tape); }
+  .price-card p { color: var(--band-muted); }
+  .price-tag { justify-self: start; font-size: .78rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; color: var(--btn-ink);
+    background: var(--p-mint); border-radius: 999px; padding: 4px 10px; }
+  .price-card:nth-child(2) .price-tag { background: var(--p-peach); color: #7a3a10; }
+  .price-card:nth-child(3) .price-tag { background: var(--p-butter); color: var(--tape-ink); }
+  .price-card p.pilot { color: var(--ink); background: var(--p-mint); border-radius: 10px; padding: 8px 10px; font-size: .92rem; }
+  .pricing-note { margin-top: 14px; color: var(--band-muted); max-width: 80ch; }
   .contact { margin-top: 22px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
-  .contact code { font: 700 1rem var(--font-body); background: color-mix(in srgb, var(--band-ink) 12%, transparent); padding: 8px 12px; border-radius: 10px; user-select: all; color: var(--band-ink); }
+  .contact code { font: 700 1rem var(--font-body); background: var(--surface); padding: 8px 12px; border-radius: 10px; user-select: all; color: var(--band-ink); }
   section.partners .btn { background: var(--tape); color: var(--tape-ink); }
-  section.partners .btn.ghost { background: transparent; color: var(--band-ink); border-color: color-mix(in srgb, var(--band-ink) 30%, transparent); }
+  section.partners .btn.ghost { background: var(--surface); color: var(--band-ink); border-color: color-mix(in srgb, var(--band-ink) 30%, transparent); }
 
   footer { padding-block: 28px 40px; font-size: .85rem; color: var(--muted); display: grid; gap: 10px; }
   footer .src { display: flex; flex-wrap: wrap; gap: 6px 16px; }
 
   /* intro dialog */
   dialog#intro { border: 0; border-radius: 18px; padding: 0; width: min(560px, calc(100vw - 32px)); max-height: calc(100dvh - 32px); background: var(--surface); color: var(--ink);
-    box-shadow: 0 30px 80px rgb(0 0 0 / .35); }
-  dialog#intro::backdrop { background: rgb(8 20 13 / .55); }
+    box-shadow: 0 30px 80px rgb(var(--shade) / .3); }
+  dialog#intro::backdrop { background: rgb(45 43 61 / .45); }
   .intro-tape { height: 14px; background: repeating-linear-gradient(90deg, var(--tape-ink) 0 1px, transparent 1px 10px) bottom/100% 7px no-repeat, var(--tape); }
+  .intro-body { background: linear-gradient(180deg, var(--p-butter), var(--surface) 120px); }
   .intro-body { padding: 22px 22px 20px; display: grid; gap: 12px; overflow: auto; }
   .intro-body p { color: var(--muted); }
   .intro-body p strong { color: var(--ink); }
@@ -179,6 +203,7 @@
     .result { position: static; }
     .cols3 { grid-template-columns: minmax(0, 1fr); }
     .offers { grid-template-columns: minmax(0, 1fr); }
+    .pricing { grid-template-columns: minmax(0, 1fr); }
   }
   @media (max-width: 520px) {
     header nav { margin-left: 0; width: 100%; justify-content: space-between; }
@@ -351,19 +376,36 @@
         </div>
         <div class="offer">
           <h3>Zaradenie do porovnávača GearGrow</h3>
-          <p>Rodičom budeme ukazovať ponuky v ich predpovedanej veľkosti. Zaraďujeme len overené obchody s certifikátom Heureka
-            „Overené zákazníkmi“ alebo SAOP.</p>
-        </div>
-        <div class="offer">
-          <h3>Platíte len za predaj</h3>
-          <p>Spolupráca na províznej báze cez partnerské siete (napríklad eHUB alebo Dognet) alebo priamo s vaším obchodom.</p>
-        </div>
-        <div class="offer">
-          <h3>Jednoduché napojenie</h3>
-          <p>Stačí produktový XML feed vo formáte Heureka alebo Google, ktorý už pravdepodobne posielate porovnávačom cien.
-            Kalkulačku si môžete vyskúšať hore na tejto stránke.</p>
+          <p>Rodičom budeme ukazovať ponuky rôznych značiek a obchodov, pri každej v správnej veľkosti podľa tabuľky danej značky.
+            Zaraďujeme len overené obchody s certifikátom Heureka „Overené zákazníkmi“ alebo SAOP.</p>
         </div>
       </div>
+
+      <h3 class="pricing-title">Ako spolupráca funguje a koľko stojí</h3>
+      <div class="pricing">
+        <div class="price-card">
+          <span class="price-tag">Mesačný paušál</span>
+          <h3>Veľkostný poradca na vašom e-shope</h3>
+          <p>Platíte pevnú mesačnú sumu za používanie nástroja na vašej stránke. Výška paušálu závisí od veľkosti e-shopu
+            (počtu produktov a návštevnosti). Konkrétny cenník vám radi pošleme.</p>
+          <p class="pilot"><strong>Pilot:</strong> pre prvých partnerov sú prvé 3 mesiace zadarmo, bez záväzku pokračovať.</p>
+        </div>
+        <div class="price-card">
+          <span class="price-tag">Provízia len z predaja</span>
+          <h3>Ponuky v porovnávači GearGrow</h3>
+          <p>Platíte len vtedy, keď rodič od nás príde a u vás nakúpi. Cez partnerské siete (napríklad eHUB alebo Dognet) alebo
+            priamo s vaším obchodom.</p>
+        </div>
+        <div class="price-card">
+          <span class="price-tag">Kombinácia</span>
+          <h3>Oboje naraz</h3>
+          <p>Poradca na vašom e-shope aj ponuky v porovnávači. Pilotné 3 mesiace zadarmo platia aj tu, takže prínos si overíte
+            na vlastných číslach ešte pred prvou platbou.</p>
+        </div>
+      </div>
+      <p class="pricing-note">Jednoduché napojenie: stačí produktový XML feed vo formáte Heureka alebo Google, ktorý už pravdepodobne
+        posielate porovnávačom cien. Žiadne skryté poplatky, všetky podmienky dostanete vopred písomne. Kalkulačku si môžete
+        vyskúšať hore na tejto stránke.</p>
       <div class="contact" id="contact"></div>
     </div>
   </section>
@@ -679,7 +721,7 @@
 (function () {
   "use strict";
   // Kontakt pre obchody: doplňte e-mail, napr. "info@geargrow.sk". Kým je prázdny, zobrazí sa text bez adresy.
-  var CONTACT_EMAIL = "";
+  var CONTACT_EMAIL = "info@geargrow.sk";
 
   var G = window.GearGrow;
   var $ = function (id) { return document.getElementById(id); };
