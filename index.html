@@ -1,0 +1,842 @@
+<!doctype html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta property="og:title" content="GearGrow – veľkosti detskej výbavy na budúcu sezónu">
+<meta property="og:description" content="Zadajte výšku a chodidlo dieťaťa a zistite, akú veľkosť oblečenia, obuvi a športovej výbavy bude potrebovať.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://geargrow.sk/">
+<link rel="canonical" href="https://geargrow.sk/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Crect x='9' y='1' width='12' height='28' rx='3' fill='%23f2c14e'/%3E%3Cpath d='M9 6h5M9 10h3M9 14h5M9 18h3M9 22h5M9 26h3' stroke='%233d2f0b' stroke-width='1.6'/%3E%3C/svg%3E">
+<title>GearGrow</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="GearGrow odhadne, akú veľkosť oblečenia, obuvi a športovej výbavy bude vaše dieťa potrebovať v nadchádzajúcej sezóne.">
+<style>
+  /* Layout: a measuring-tape motif. One narrow column on phones; on desktop the
+     form and a sticky result card sit side by side. No external fonts or
+     requests: system faces only, so nothing leaves the visitor's device. */
+  :root {
+    --bg: #f3f6f2;
+    --surface: #ffffff;
+    --ink: #13221a;
+    --muted: #57695d;
+    --line: #d9e2da;
+    --accent: #176b3a;
+    --accent-ink: #ffffff;
+    --accent-soft: #e2f1e6;
+    --tape: #f2c14e;
+    --tape-ink: #3d2f0b;
+    --warn: #8a4b06;
+    --warn-soft: #fdf3e2;
+    --band: #0f3b23;
+    --band-ink: #e8f3ea;
+    --band-muted: #a9c9b3;
+    --font-display: ui-rounded, "SF Pro Rounded", "Segoe UI Variable Display", "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+    --font-body: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --radius: 14px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0e1511; --surface: #16201a; --ink: #e5eee7; --muted: #9db0a3; --line: #2a3a30;
+      --accent: #5cc98a; --accent-ink: #08140d; --accent-soft: #1b3325; --tape: #e6b543; --tape-ink: #2a1f05;
+      --warn: #f0b467; --warn-soft: #2e2212; --band: #0a2617; --band-ink: #e5eee7; --band-muted: #93b59e;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0e1511; --surface: #16201a; --ink: #e5eee7; --muted: #9db0a3; --line: #2a3a30;
+    --accent: #5cc98a; --accent-ink: #08140d; --accent-soft: #1b3325; --tape: #e6b543; --tape-ink: #2a1f05;
+    --warn: #f0b467; --warn-soft: #2e2212; --band: #0a2617; --band-ink: #e5eee7; --band-muted: #93b59e;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  body { margin: 0; }
+  html { scroll-behavior: smooth; scroll-padding-top: 70px; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; animation: none !important; } }
+  body { background: var(--bg); color: var(--ink); font: 16px/1.55 var(--font-body); -webkit-text-size-adjust: 100%; }
+  a { color: var(--accent); }
+  .wrap { max-width: 1080px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+  h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; line-height: 1.15; margin: 0; letter-spacing: -0.01em; }
+  h1 { font-size: clamp(1.75rem, 4.6vw, 2.9rem); font-weight: 800; }
+  h2 { font-size: clamp(1.4rem, 3.2vw, 2rem); font-weight: 800; }
+  h3 { font-size: 1.1rem; font-weight: 700; }
+  p { margin: 0; }
+  .eyebrow { font-size: .78rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; color: var(--accent); }
+
+  /* header */
+  body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--surface); }
+  header.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: color-mix(in srgb, var(--surface) 92%, transparent);
+    backdrop-filter: saturate(1.4) blur(8px); border-bottom: 1px solid var(--line); }
+  header.top .wrap { display: flex; align-items: center; gap: 12px; padding-block: 10px; flex-wrap: wrap; }
+  .brand { display: inline-flex; align-items: center; gap: 9px; text-decoration: none; color: var(--ink); font-family: var(--font-display); font-weight: 800; font-size: 1.2rem; }
+  .brand svg { flex: none; }
+  header nav { margin-left: auto; display: flex; gap: 4px; flex-wrap: wrap; }
+  header nav a { color: var(--muted); text-decoration: none; font-size: .92rem; padding: 6px 10px; border-radius: 999px; }
+  header nav a:hover { color: var(--ink); background: var(--accent-soft); }
+  header nav a.cta { color: var(--accent); font-weight: 600; }
+
+  /* hero */
+  .hero { padding-block: 34px 18px; display: grid; gap: 14px; }
+  .hero p.lead { color: var(--muted); font-size: 1.06rem; max-width: 62ch; }
+
+  /* calculator */
+  .calc { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 22px; align-items: start; padding-bottom: 46px; }
+  .panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; min-width: 0; }
+  .sample { display: flex; gap: 10px; align-items: center; background: var(--warn-soft); color: var(--warn); border-radius: 10px; padding: 9px 12px; font-size: .9rem; margin-bottom: 14px; }
+  fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
+  fieldset + fieldset { margin-top: 22px; padding-top: 18px; border-top: 1px dashed var(--line); }
+  legend { font-family: var(--font-display); font-weight: 800; font-size: 1.05rem; padding: 0; margin-bottom: 10px; display: flex; gap: 8px; align-items: baseline; }
+  legend .step { display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); font-size: .8rem; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .field { display: grid; gap: 5px; min-width: 0; }
+  .field label, .field .label { font-weight: 600; font-size: .92rem; }
+  .field .hint { color: var(--muted); font-size: .8rem; }
+  .field.full { grid-column: 1 / -1; }
+  input, select { font: inherit; font-size: 16px; width: 100%; min-width: 0; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px;
+    background: var(--bg); color: var(--ink); appearance: none; -webkit-appearance: none; }
+  select { background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%), linear-gradient(135deg, var(--muted) 50%, transparent 50%);
+    background-position: calc(100% - 18px) 55%, calc(100% - 13px) 55%; background-size: 5px 5px; background-repeat: no-repeat; padding-right: 34px; }
+  input:focus, select:focus { outline: 3px solid color-mix(in srgb, var(--accent) 35%, transparent); border-color: var(--accent); }
+  input[aria-invalid="true"], select[aria-invalid="true"] { border-color: var(--warn); outline: 3px solid color-mix(in srgb, var(--warn) 25%, transparent); }
+  .unit { position: relative; }
+  .unit input { padding-right: 44px; font-variant-numeric: tabular-nums; }
+  .unit::after { content: attr(data-unit); position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: .9rem; pointer-events: none; }
+  .seg { display: grid; grid-template-columns: repeat(3, 1fr); background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 3px; gap: 3px; }
+  .seg input { position: absolute; opacity: 0; pointer-events: none; width: 1px; height: 1px; }
+  .seg label { text-align: center; padding: 7px 4px; border-radius: 8px; font-weight: 600; font-size: .9rem; cursor: pointer; color: var(--muted); }
+  .seg input:checked + label { background: var(--surface); color: var(--ink); box-shadow: 0 1px 3px rgb(0 0 0 / .12); }
+  .seg input:focus-visible + label { outline: 2px solid var(--accent); }
+  details.how { font-size: .82rem; color: var(--muted); }
+  details.how summary { cursor: pointer; color: var(--accent); font-weight: 600; width: max-content; max-width: 100%; }
+  details.how p { margin-top: 4px; }
+  .needs .unit input { border-color: var(--warn); }
+
+  /* result */
+  .result { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 76px); display: grid; gap: 14px; }
+  .result .label { color: var(--muted); font-size: .88rem; }
+  .size { font-family: var(--font-display); font-weight: 800; font-size: clamp(2.6rem, 9vw, 4rem); line-height: 1; color: var(--accent); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+  .alts { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: .9rem; color: var(--muted); }
+  .chip { background: var(--accent-soft); color: var(--ink); border-radius: 999px; padding: 3px 10px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .basis { font-size: .95rem; }
+  .notes { margin: 0; padding-left: 18px; display: grid; gap: 6px; font-size: .9rem; color: var(--muted); }
+  .tape { width: 100%; height: auto; display: block; }
+  .tape text { font: 600 9px var(--font-body); fill: var(--ink); }
+  .tape .t-muted { fill: var(--muted); }
+  .disclaimer { font-size: .82rem; color: var(--muted); border-top: 1px solid var(--line); padding-top: 12px; }
+  .error { background: var(--warn-soft); color: var(--warn); border-radius: 10px; padding: 12px 14px; font-weight: 600; }
+  .error button { margin-top: 8px; }
+
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; font: inherit; font-weight: 700; border-radius: 999px; padding: 11px 20px;
+    border: 1px solid transparent; background: var(--accent); color: var(--accent-ink); cursor: pointer; text-decoration: none; }
+  .btn:hover { filter: brightness(1.06); }
+  .btn.ghost { background: transparent; color: var(--accent); border-color: var(--line); }
+  .btn:focus-visible, a:focus-visible, summary:focus-visible { outline: 3px solid color-mix(in srgb, var(--accent) 45%, transparent); outline-offset: 2px; }
+
+  /* sections */
+  section.block { padding-block: 46px; border-top: 1px solid var(--line); }
+  .section-head { display: grid; gap: 8px; margin-bottom: 22px; max-width: 70ch; }
+  .section-head p { color: var(--muted); }
+  .cols3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  .method { display: grid; gap: 8px; align-content: start; }
+  .method .k { font-family: var(--font-display); font-weight: 800; color: var(--accent); font-size: 1.6rem; font-variant-numeric: tabular-nums; }
+  .method p { color: var(--muted); font-size: .94rem; }
+  table.allow { width: 100%; border-collapse: collapse; font-size: .9rem; margin-top: 4px; }
+  table.allow td { padding: 5px 0; border-bottom: 1px dashed var(--line); }
+  table.allow td:last-child { text-align: right; font-variant-numeric: tabular-nums; font-weight: 700; white-space: nowrap; padding-left: 10px; }
+  .cats { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+  .cats span { border: 1px solid var(--line); border-radius: 999px; padding: 5px 12px; font-size: .88rem; background: var(--surface); }
+
+  section.partners { background: var(--band); color: var(--band-ink); border-top: 0; }
+  section.partners .eyebrow { color: var(--tape); }
+  section.partners .section-head p, section.partners .offer p { color: var(--band-muted); }
+  .offers { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+  .offer { border: 1px solid color-mix(in srgb, var(--band-ink) 18%, transparent); border-radius: var(--radius); padding: 18px; display: grid; gap: 6px; align-content: start; }
+  .offer h3 { color: var(--band-ink); }
+  .contact { margin-top: 22px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+  .contact code { font: 700 1rem var(--font-body); background: color-mix(in srgb, var(--band-ink) 12%, transparent); padding: 8px 12px; border-radius: 10px; user-select: all; color: var(--band-ink); }
+  section.partners .btn { background: var(--tape); color: var(--tape-ink); }
+  section.partners .btn.ghost { background: transparent; color: var(--band-ink); border-color: color-mix(in srgb, var(--band-ink) 30%, transparent); }
+
+  footer { padding-block: 28px 40px; font-size: .85rem; color: var(--muted); display: grid; gap: 10px; }
+  footer .src { display: flex; flex-wrap: wrap; gap: 6px 16px; }
+
+  /* intro dialog */
+  dialog#intro { border: 0; border-radius: 18px; padding: 0; width: min(560px, calc(100vw - 32px)); max-height: calc(100dvh - 32px); background: var(--surface); color: var(--ink);
+    box-shadow: 0 30px 80px rgb(0 0 0 / .35); }
+  dialog#intro::backdrop { background: rgb(8 20 13 / .55); }
+  .intro-tape { height: 14px; background: repeating-linear-gradient(90deg, var(--tape-ink) 0 1px, transparent 1px 10px) bottom/100% 7px no-repeat, var(--tape); }
+  .intro-body { padding: 22px 22px 20px; display: grid; gap: 12px; overflow: auto; }
+  .intro-body p { color: var(--muted); }
+  .intro-body p strong { color: var(--ink); }
+  .intro-body .btn { justify-self: start; margin-top: 4px; }
+
+  @media (max-width: 860px) {
+    .calc { grid-template-columns: minmax(0, 1fr); }
+    .result { position: static; }
+    .cols3 { grid-template-columns: minmax(0, 1fr); }
+    .offers { grid-template-columns: minmax(0, 1fr); }
+  }
+  @media (max-width: 520px) {
+    header nav { margin-left: 0; width: 100%; justify-content: space-between; }
+    header nav a { padding: 4px 6px; font-size: .86rem; }
+    .grid2 { grid-template-columns: minmax(0, 1fr); }
+    .panel { padding: 16px; }
+    .hero { padding-block: 24px 14px; }
+  }
+</style>
+</head>
+<body>
+
+
+<dialog id="intro" aria-labelledby="intro-title">
+  <div class="intro-tape" aria-hidden="true"></div>
+  <div class="intro-body">
+    <h2 id="intro-title">Vitajte na GearGrow</h2>
+    <p><strong>Na čo stránka slúži:</strong> pomáha rodičom odhadnúť, akú veľkosť oblečenia, obuvi a športovej výbavy bude dieťa
+      potrebovať v nadchádzajúcej sezóne, aby mohli nakúpiť v predstihu.</p>
+    <p><strong>Veľkosti sú len odporúčané.</strong> Vychádzajú z rastových kriviek Svetovej zdravotníckej organizácie (WHO) a z vedeckých
+      štúdií o raste chodidla. Nedokážu však na 100 % predpovedať, ako bude rásť práve vaše dieťa. Berte ich ako pomôcku, nie ako záruku,
+      a pred kúpou porovnajte veľkosť s tabuľkou výrobcu.</p>
+    <p><strong>Nič neukladáme.</strong> Údaje, ktoré zadáte, sa počítajú len vo vašom zariadení a nikam sa neodosielajú.</p>
+    <button class="btn" id="intro-ok" type="button">Rozumiem, poďme na to</button>
+  </div>
+</dialog>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="GearGrow – na začiatok">
+      <svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true">
+        <rect x="9" y="1" width="12" height="28" rx="3" fill="var(--tape)"></rect>
+        <path d="M9 6h5M9 10h3M9 14h5M9 18h3M9 22h5M9 26h3" stroke="var(--tape-ink)" stroke-width="1.6"></path>
+        <path d="M24 12l3-4 3 4" fill="none" stroke="var(--accent)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" transform="translate(-4 0)"></path>
+      </svg>
+      GearGrow
+    </a>
+    <nav aria-label="Hlavná navigácia">
+      <a href="#kalkulacka">Kalkulačka</a>
+      <a href="#ako-to-funguje">Ako to funguje</a>
+      <a href="#pre-obchody" class="cta">Pre obchody</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <div class="wrap hero">
+    <span class="eyebrow">Pre rodičov</span>
+    <h1>Akú veľkosť bude vaše dieťa potrebovať o pár mesiacov?</h1>
+    <p class="lead">Zadajte výšku a dĺžku chodidla, vyberte, čo idete kupovať a na kedy. GearGrow odhadne veľkosť podľa rastových kriviek WHO
+      a vedeckých štúdií, aby ste mohli nakúpiť ešte pred sezónou.</p>
+  </div>
+
+  <div class="wrap calc" id="kalkulacka">
+    <form class="panel" id="form" novalidate autocomplete="off">
+      <div class="sample" id="sample" role="note">Ukážkové údaje – prepíšte ich údajmi vášho dieťaťa.</div>
+
+      <fieldset>
+        <legend><span class="step">1</span> Dieťa</legend>
+        <div class="grid2">
+          <div class="field">
+            <label for="birth">Dátum narodenia</label>
+            <input id="birth" type="date" required>
+          </div>
+          <div class="field">
+            <span class="label" id="sex-label">Pohlavie</span>
+            <div class="seg" role="radiogroup" aria-labelledby="sex-label">
+              <input type="radio" name="sex" id="sex-f" value="female"><label for="sex-f">Dievča</label>
+              <input type="radio" name="sex" id="sex-m" value="male"><label for="sex-m">Chlapec</label>
+              <input type="radio" name="sex" id="sex-u" value="unspecified"><label for="sex-u">Neuvádzam</label>
+            </div>
+          </div>
+          <div class="field">
+            <label for="height">Výška dnes</label>
+            <div class="unit" data-unit="cm"><input id="height" inputmode="decimal" placeholder="napr. 118,5" aria-describedby="height-hint"></div>
+            <span class="hint" id="height-hint">Pre oblečenie, bicykle, lyže a ďalšiu výbavu.</span>
+            <details class="how"><summary>Ako zmerať?</summary><p>Bez topánok, pätami a chrbtom k stene. Na temeno položte knihu a zmerajte výšku po jej spodnú hranu.</p></details>
+          </div>
+          <div class="field" id="foot-field">
+            <label for="foot">Dĺžka chodidla dnes</label>
+            <div class="unit" data-unit="cm"><input id="foot" inputmode="decimal" placeholder="napr. 18,5" aria-describedby="foot-hint"></div>
+            <span class="hint" id="foot-hint">Potrebné pre obuv, korčule a lyžiarky.</span>
+            <details class="how"><summary>Ako zmerať?</summary><p>Dieťa sa postaví na papier, označte pätu a najdlhší prst a zmerajte vzdialenosť. Zmerajte obe nohy, rozhoduje dlhšia. Najlepšie poobede, keď je noha najväčšia.</p></details>
+          </div>
+          <div class="field full" id="head-field">
+            <label for="head">Obvod hlavy <span class="hint">– nepovinné, pre prilby a čiapky</span></label>
+            <div class="unit" data-unit="cm"><input id="head" inputmode="decimal" placeholder="napr. 52"></div>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend><span class="step">2</span> Čo idete kupovať</legend>
+        <div class="field">
+          <label for="item">Vybavenie alebo oblečenie</label>
+          <select id="item"></select>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend><span class="step">3</span> Na kedy to potrebujete</legend>
+        <div class="grid2">
+          <div class="field">
+            <label for="target">Termín</label>
+            <select id="target"></select>
+          </div>
+          <div class="field" id="month-field" hidden>
+            <label for="month">Mesiac</label>
+            <input id="month" type="month">
+          </div>
+        </div>
+      </fieldset>
+    </form>
+
+    <aside class="panel result" id="result" aria-live="polite" aria-label="Odporúčaná veľkosť"></aside>
+  </div>
+
+  <section class="block" id="ako-to-funguje">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Ako to funguje</span>
+        <h2>Tri spôsoby, ako určujeme veľkosť</h2>
+        <p>Podľa toho, čo kupujete, počítame z výšky, z dĺžky chodidla alebo z veku. Výsledok je vždy rozsah, nie jedno číslo,
+          lebo deti nerastú úplne pravidelne. Keď je dieťa na hranici dvoch veľkostí, ukážeme obe.</p>
+      </div>
+      <div class="cols3">
+        <div class="panel method">
+          <span class="k">Výška</span>
+          <h3>Oblečenie, bicykle, lyže</h3>
+          <p>Výšku porovnáme s rastovými krivkami WHO pre deti od 2 do 19 rokov. Deti sa zvyčajne držia svojho percentilu, preto
+            predpovedáme výšku v termíne na rovnakej krivke. Z nej určíme veľkosť oblečenia (EU veľkosť = výška v cm), kolesá bicykla,
+            dĺžku lyží, snowboardu či palíc.</p>
+        </div>
+        <div class="panel method">
+          <span class="k">Chodidlo</span>
+          <h3>Všetka obuv a korčule</h3>
+          <p>Rast chodidla odhadneme podľa štúdie 3 490 detí vo veku 3–18 rokov (Wu a kol., 2024) a pripočítame rezervu podľa druhu obuvi:</p>
+          <table class="allow">
+            <tr><td>Hokejové korčule</td><td>+4 mm</td></tr>
+            <tr><td>Ľadové korčule, cvičky</td><td>+5–7 mm</td></tr>
+            <tr><td>Kopačky, halovky</td><td>+8 mm</td></tr>
+            <tr><td>Tenisky, turistická obuv</td><td>+12 mm</td></tr>
+            <tr><td>Zimné topánky, gumáky</td><td>+15 mm</td></tr>
+          </table>
+        </div>
+        <div class="panel method">
+          <span class="k">Vek</span>
+          <h3>Lopty, rukavice, chrániče</h3>
+          <p>Veci predávané podľa vekových skupín určíme podľa veku dieťaťa v termíne. Napríklad futbalová lopta č. 3 do 8 rokov,
+            č. 4 pre 8–12 rokov a č. 5 od 12 rokov. Prilby a čiapky sa riadia obvodom hlavy.</p>
+        </div>
+      </div>
+      <div class="cats" id="cats" aria-label="Kategórie v kalkulačke"></div>
+    </div>
+  </section>
+
+  <section class="block partners" id="pre-obchody">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Pre obchody a partnerov</span>
+        <h2>Zákazníci, ktorí prídu s presnou veľkosťou</h2>
+        <p>Vrátený tovar pre nesprávnu veľkosť je pri detskej obuvi a oblečení bežný problém. GearGrow pomáha rodičom vybrať správnu
+          veľkosť ešte pred nákupom. Hľadáme e-shopy, ktoré chcú byť pri tom.</p>
+      </div>
+      <div class="offers">
+        <div class="offer">
+          <h3>Veľkostný poradca pre váš e-shop</h3>
+          <p>Predpoveď veľkosti na nadchádzajúcu sezónu priamo pri produkte: obuv a korčule podľa zmeraného chodidla, oblečenie a
+            výbava podľa výšky. Zákazník vie, čo objednať, a vy riešite menej výmen.</p>
+        </div>
+        <div class="offer">
+          <h3>Zaradenie do porovnávača GearGrow</h3>
+          <p>Rodičom budeme ukazovať ponuky v ich predpovedanej veľkosti. Zaraďujeme len overené obchody s certifikátom Heureka
+            „Overené zákazníkmi“ alebo SAOP.</p>
+        </div>
+        <div class="offer">
+          <h3>Platíte len za predaj</h3>
+          <p>Spolupráca na províznej báze cez partnerské siete (napríklad eHUB alebo Dognet) alebo priamo s vaším obchodom.</p>
+        </div>
+        <div class="offer">
+          <h3>Jednoduché napojenie</h3>
+          <p>Stačí produktový XML feed vo formáte Heureka alebo Google, ktorý už pravdepodobne posielate porovnávačom cien.
+            Kalkulačku si môžete vyskúšať hore na tejto stránke.</p>
+        </div>
+      </div>
+      <div class="contact" id="contact"></div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <footer>
+      <p><strong>GearGrow</strong> · Odporúčané veľkosti sú odhad na základe rastových kriviek a vedeckých štúdií, nie záruka. Každé dieťa rastie inak.
+        Pred kúpou porovnajte veľkosť s tabuľkou výrobcu.</p>
+      <p>Stránka neukladá ani neodosiela žiadne údaje. Všetky výpočty prebiehajú vo vašom zariadení.</p>
+      <div class="src">
+        <span>Zdroje:</span>
+        <a href="https://www.who.int/tools/child-growth-standards/standards/length-height-for-age" rel="noopener" target="_blank">WHO rastové štandardy (2–5 r.)</a>
+        <a href="https://www.who.int/tools/growth-reference-data-for-5to19-years/indicators/height-for-age" rel="noopener" target="_blank">WHO rastová referencia (5–19 r.)</a>
+        <a href="https://www.frontiersin.org/journals/public-health/articles/10.3389/fpubh.2024.1322333/full" rel="noopener" target="_blank">Wu a kol. 2024 – dĺžka chodidla detí</a>
+      </div>
+    </footer>
+  </div>
+</main>
+
+<script>
+/* GearGrow sizing engine (browser port of predictor.py). Everything runs on the
+   visitor's device; nothing is stored or sent anywhere. */
+(function (global) {
+  "use strict";
+
+  var CATALOG = [{"id": "odrazadlo", "name": "Odrážadlo", "category": "Bicykle a kolobežky", "sizing": "height_band", "season": "spring", "params": {"unit": "inch", "bands": [[10, 75, 95], [12, 85, 105], [14, 95, 112]]}}, {"id": "bicykel", "name": "Bicykel", "category": "Bicykle a kolobežky", "sizing": "height_band", "season": "spring", "params": {"unit": "inch", "bands": [[12, 85, 98], [14, 95, 106], [16, 100, 116], [20, 114, 132], [24, 128, 148], [26, 142, 165]], "below_note": "Pre takúto výšku je zvyčajne vhodnejšie odrážadlo (10–12\").", "above_note": "Pre takúto výšku sa už hodí dospelý rám XS/S (27,5\" alebo 29\")."}}, {"id": "kolobezka", "name": "Kolobežka", "category": "Bicykle a kolobežky", "sizing": "none", "season": "spring", "params": {}}, {"id": "prilba_bicykel", "name": "Prilba na bicykel", "category": "Bicykle a kolobežky", "sizing": "head", "season": "spring", "params": {}}, {"id": "lyze", "name": "Zjazdové lyže", "category": "Lyžovanie a snowboard", "sizing": "height_length", "season": "winter", "params": {"factor": 1.0, "ideal": -15, "min": -20, "max": -10, "step": 5, "min_len": 70, "max_len": 180, "note": "Lyže: od výšky brady (začiatočníci, ≈ výška − 20 cm) po výšku nosa (zdatní lyžiari, ≈ výška − 10 cm). Hľadám {lo}–{hi} cm."}}, {"id": "lyziarky", "name": "Lyžiarky (lyžiarske topánky)", "category": "Lyžovanie a snowboard", "sizing": "foot", "season": "winter", "params": {"unit": "mondo", "allowance_mm": 5}}, {"id": "lyziarske_palice", "name": "Lyžiarske palice", "category": "Lyžovanie a snowboard", "sizing": "height_length", "season": "winter", "params": {"factor": 0.68, "ideal": 0, "min": -5, "max": 5, "step": 5, "min_len": 60, "max_len": 135, "note": "Palice: dĺžka ≈ 0,68 × výška dieťaťa (lakeť v pravom uhle). Hľadám {lo}–{hi} cm."}}, {"id": "lyziarska_prilba", "name": "Lyžiarska prilba", "category": "Lyžovanie a snowboard", "sizing": "head", "season": "winter", "params": {}}, {"id": "lyziarske_okuliare", "name": "Lyžiarske okuliare", "category": "Lyžovanie a snowboard", "sizing": "none", "season": "winter", "params": {}}, {"id": "snowboard", "name": "Snowboard", "category": "Lyžovanie a snowboard", "sizing": "height_length", "season": "winter", "params": {"factor": 1.0, "ideal": -18, "min": -25, "max": -12, "step": 5, "min_len": 70, "max_len": 165, "note": "Snowboard pre deti: medzi bradou a nosom (≈ výška − 25 až − 12 cm). Hľadám {lo}–{hi} cm."}}, {"id": "snowboard_topanky", "name": "Snowboardové topánky", "category": "Lyžovanie a snowboard", "sizing": "foot", "season": "winter", "params": {"unit": "eu", "allowance_mm": 10}}, {"id": "bezky", "name": "Bežky", "category": "Lyžovanie a snowboard", "sizing": "height_length", "season": "winter", "params": {"factor": 1.0, "ideal": 15, "min": 10, "max": 20, "step": 5, "min_len": 90, "max_len": 200, "note": "Bežky (klasika): výška dieťaťa + 10 až 20 cm. Hľadám {lo}–{hi} cm."}}, {"id": "bezky_topanky", "name": "Topánky na bežky", "category": "Lyžovanie a snowboard", "sizing": "foot", "season": "winter", "params": {"unit": "eu", "allowance_mm": 10}}, {"id": "lyziarska_bunda", "name": "Lyžiarska bunda", "category": "Lyžovanie a snowboard", "sizing": "clothing", "season": "winter", "params": {}}, {"id": "lyziarske_nohavice", "name": "Lyžiarske nohavice (oteplováky)", "category": "Lyžovanie a snowboard", "sizing": "clothing", "season": "winter", "params": {}}, {"id": "kombineza", "name": "Zimná / lyžiarska kombinéza", "category": "Lyžovanie a snowboard", "sizing": "clothing", "season": "winter", "params": {}}, {"id": "termopradlo", "name": "Termoprádlo", "category": "Lyžovanie a snowboard", "sizing": "clothing", "season": "winter", "params": {}}, {"id": "lyziarske_rukavice", "name": "Lyžiarske rukavice", "category": "Lyžovanie a snowboard", "sizing": "age_band", "season": "winter", "params": {"unit": "number", "bands": [[0, 4, 3], [4, 6, 4], [6, 8, 5], [8, 10, 6], [10, 12, 7], [12, 99, 8]], "note": "Veľkosti rukavíc sa líšia podľa značky; najistejšie je vyskúšať alebo zmerať dlaň."}}, {"id": "korcule_ladove", "name": "Ľadové korčule (rekreačné / krasokorčule)", "category": "Korčuľovanie a hokej", "sizing": "foot", "season": "winter", "params": {"unit": "eu", "allowance_mm": 7}}, {"id": "korcule_hokejove", "name": "Hokejové korčule", "category": "Korčuľovanie a hokej", "sizing": "foot", "season": "winter", "params": {"unit": "eu", "allowance_mm": 4, "note": "Hokejové korčule sa nosia tesnejšie – bývajú o 1 až 1,5 čísla menšie než bežná obuv."}}, {"id": "korcule_kolieskove", "name": "Kolieskové korčule", "category": "Korčuľovanie a hokej", "sizing": "foot", "season": "spring", "params": {"unit": "eu", "allowance_mm": 10, "note": "Nastaviteľné korčule (napr. 29–32) vydržia 2–3 sezóny."}}, {"id": "hokejka", "name": "Hokejka", "category": "Korčuľovanie a hokej", "sizing": "height_band", "season": "winter", "params": {"unit": "label", "bands": [["YTH", 0, 130], ["JR", 125, 160], ["INT", 150, 175], ["SR", 170, 230]], "note": "Hokejky sa delia na YTH (najmenšie), JR, INT a SR; dĺžka po bradu dieťaťa v topánkach."}}, {"id": "hokejova_prilba", "name": "Hokejová prilba", "category": "Korčuľovanie a hokej", "sizing": "head", "season": "winter", "params": {}}, {"id": "hokejova_vystroj", "name": "Hokejová výstroj (chrániče)", "category": "Korčuľovanie a hokej", "sizing": "height_band", "season": "winter", "params": {"unit": "label", "bands": [["YTH", 0, 130], ["JR", 125, 160], ["INT", 150, 175], ["SR", 170, 230]]}}, {"id": "chranice", "name": "Chrániče na korčuľovanie (kolená, lakte, zápästia)", "category": "Korčuľovanie a hokej", "sizing": "age_band", "season": "spring", "params": {"unit": "label", "bands": [[0, 5, "XS"], [5, 8, "S"], [8, 12, "M"], [12, 99, "L"]]}}, {"id": "kopacky", "name": "Kopačky (lisovky)", "category": "Futbal a loptové hry", "sizing": "foot", "season": "spring", "params": {"unit": "eu", "allowance_mm": 8}}, {"id": "halovky", "name": "Halovky / turfy", "category": "Futbal a loptové hry", "sizing": "foot", "season": "autumn", "params": {"unit": "eu", "allowance_mm": 8}}, {"id": "chranice_holeni", "name": "Chrániče holení", "category": "Futbal a loptové hry", "sizing": "height_band", "season": "spring", "params": {"unit": "label", "bands": [["XS", 0, 122], ["S", 118, 142], ["M", 138, 162], ["L", 158, 230]]}}, {"id": "futbalova_lopta", "name": "Futbalová lopta", "category": "Futbal a loptové hry", "sizing": "age_band", "season": "spring", "params": {"unit": "number", "bands": [[0, 8, 3], [8, 12, 4], [12, 99, 5]], "note": "Futbalové lopty: č. 3 do 8 rokov, č. 4 pre 8–12 rokov, č. 5 od 12 rokov."}}, {"id": "basketbalova_lopta", "name": "Basketbalová lopta", "category": "Futbal a loptové hry", "sizing": "age_band", "season": "any", "params": {"unit": "number", "bands": [[0, 12, 5], [12, 14, 6], [14, 99, 7]], "note": "Basketbal: č. 5 do 12 rokov, č. 6 pre 12–14 rokov (dievčatá aj neskôr), č. 7 chlapci od 14."}}, {"id": "futbalovy_dres", "name": "Športový / futbalový dres", "category": "Futbal a loptové hry", "sizing": "clothing", "season": "spring", "params": {}}, {"id": "tenisova_raketa", "name": "Tenisová raketa", "category": "Tenis", "sizing": "height_band", "season": "spring", "params": {"unit": "inch", "bands": [[19, 0, 105], [21, 100, 118], [23, 113, 132], [25, 128, 148], [26, 140, 160], [27, 155, 230]]}}, {"id": "plavky", "name": "Plavky", "category": "Plávanie a voda", "sizing": "clothing", "season": "summer", "params": {}}, {"id": "neopren", "name": "Neoprén", "category": "Plávanie a voda", "sizing": "clothing", "season": "summer", "params": {}}, {"id": "plavecke_okuliare", "name": "Plavecké okuliare", "category": "Plávanie a voda", "sizing": "none", "season": "summer", "params": {}}, {"id": "obuv_do_vody", "name": "Obuv do vody", "category": "Plávanie a voda", "sizing": "foot", "season": "summer", "params": {"unit": "eu", "allowance_mm": 10}}, {"id": "turisticka_obuv", "name": "Turistická obuv", "category": "Turistika a outdoor", "sizing": "foot", "season": "spring", "params": {"unit": "eu", "allowance_mm": 12}}, {"id": "softshell_bunda", "name": "Softshellová bunda", "category": "Turistika a outdoor", "sizing": "clothing", "season": "spring", "params": {}}, {"id": "nepremokava_bunda", "name": "Nepremokavá bunda", "category": "Turistika a outdoor", "sizing": "clothing", "season": "spring", "params": {}}, {"id": "softshell_nohavice", "name": "Softshellové nohavice", "category": "Turistika a outdoor", "sizing": "clothing", "season": "spring", "params": {}}, {"id": "cvicky", "name": "Cvičky / baletky", "category": "Gymnastika, tanec, bojové športy", "sizing": "foot", "season": "autumn", "params": {"unit": "eu", "allowance_mm": 5}}, {"id": "kimono", "name": "Kimono (judo, karate)", "category": "Gymnastika, tanec, bojové športy", "sizing": "clothing", "season": "autumn", "params": {"series": [100, 110, 120, 130, 140, 150, 160, 170, 180, 190], "note": "Kimonu sa veľkosť udáva výškou postavy v cm (po 10 cm)."}}, {"id": "gymnasticky_dres", "name": "Gymnastický / tanečný dres", "category": "Gymnastika, tanec, bojové športy", "sizing": "clothing", "season": "autumn", "params": {}}, {"id": "tenisky", "name": "Tenisky / botasky", "category": "Obuv", "sizing": "foot", "season": "any", "params": {"unit": "eu", "allowance_mm": 12}}, {"id": "bezecka_obuv", "name": "Bežecká obuv", "category": "Obuv", "sizing": "foot", "season": "spring", "params": {"unit": "eu", "allowance_mm": 12}}, {"id": "zimna_obuv", "name": "Zimné topánky / snehule", "category": "Obuv", "sizing": "foot", "season": "winter", "params": {"unit": "eu", "allowance_mm": 15, "note": "Pri zimnej obuvi rátam s väčšou rezervou (15 mm) na hrubé ponožky."}}, {"id": "gumaky", "name": "Gumáky", "category": "Obuv", "sizing": "foot", "season": "autumn", "params": {"unit": "eu", "allowance_mm": 15}}, {"id": "sandale", "name": "Sandále", "category": "Obuv", "sizing": "foot", "season": "summer", "params": {"unit": "eu", "allowance_mm": 10}}, {"id": "papuce", "name": "Papuče / prezuvky", "category": "Obuv", "sizing": "foot", "season": "autumn", "params": {"unit": "eu", "allowance_mm": 10}}, {"id": "zimna_bunda", "name": "Zimná bunda", "category": "Oblečenie", "sizing": "clothing", "season": "winter", "params": {}}, {"id": "prechodna_bunda", "name": "Prechodná bunda", "category": "Oblečenie", "sizing": "clothing", "season": "spring", "params": {}}, {"id": "mikina", "name": "Mikina", "category": "Oblečenie", "sizing": "clothing", "season": "any", "params": {}}, {"id": "teplaky", "name": "Tepláky", "category": "Oblečenie", "sizing": "clothing", "season": "any", "params": {}}, {"id": "nohavice", "name": "Nohavice / rifle", "category": "Oblečenie", "sizing": "clothing", "season": "any", "params": {}}, {"id": "tricko", "name": "Tričko", "category": "Oblečenie", "sizing": "clothing", "season": "summer", "params": {}}, {"id": "leginy", "name": "Legíny", "category": "Oblečenie", "sizing": "clothing", "season": "any", "params": {}}, {"id": "pyzamo", "name": "Pyžamo", "category": "Oblečenie", "sizing": "clothing", "season": "any", "params": {}}, {"id": "ciapka", "name": "Čiapka", "category": "Oblečenie", "sizing": "head", "season": "winter", "params": {}}, {"id": "rukavice", "name": "Zimné rukavice", "category": "Oblečenie", "sizing": "age_band", "season": "winter", "params": {"unit": "number", "bands": [[0, 4, 3], [4, 6, 4], [6, 8, 5], [8, 10, 6], [10, 12, 7], [12, 99, 8]], "note": "Veľkosti rukavíc sa líšia podľa značky; najistejšie je vyskúšať alebo zmerať dlaň."}}, {"id": "sanky", "name": "Sánky / boby", "category": "Bez veľkosti", "sizing": "none", "season": "winter", "params": {}}];
+
+  var Z_DRIFT = 0.35, MEAS_ERR = 1.0, MAX_Z = 3.0;
+  var DAY_MS = 86400000, DAYS_PER_MONTH = 365.25 / 12;
+  var SEASONS = { spring: [4, 1], summer: [6, 15], autumn: [9, 15], winter: [12, 1] };
+  var SEASON_LABELS = { spring: "jar", summer: "leto", autumn: "jeseň", winter: "zima", any: "kedykoľvek" };
+
+  // WHO height-for-age (cm): [months, -1 SD, median, +1 SD]
+  var WHO = {
+    male: [[24,84.1,87.1,90.2],[30,88.5,91.9,95.3],[36,92.4,96.1,99.8],[42,95.9,99.9,103.8],[48,99.1,103.3,107.5],
+      [54,102.3,106.7,111.1],[60,105.3,110.0,114.6],[61,105.7,110.3,114.9],[72,111.0,116.0,120.9],[84,116.4,121.7,127.0],
+      [96,121.6,127.3,132.9],[108,126.6,132.6,138.6],[120,131.4,137.8,144.2],[132,136.4,143.1,149.8],[144,142.0,149.1,156.2],
+      [156,148.6,156.0,163.5],[168,155.5,163.2,170.9],[180,161.2,169.0,176.8],[192,165.1,172.9,180.7],[204,167.5,175.2,182.8],
+      [216,168.7,176.1,183.6],[228,169.2,176.5,183.8]],
+    female: [[24,82.5,85.7,88.9],[30,87.1,90.7,94.2],[36,91.2,95.1,98.9],[42,95.0,99.0,103.1],[48,98.4,102.7,107.0],
+      [54,101.6,106.2,110.7],[60,104.7,109.4,114.2],[61,104.8,109.6,114.4],[72,110.0,115.1,120.2],[84,115.3,120.8,126.3],
+      [96,120.8,126.6,132.4],[108,126.4,132.5,138.6],[120,132.2,138.6,145.0],[132,138.3,145.0,151.6],[144,144.4,151.2,158.1],
+      [156,149.4,156.4,163.3],[168,152.8,159.8,166.7],[180,154.8,161.7,168.5],[192,155.7,162.5,169.3],[204,156.2,162.9,169.5],
+      [216,156.5,163.1,169.7],[228,156.6,163.2,169.7]]
+  };
+  // Mean foot length (cm) by age (Wu et al. 2024, 3.5-17.5 y; below 3 y rough extrapolation)
+  var FOOT_RAW = {
+    male: [[1.0,12.0],[2.0,13.3],[3.5,14.8],[4.5,15.8],[5.5,17.0],[6.5,17.9],[7.5,19.1],[8.5,20.0],[9.5,21.2],[10.5,22.0],
+      [11.5,23.6],[12.5,24.6],[13.5,25.2],[14.5,25.6],[15.5,25.8],[16.5,25.8],[17.5,25.9]],
+    female: [[1.0,11.8],[2.0,13.0],[3.5,14.5],[4.5,15.7],[5.5,16.7],[6.5,17.8],[7.5,18.7],[8.5,19.4],[9.5,21.0],[10.5,21.4],
+      [11.5,22.6],[12.5,23.1],[13.5,23.3],[14.5,23.3],[15.5,23.5],[16.5,23.5],[17.5,23.5]]
+  };
+  var HEAD = [[1.0,46.0],[2.0,48.0],[3.0,49.3],[4.0,50.0],[5.0,50.6],[6.0,51.1],[8.0,51.9],[10.0,52.6],[12.0,53.5],
+    [14.0,54.5],[16.0,55.3],[18.0,55.8]];
+  var CLOTHING_SIZES = [80,86,92,98,104,110,116,122,128,134,140,146,152,158,164,170,176];
+
+  function monotone(rows) { var best = 0; return rows.map(function (r) { best = Math.max(best, r[1]); return [r[0], best]; }); }
+  var FOOT = { male: monotone(FOOT_RAW.male), female: monotone(FOOT_RAW.female) };
+
+  // ---------------------------------------------------------------- helpers
+  function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+  function roundHalfUp(v) { return Math.floor(v + 0.5); }
+  function pyRound(v) { // Python's round(): halves go to the even neighbour
+    var f = Math.floor(v), d = v - f;
+    if (Math.abs(d - 0.5) < 1e-9) return f % 2 === 0 ? f : f + 1;
+    return Math.round(v);
+  }
+  function num(v) { return String(Number(Number(v).toFixed(2))).replace(".", ","); }
+  function interp(table, x) {
+    if (x <= table[0][0]) return table[0][1];
+    if (x >= table[table.length - 1][0]) return table[table.length - 1][1];
+    for (var i = 1; i < table.length; i++) {
+      if (x <= table[i][0]) {
+        var a = table[i - 1], b = table[i];
+        return a[1] + (x - a[0]) / (b[0] - a[0]) * (b[1] - a[1]);
+      }
+    }
+    return table[table.length - 1][1];
+  }
+  function whoPoint1(sex, m) {
+    var pts = WHO[sex];
+    m = clamp(m, pts[0][0], pts[pts.length - 1][0]);
+    for (var i = 0; i < pts.length; i++) {
+      if (pts[i][0] === m) return { minus: pts[i][1], median: pts[i][2], plus: pts[i][3] };
+      if (pts[i][0] > m) {
+        var lo = pts[i - 1], hi = pts[i], t = (m - lo[0]) / (hi[0] - lo[0]);
+        return { minus: lo[1] + t * (hi[1] - lo[1]), median: lo[2] + t * (hi[2] - lo[2]), plus: lo[3] + t * (hi[3] - lo[3]) };
+      }
+    }
+    var last = pts[pts.length - 1];
+    return { minus: last[1], median: last[2], plus: last[3] };
+  }
+  function whoPoint(sex, m) {
+    if (sex === "male" || sex === "female") return whoPoint1(sex, m);
+    var a = whoPoint1("male", m), b = whoPoint1("female", m);
+    return { minus: (a.minus + b.minus) / 2, median: (a.median + b.median) / 2, plus: (a.plus + b.plus) / 2 };
+  }
+  function zScore(sex, m, h) {
+    var p = whoPoint(sex, m);
+    return h >= p.median ? (h - p.median) / (p.plus - p.median) : (h - p.median) / (p.median - p.minus);
+  }
+  function heightAt(sex, m, z) {
+    var p = whoPoint(sex, m);
+    return p.median + z * (z >= 0 ? p.plus - p.median : p.median - p.minus);
+  }
+  function footRef(sex, years) {
+    if (sex === "male" || sex === "female") return interp(FOOT[sex], years);
+    return (interp(FOOT.male, years) + interp(FOOT.female, years)) / 2;
+  }
+  function utc(y, m, d) { return new Date(Date.UTC(y, m - 1, d)); }
+  function toUTC(date) { return utc(date.getUTCFullYear(), date.getUTCMonth() + 1, date.getUTCDate()); }
+  function ageMonths(birth, on) { return Math.round((toUTC(on) - toUTC(birth)) / DAY_MS) / DAYS_PER_MONTH; }
+  function fmtDate(d) { return d.getUTCDate() + ". " + (d.getUTCMonth() + 1) + ". " + d.getUTCFullYear(); }
+
+  function resolveTarget(spec, today) {
+    today = toUTC(today);
+    if (spec === "now") return new Date(today.getTime() + 14 * DAY_MS);
+    var m = /^next_(\w+)$/.exec(spec);
+    if (m && SEASONS[m[1]]) {
+      var s = SEASONS[m[1]], c = utc(today.getUTCFullYear(), s[0], s[1]);
+      return c > today ? c : utc(today.getUTCFullYear() + 1, s[0], s[1]);
+    }
+    var mm = /^(\d{4})-(\d{1,2})$/.exec(spec || "");
+    if (mm && +mm[2] >= 1 && +mm[2] <= 12) return utc(+mm[1], +mm[2], 1);
+    throw new SizingError("Vyberte, na kedy vec potrebujete.");
+  }
+
+  function SizingError(message, field) { this.message = message; this.field = field || null; }
+  SizingError.prototype = Object.create(Error.prototype);
+
+  // -------------------------------------------------------------- forecasts
+  function forecastHeight(child, target) {
+    var age0 = ageMonths(child.birth, child.today), age1 = ageMonths(child.birth, target);
+    var horizon = age1 - age0, notes = [];
+    if (age0 < 24) notes.push("Pri deťoch do 2 rokov je odhad výšky menej presný.");
+    if (horizon > 18) notes.push("Predpoveď je na " + Math.round(horizon) + " mesiacov dopredu; pred sezónou dieťa radšej znova zmerajte.");
+    var z = zScore(child.sex, age0, child.height);
+    if (Math.abs(z) > MAX_Z) { notes.push("Zadaná výška je na tento vek nezvyčajná – skontrolujte meranie."); z = clamp(z, -MAX_Z, MAX_Z); }
+    var pred = Math.max(child.height, heightAt(child.sex, age1, z));
+    var drift = Z_DRIFT * Math.sqrt(Math.max(horizon, 0) / 12);
+    var low = heightAt(child.sex, age1, z - drift), high = heightAt(child.sex, age1, z + drift);
+    low = Math.max(Math.min(low, pred - MEAS_ERR), child.height - MEAS_ERR);
+    high = Math.max(high, pred + MEAS_ERR);
+    return { value: pred, low: low, high: high, notes: notes };
+  }
+  function forecastFoot(child, target, itemName) {
+    if (!child.foot) throw new SizingError("Pre „" + itemName + "“ zadajte dĺžku chodidla dieťaťa. Obuv počítam podľa chodidla, nie podľa výšky.", "foot");
+    var a0 = ageMonths(child.birth, child.today) / 12, a1 = ageMonths(child.birth, target) / 12;
+    var pred = child.foot * footRef(child.sex, a1) / footRef(child.sex, a0);
+    var band = 0.2 + 0.25 * (pred - child.foot);
+    var notes = a0 < 3 ? ["Pri deťoch do 3 rokov je odhad rastu chodidla len orientačný."] : [];
+    return { value: pred, low: Math.max(child.foot - 0.2, pred - band), high: pred + band, notes: notes };
+  }
+  function forecastHead(child, target) {
+    var a1 = ageMonths(child.birth, target) / 12, ref1 = interp(HEAD, a1);
+    if (!child.head) {
+      return { value: ref1, low: ref1 - 1.5, high: ref1 + 1.5, notes: [
+        "Obvod hlavy nie je zadaný – použil som priemer pre vek. Pre prilbu ho radšej zmerajte krajčírskym metrom tesne nad obočím."] };
+    }
+    var a0 = ageMonths(child.birth, child.today) / 12;
+    var pred = child.head * ref1 / interp(HEAD, a0);
+    return { value: pred, low: pred - 0.5, high: pred + 0.5, notes: [] };
+  }
+
+  // ------------------------------------------------------------------ rules
+  function fmtSize(v, unit) {
+    switch (unit) {
+      case "inch": return num(v) + "″";
+      case "cm": return num(v) + " cm";
+      case "eu": return "EU " + num(v);
+      case "mondo": return "MP " + num(v);
+      case "height_cm": return "veľ. " + num(v);
+      case "head_cm": return "obvod " + num(v) + " cm";
+      case "number": return "č. " + num(v);
+      default: return String(v);
+    }
+  }
+  function ordered(values, primary) {
+    var seen = {}, out = [];
+    values.forEach(function (v) { if (!seen[v]) { seen[v] = 1; out.push(v); } });
+    return out.sort(function (a, b) { return Math.abs(a - primary) - Math.abs(b - primary) || a - b; });
+  }
+  function itemNote(item, fmt) {
+    var t = item.params.note;
+    if (!t) return [];
+    return [t.replace("{lo}", fmt ? fmt.lo : "").replace("{hi}", fmt ? fmt.hi : "")];
+  }
+
+  var RULES = {
+    clothing: function (item, ctx) {
+      var series = item.params.series || CLOTHING_SIZES, h = ctx.height();
+      function sizeFor(x) { for (var i = 0; i < series.length; i++) if (series[i] >= x - 1e-9) return series[i]; return series[series.length - 1]; }
+      var p = sizeFor(h.value), s = sizeFor(h.low), l = sizeFor(h.high);
+      var c = ordered(series.filter(function (x) { return x >= s && x <= l; }), p);
+      if (!c.length) c = [p];
+      var step = series.length > 1 ? series[1] - series[0] : 6;
+      var notes = ["Veľkosť " + num(p) + " je pre deti vysoké približne " + num(p - step) + "–" + num(p) + " cm."];
+      if (c.length > 1) notes.push("Na celú sezónu je istejšia väčšia z ponúkaných veľkostí.");
+      if (h.value > series[series.length - 1]) notes.push("Predpokladaná výška je nad detskými veľkosťami – použite tínedžerské či dospelé (XS/S).");
+      return { unit: "height_cm", candidates: c.map(function (x) { return fmtSize(x, "height_cm"); }), forecast: h, notes: notes.concat(itemNote(item)) };
+    },
+    height_band: function (item, ctx) {
+      var unit = item.params.unit || "inch", bands = item.params.bands, h = ctx.height(), notes = [];
+      var over = bands.filter(function (b) { return b[1] <= h.high && b[2] >= h.low; });
+      function center(b) { return (b[1] + b[2]) / 2; }
+      if (!over.length) {
+        var nearest = bands.slice().sort(function (a, b) { return Math.abs(center(a) - h.value) - Math.abs(center(b) - h.value); })[0];
+        over = [nearest];
+        var below = h.value < bands[0][1];
+        notes.push(item.params[below ? "below_note" : "above_note"] ||
+          "Predpokladaná výška " + Math.round(h.value) + " cm je mimo bežnej tabuľky – vybral som najbližšiu veľkosť.");
+      }
+      over.sort(function (a, b) { return Math.abs(center(a) - h.value) - Math.abs(center(b) - h.value) || (String(a[0]) < String(b[0]) ? -1 : 1); });
+      var labels = over.map(function (b) { return unit === "label" ? String(b[0]) : fmtSize(b[0], unit); });
+      if (labels.length > 1) notes.push("Predpokladaná výška " + Math.round(h.low) + "–" + Math.round(h.high) + " cm je na hranici veľkostí (" +
+        labels.join(" / ") + "). " + labels[0] + " sedí najlepšie, väčšia vydrží dlhšie.");
+      return { unit: unit, candidates: labels, forecast: h, notes: notes.concat(itemNote(item)) };
+    },
+    height_length: function (item, ctx) {
+      var p = item.params, f = p.factor || 1, step = p.step || 5, h = ctx.height();
+      var ideal = clamp(pyRound((h.value * f + p.ideal) / step) * step, p.min_len, p.max_len);
+      var shortest = roundHalfUp(Math.min(clamp(h.low * f + p.min, p.min_len, p.max_len), ideal));
+      var longest = roundHalfUp(Math.max(clamp(h.high * f + p.max, p.min_len, p.max_len), ideal));
+      var stock = [];
+      for (var x = Math.ceil(shortest / step) * step; x <= Math.floor(longest / step) * step; x += step) stock.push(x);
+      var c = ordered(stock.concat([ideal]), ideal).slice(0, 4);
+      return { unit: "cm", candidates: c.map(function (v) { return fmtSize(v, "cm"); }), forecast: h,
+        notes: itemNote(item, { lo: num(shortest), hi: num(longest) }) };
+    },
+    foot: function (item, ctx) {
+      var unit = item.params.unit || "eu", allow = (item.params.allowance_mm || 12) / 10, foot = ctx.foot();
+      var notes = ["Počítané zo zmeraného chodidla (v termíne ≈ " + num(Math.round(foot.value * 10) / 10) + " cm) + " +
+        num(allow * 10) + " mm rezervy. Veľkosti sa líšia podľa značky – porovnajte s tabuľkou výrobcu (dĺžka stielky)."].concat(itemNote(item));
+      function eu(fc) { return roundHalfUp((fc + allow) * 1.5); }
+      if (unit === "mondo") {
+        function mp(fc) { return Math.ceil((fc + allow) * 2 - 1e-9) / 2; }
+        var p = mp(foot.value), s = mp(foot.low), l = mp(foot.high), list = [];
+        for (var i = 0; i <= Math.round((l - s) * 2); i++) list.push(s + 0.5 * i);
+        notes.push("Mondopoint " + fmtSize(p, "mondo") + " zodpovedá približne EU " + num(eu(p - allow)) + ".");
+        return { unit: unit, candidates: ordered(list, p).map(function (v) { return fmtSize(v, "mondo"); }), forecast: foot, notes: notes };
+      }
+      var pe = eu(foot.value), se = eu(foot.low), le = eu(foot.high), sizes = [];
+      for (var k = se; k <= le; k++) sizes.push(k);
+      return { unit: unit, candidates: ordered(sizes, pe).map(function (v) { return fmtSize(v, "eu"); }), forecast: foot, notes: notes };
+    },
+    head: function (item, ctx) {
+      var head = ctx.head(), label = fmtSize(roundHalfUp(head.value), "head_cm");
+      return { unit: "head_cm", candidates: [label], forecast: head, notes: [
+        "Vyberajte veľkosť s rozsahom, ktorý obsahuje " + Math.round(head.value) + " cm (napr. 52–56 cm)."] };
+    },
+    age_band: function (item, ctx) {
+      var unit = item.params.unit || "number", age = ctx.ageYears, bands = item.params.bands;
+      var cur = bands.filter(function (b) { return b[0] <= age && age < b[1]; })[0] || bands[bands.length - 1];
+      var chosen = [cur];
+      var next = bands.filter(function (b) { return b[0] === cur[1]; })[0];
+      if (next && cur[1] - age <= 0.5) chosen.push(next);
+      var labels = chosen.map(function (b) { return unit === "label" ? String(b[2]) : fmtSize(b[2], unit); });
+      return { unit: unit, candidates: labels, forecast: null, notes: itemNote(item) };
+    },
+    none: function () {
+      return { unit: "none", candidates: [], forecast: null, notes: ["Pri tomto tovare sa veľkosť nerieši."] };
+    }
+  };
+
+  var BASIS = { clothing: "height", height_band: "height", height_length: "height", foot: "foot", head: "head", age_band: "age", none: "none" };
+
+  function findItem(id) { for (var i = 0; i < CATALOG.length; i++) if (CATALOG[i].id === id) return CATALOG[i]; return null; }
+
+  /* child: {birth: Date, sex: "male"|"female"|"unspecified", height: cm, foot?: cm, head?: cm, today?: Date} */
+  function recommend(child, itemId, targetSpec) {
+    var item = findItem(itemId);
+    if (!item) throw new SizingError("Vyberte, čo hľadáte.", "item");
+    child = Object.assign({ today: new Date() }, child);
+    child.today = toUTC(child.today);
+    if (!child.birth || isNaN(child.birth)) throw new SizingError("Zadajte dátum narodenia.", "birth");
+    child.birth = toUTC(child.birth);
+    if (child.birth > child.today) throw new SizingError("Dátum narodenia nemôže byť v budúcnosti.", "birth");
+    var ageNow = ageMonths(child.birth, child.today) / 12;
+    if (ageNow < 1) throw new SizingError("Kalkulačka je pre deti od 1 roka.", "birth");
+    if (ageNow > 18) throw new SizingError("Kalkulačka je pre deti do 18 rokov.", "birth");
+    if (!(child.height >= 60 && child.height <= 210)) throw new SizingError("Zadajte výšku dieťaťa v cm (60–210).", "height");
+    if (child.foot && !(child.foot >= 9 && child.foot <= 33)) throw new SizingError("Dĺžka chodidla má byť v cm, napr. 18,5.", "foot");
+    if (child.head && !(child.head >= 38 && child.head <= 64)) throw new SizingError("Obvod hlavy má byť v cm, napr. 52.", "head");
+    var target = resolveTarget(targetSpec, child.today);
+    if (target < child.today) throw new SizingError("Zvolený mesiac už je minulosťou – vyberte budúci.", "target");
+    var cache = {};
+    var ctx = {
+      ageYears: ageMonths(child.birth, target) / 12,
+      height: function () { return cache.h || (cache.h = forecastHeight(child, target)); },
+      foot: function () { return cache.f || (cache.f = forecastFoot(child, target, item.name)); },
+      head: function () { return cache.hd || (cache.hd = forecastHead(child, target)); }
+    };
+    var r = RULES[item.sizing](item, ctx);
+    var basis = BASIS[item.sizing], f = r.forecast, basisText = "";
+    if (f && basis === "height") basisText = "Predpokladaná výška v termíne: " + Math.round(f.value) + " cm (" + Math.round(f.low) + "–" + Math.round(f.high) + " cm)";
+    if (f && basis === "foot") basisText = "Predpokladaná dĺžka chodidla v termíne: " + num(Math.round(f.value * 10) / 10) + " cm (" +
+      num(Math.round(f.low * 10) / 10) + "–" + num(Math.round(f.high * 10) / 10) + " cm)";
+    if (f && basis === "head") basisText = "Predpokladaný obvod hlavy v termíne: ≈ " + Math.round(f.value) + " cm";
+    if (basis === "age") basisText = "Vek v termíne: " + num(Math.round(ctx.ageYears * 10) / 10) + " r.";
+    return {
+      item: item, target: target, targetText: fmtDate(target), basis: basis, basisText: basisText,
+      primary: r.candidates[0] || "bez veľkosti", alternatives: r.candidates.slice(1),
+      candidates: r.candidates, forecast: f, notes: (f ? f.notes : []).concat(r.notes)
+    };
+  }
+
+  global.GearGrow = { CATALOG: CATALOG, SEASON_LABELS: SEASON_LABELS, recommend: recommend, resolveTarget: resolveTarget,
+    findItem: findItem, fmtDate: fmtDate, SizingError: SizingError };
+})(typeof window !== "undefined" ? window : globalThis);
+
+</script>
+<script>
+(function () {
+  "use strict";
+  // Kontakt pre obchody: doplňte e-mail, napr. "info@geargrow.sk". Kým je prázdny, zobrazí sa text bez adresy.
+  var CONTACT_EMAIL = "";
+
+  var G = window.GearGrow;
+  var $ = function (id) { return document.getElementById(id); };
+  var form = $("form"), result = $("result");
+  var now = new Date();
+  var today = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
+  var touched = false;
+
+  function iso(d) { return d.toISOString().slice(0, 10); }
+  function parseNum(v) { v = String(v || "").trim().replace(",", "."); if (!v) return null; var n = Number(v); return isFinite(n) ? n : NaN; }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+
+  // --- dropdowns -----------------------------------------------------------
+  var groups = {};
+  G.CATALOG.forEach(function (it) { (groups[it.category] = groups[it.category] || []).push(it); });
+  var itemSel = $("item");
+  Object.keys(groups).forEach(function (cat) {
+    var og = document.createElement("optgroup"); og.label = cat;
+    groups[cat].forEach(function (it) { var o = document.createElement("option"); o.value = it.id; o.textContent = it.name; og.appendChild(o); });
+    itemSel.appendChild(og);
+  });
+  $("cats").innerHTML = Object.keys(groups).map(function (c) { return "<span>" + esc(c) + " · " + groups[c].length + "</span>"; }).join("");
+
+  var targetSel = $("target");
+  var targetOpts = [["now", "Hneď (do 2 týždňov)"]];
+  ["spring", "summer", "autumn", "winter"].forEach(function (s) {
+    targetOpts.push(["next_" + s, "Najbližšia " + G.SEASON_LABELS[s] + " (" + G.fmtDate(G.resolveTarget("next_" + s, today)) + ")"]);
+  });
+  targetOpts.push(["custom", "Vlastný mesiac…"]);
+  targetOpts.forEach(function (o) { var el = document.createElement("option"); el.value = o[0]; el.textContent = o[1]; targetSel.appendChild(el); });
+  $("birth").max = iso(today);
+  $("month").min = iso(today).slice(0, 7);
+
+  // --- example child (clearly marked) ---------------------------------------
+  var sampleBirth = new Date(Date.UTC(today.getUTCFullYear() - 6, today.getUTCMonth() - 5, 15));
+  $("birth").value = iso(sampleBirth);
+  $("sex-f").checked = true;
+  $("height").value = "118";
+  $("foot").value = "18,4";
+  itemSel.value = "bicykel";
+  targetSel.value = "next_spring";
+
+  // --- tape measure ---------------------------------------------------------
+  function tapeSvg(now, f, unit) {
+    var lo = Math.min(now, f.low), hi = Math.max(f.high, f.value);
+    var step = unit === "foot" ? 0.5 : 1, label = unit === "foot" ? 1 : 5;
+    var pad = unit === "foot" ? 1 : 4;
+    var min = Math.floor((lo - pad) / label) * label, max = Math.ceil((hi + pad) / label) * label;
+    var W = 320, X0 = 10, X1 = 310, Y = 30, H = 22;
+    function x(v) { return X0 + (v - min) / (max - min) * (X1 - X0); }
+    var s = '<svg class="tape" viewBox="0 0 ' + W + ' 66" role="img" aria-label="Dnes ' + G.fmtNum(now) + ' cm, v termíne ' +
+      G.fmtNum(f.low) + ' až ' + G.fmtNum(f.high) + ' cm">';
+    s += '<rect x="' + X0 + '" y="' + Y + '" width="' + (X1 - X0) + '" height="' + H + '" rx="3" fill="var(--tape)"/>';
+    s += '<rect x="' + x(f.low) + '" y="' + Y + '" width="' + Math.max(2, x(f.high) - x(f.low)) + '" height="' + H + '" fill="var(--accent)" opacity=".28"/>';
+    for (var v = min; v <= max + 1e-9; v += step) {
+      var big = Math.abs(v / label - Math.round(v / label)) < 1e-9;
+      s += '<line x1="' + x(v) + '" x2="' + x(v) + '" y1="' + Y + '" y2="' + (Y + (big ? 9 : 5)) + '" stroke="var(--tape-ink)" stroke-width="' + (big ? 1.2 : .7) + '"/>';
+      if (big) s += '<text x="' + x(v) + '" y="' + (Y + 19) + '" text-anchor="middle" style="fill:var(--tape-ink)">' + G.fmtNum(v) + '</text>';
+    }
+    s += '<line x1="' + x(now) + '" x2="' + x(now) + '" y1="' + (Y - 6) + '" y2="' + (Y + H) + '" stroke="var(--muted)" stroke-width="2" stroke-dasharray="3 2"/>';
+    s += '<line x1="' + x(f.value) + '" x2="' + x(f.value) + '" y1="' + (Y - 6) + '" y2="' + (Y + H) + '" stroke="var(--accent)" stroke-width="2.6"/>';
+    var nx = x(now), px = x(f.value), close = Math.abs(px - nx) < 46;
+    s += '<text class="t-muted" x="' + nx + '" y="' + (Y - 10) + '" text-anchor="' + (close ? "end" : "middle") + '">dnes</text>';
+    s += '<text x="' + px + '" y="' + (Y - 10) + '" text-anchor="' + (close ? "start" : "middle") + '" style="fill:var(--accent)">v termíne</text>';
+    return s + "</svg>";
+  }
+  G.fmtNum = function (v) { return String(Math.round(v * 10) / 10).replace(".", ","); };
+
+  // --- compute & render -------------------------------------------------------
+  function setInvalid(field) {
+    ["birth", "height", "foot", "head", "item", "month"].forEach(function (id) { $(id).removeAttribute("aria-invalid"); });
+    $("foot-field").classList.remove("needs");
+    if (field === "target") field = "month";
+    if (field && $(field)) $(field).setAttribute("aria-invalid", "true");
+    if (field === "foot") $("foot-field").classList.add("needs");
+  }
+
+  function render() {
+    $("month-field").hidden = targetSel.value !== "custom";
+    var sexEl = form.querySelector('input[name="sex"]:checked');
+    var b = $("birth").value;
+    var child = {
+      birth: b ? new Date(b + "T00:00:00Z") : null,
+      sex: sexEl ? sexEl.value : "unspecified",
+      height: parseNum($("height").value),
+      foot: parseNum($("foot").value),
+      head: parseNum($("head").value),
+      today: today
+    };
+    if (Number.isNaN(child.foot)) child.foot = -1;
+    if (Number.isNaN(child.head)) child.head = -1;
+    var spec = targetSel.value === "custom" ? $("month").value : targetSel.value;
+    var item = G.findItem(itemSel.value);
+    try {
+      if (targetSel.value === "custom" && !spec) throw new G.SizingError("Vyberte mesiac, do kedy vec potrebujete.", "month");
+      var r = G.recommend(child, itemSel.value, spec);
+      setInvalid(null);
+      var html = '<div class="label">Odporúčaná veľkosť · ' + esc(r.item.name) + ' · na ' + esc(r.targetText) + "</div>";
+      html += '<div class="size">' + esc(r.primary) + "</div>";
+      if (r.alternatives.length) {
+        html += '<div class="alts">alebo ' + r.alternatives.map(function (a) { return '<span class="chip">' + esc(a) + "</span>"; }).join("") + "</div>";
+      }
+      if (r.forecast && (r.basis === "height" || r.basis === "foot")) {
+        html += tapeSvg(r.basis === "foot" ? child.foot : child.height, r.forecast, r.basis);
+      }
+      if (r.basisText) html += '<p class="basis">' + esc(r.basisText) + "</p>";
+      if (r.notes.length) html += '<ul class="notes">' + r.notes.map(function (n) { return "<li>" + esc(n) + "</li>"; }).join("") + "</ul>";
+      html += '<p class="disclaimer">Odporúčanie, nie záruka: každé dieťa rastie inak. Pred kúpou porovnajte veľkosť s tabuľkou výrobcu.</p>';
+      result.innerHTML = html;
+    } catch (e) {
+      if (!(e instanceof G.SizingError)) throw e;
+      setInvalid(e.field);
+      var label = item ? item.name : "Odporúčaná veľkosť";
+      result.innerHTML = '<div class="label">' + esc(label) + '</div><div class="error">' + esc(e.message) + "</div>" +
+        (e.field && $(e.field === "target" ? "month" : e.field) ? '<button type="button" class="btn ghost" id="fix">Doplniť údaj</button>' : "") +
+        '<p class="disclaimer">Veľkosti sú len odporúčané a vychádzajú z vedeckých štúdií. Nemusia presne zodpovedať tomu, ako bude rásť vaše dieťa.</p>';
+      var fix = $("fix");
+      if (fix) fix.addEventListener("click", function () { var el = $(e.field === "target" ? "month" : e.field); el.focus(); el.scrollIntoView({ block: "center" }); });
+    }
+  }
+
+  function onEdit(ev) {
+    if (!touched && ev && ev.isTrusted) { touched = true; $("sample").hidden = true; }
+    render();
+  }
+  form.addEventListener("input", onEdit);
+  form.addEventListener("change", onEdit);
+  form.addEventListener("submit", function (ev) { ev.preventDefault(); });
+  render();
+
+  // --- contact for partners -----------------------------------------------------
+  var contact = $("contact");
+  if (CONTACT_EMAIL) {
+    contact.innerHTML = '<code id="mail">' + esc(CONTACT_EMAIL) + '</code>' +
+      '<a class="btn" href="mailto:' + esc(CONTACT_EMAIL) + '?subject=' + encodeURIComponent("Spolupráca s GearGrow") + '">Napíšte nám</a>' +
+      '<button type="button" class="btn ghost" id="copy">Kopírovať adresu</button>';
+    $("copy").addEventListener("click", function () {
+      var btn = this;
+      var done = function () { btn.textContent = "Skopírované"; setTimeout(function () { btn.textContent = "Kopírovať adresu"; }, 1800); };
+      var fallback = function () { var r = document.createRange(); r.selectNodeContents($("mail")); var s = getSelection(); s.removeAllRanges(); s.addRange(r); };
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(CONTACT_EMAIL).then(done, fallback); else fallback();
+    });
+  } else {
+    contact.innerHTML = '<p style="color:var(--band-muted)">Kontaktnú adresu pre obchody čoskoro doplníme.</p>';
+  }
+
+  // --- opening notice -----------------------------------------------------------
+  var dlg = $("intro");
+  function closeIntro() { if (dlg.open) dlg.close(); }
+  $("intro-ok").addEventListener("click", closeIntro);
+  if (typeof dlg.showModal === "function") {
+    try { dlg.showModal(); $("intro-ok").focus(); } catch (err) { dlg.setAttribute("open", ""); }
+  } else {
+    dlg.setAttribute("open", "");
+  }
+})();
+</script>
+
+</body>
+</html>
