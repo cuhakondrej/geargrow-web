@@ -15,6 +15,7 @@
 <link rel="manifest" href="/site.webmanifest">
 <meta name="theme-color" content="#fffcf7">
 <meta property="og:image" content="https://geargrow.sk/icon-512.png">
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "1cf2a7a0f417466692ab8e644a200949"}'></script><!-- End Cloudflare Web Analytics -->
 <title>GearGrow</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="description" content="GearGrow vypočíta, akú veľkosť oblečenia, obuvi a športovej výbavy bude vaše dieťa potrebovať v nadchádzajúcej sezóne.">
@@ -133,6 +134,12 @@
   .tape { width: 100%; height: auto; display: block; }
   .tape text { font: 600 9px var(--font-body); fill: var(--ink); }
   .tape .t-muted { fill: var(--muted); }
+  .fb { border-top: 1px solid var(--line); padding: 14px 0 4px; display: grid; gap: 10px; }
+  .fb-q { font-size: .95rem; }
+  .fb-btns { display: flex; flex-wrap: wrap; gap: 8px; }
+  .fb-btns .btn { padding: 8px 14px; font-size: .9rem; }
+  .fb-note { font-size: .8rem; color: var(--muted); }
+  .fb-thanks { font-size: .95rem; color: var(--accent); font-weight: 600; }
   .disclaimer { font-size: .82rem; color: var(--muted); border-top: 1px solid var(--line); padding-top: 12px; }
   .error { background: var(--warn-soft); color: var(--warn); border-radius: 10px; padding: 12px 14px; font-weight: 600; }
   .error button { margin-top: 8px; }
@@ -228,7 +235,7 @@
     <p><strong>Veľkosti sú len odporúčané.</strong> Vychádzajú z rastových kriviek Svetovej zdravotníckej organizácie (WHO) a z vedeckých
       štúdií o raste chodidla. Nedokážu však na 100 % predpovedať, ako bude rásť práve vaše dieťa. Berte ich ako pomôcku, nie ako záruku,
       a pred kúpou porovnajte veľkosť s tabuľkou výrobcu.</p>
-    <p><strong>Nič neukladáme.</strong> Údaje, ktoré zadáte, sa počítajú len vo vašom zariadení a nikam sa neodosielajú.</p>
+    <p id="privacy-intro"><strong>Údaje o dieťati neukladáme.</strong> Všetko, čo zadáte, sa počíta len vo vašom zariadení a nikam sa neodosiela. Návštevnosť stránky meriame anonymne, bez cookies.</p>
     <button class="btn" id="intro-ok" type="button">Rozumiem, poďme na to</button>
   </div>
 </dialog>
@@ -438,7 +445,7 @@
     <footer>
       <p><strong>GearGrow</strong> · Odporúčané veľkosti vychádzajú z rastových kriviek a vedeckých štúdií, nie sú však zárukou. Každé dieťa rastie inak.
         Pred kúpou porovnajte veľkosť s tabuľkou výrobcu.</p>
-      <p>Stránka neukladá ani neodosiela žiadne údaje. Všetky výpočty prebiehajú vo vašom zariadení.</p>
+      <p id="privacy-foot">Údaje o dieťati sa neukladajú ani neodosielajú, všetky výpočty prebiehajú vo vašom zariadení. Návštevnosť stránky meriame anonymne a bez cookies (Cloudflare Web Analytics).</p>
       <div class="src">
         <span>Zdroje:</span>
         <a href="https://www.who.int/tools/child-growth-standards/standards/length-height-for-age" rel="noopener" target="_blank">WHO rastové štandardy (0–5 r.)</a>
@@ -826,6 +833,13 @@
   // Kontakt pre obchody: doplňte e-mail, napr. "info@geargrow.sk". Kým je prázdny, zobrazí sa text bez adresy.
   var CONTACT_EMAIL = "info@geargrow.sk";
 
+  // Anonymná spätná väzba cez Google Formulár. Kým je "action" prázdne, otázka sa nezobrazí.
+  // action = adresa formulára končiaca na /formResponse, polia = čísla otázok "entry.123456789".
+  var FEEDBACK = {
+    action: "",
+    fields: { item: "", size: "", answer: "", ageMonths: "", sex: "", height: "", foot: "", birthWeek: "" }
+  };
+
   var G = window.GearGrow;
   var $ = function (id) { return document.getElementById(id); };
   var form = $("form"), result = $("result");
@@ -938,6 +952,7 @@
       if (r.notes.length) html += '<ul class="notes">' + r.notes.map(function (n) { return "<li>" + esc(n) + "</li>"; }).join("") + "</ul>";
       html += '<p class="disclaimer">Odporúčanie, nie záruka: každé dieťa rastie inak. Pred kúpou porovnajte veľkosť s tabuľkou výrobcu.</p>';
       result.innerHTML = html;
+      renderFeedback(child, itemSel.value, r);
     } catch (e) {
       if (!(e instanceof G.SizingError)) throw e;
       setInvalid(e.field);
@@ -960,6 +975,58 @@
     sample.textContent = "Dátum narodenia je stále ukážkový. Zadajte dátum narodenia vášho dieťaťa a skontrolujte aj pohlavie.";
     $("birth").classList.add("check");
   }
+  // --- anonymous feedback: does today's computed size match what the child wears? ----------------
+  var answered = {};
+  var FEEDBACK_ON = !!(FEEDBACK.action && FEEDBACK.fields.answer);
+  if (FEEDBACK_ON) {
+    $("privacy-intro").innerHTML = "<strong>Údaje o dieťati neukladáme.</strong> Výpočty prebiehajú len vo vašom zariadení. " +
+      "Ak dobrovoľne odpoviete na otázku, či vám veľkosť sedí, odošle sa iba anonymná odpoveď. Návštevnosť meriame anonymne, bez cookies.";
+    $("privacy-foot").textContent = "Údaje o dieťati sa neukladajú, výpočty prebiehajú vo vašom zariadení. Ak dobrovoľne odpoviete " +
+      "na otázku o veľkosti, odošle sa cez Google Formuláre len odpoveď, druh tovaru, veľkosť, vek v mesiacoch, pohlavie, " +
+      "týždeň narodenia (ak ste ho zadali) a výška alebo chodidlo – bez mena a dátumu narodenia. Návštevnosť stránky meriame anonymne " +
+      "a bez cookies (Cloudflare Web Analytics).";
+  }
+  function sendFeedback(values) {
+    var body = new URLSearchParams();
+    Object.keys(values).forEach(function (k) {
+      if (FEEDBACK.fields[k] && values[k] !== null && values[k] !== undefined && values[k] !== "") body.append(FEEDBACK.fields[k], String(values[k]));
+    });
+    try { fetch(FEEDBACK.action, { method: "POST", mode: "no-cors", body: body }).catch(function () {}); } catch (e) { /* offline */ }
+  }
+  function renderFeedback(child, itemId, r) {
+    if (!FEEDBACK_ON || r.basis === "none") return;
+    var now;
+    try { now = G.recommend(child, itemId, "now"); } catch (e) { return; }
+    if (!now.primary) return;
+    var key = itemId + "|" + now.primary + "|" + child.height + "|" + child.foot;
+    var box = document.createElement("div");
+    box.className = "fb";
+    if (answered[key]) {
+      box.innerHTML = '<p class="fb-thanks">Ďakujeme! Vaša odpoveď pomáha spresniť výpočet pre ďalších rodičov.</p>';
+    } else {
+      box.innerHTML = '<p class="fb-q">Pomôžte nám spresniť výpočet: nosí vaše dieťa <strong>už teraz</strong> túto vec vo veľkosti <strong>' +
+        esc(now.primary) + '</strong>?</p><div class="fb-btns">' +
+        '<button type="button" class="btn ghost" data-a="sedi">Áno, sedí</button>' +
+        '<button type="button" class="btn ghost" data-a="mensia">Nosí menšiu</button>' +
+        '<button type="button" class="btn ghost" data-a="vacsia">Nosí väčšiu</button>' +
+        '<button type="button" class="btn ghost" data-a="nema">Nemá ju</button></div>' +
+        '<p class="fb-note">Anonymne, bez mena a dátumu narodenia.</p>';
+      box.addEventListener("click", function (ev) {
+        var a = ev.target && ev.target.getAttribute("data-a");
+        if (!a) return;
+        answered[key] = true;
+        if (a !== "nema") {
+          sendFeedback({ item: itemId, size: now.primary, answer: a, sex: child.sex,
+            ageMonths: Math.floor((today - child.birth) / 86400000 / (365.25 / 12)),
+            height: child.height, foot: child.foot > 0 ? child.foot : "", birthWeek: child.birthWeek || "" });
+        }
+        box.innerHTML = '<p class="fb-thanks">' + (a === "nema" ? "Ďakujeme." : "Ďakujeme! Vaša odpoveď pomáha spresniť výpočet pre ďalších rodičov.") + "</p>";
+      });
+    }
+    var disc = result.querySelector(".disclaimer");
+    result.insertBefore(box, disc);
+  }
+
   function onEdit(ev) {
     if (ev && ev.isTrusted) touched = true;
     updateSample();
