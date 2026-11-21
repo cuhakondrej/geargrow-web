@@ -97,6 +97,7 @@
   fieldset:nth-of-type(3) legend .step { background: var(--p-sky); }
   .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: start; }
   .field { display: grid; gap: 5px; min-width: 0; align-content: start; }
+  .field .sub { display: grid; gap: 5px; margin-top: 8px; }
   .field label, .field .label { font-weight: 600; font-size: .92rem; }
   .field .hint { color: var(--muted); font-size: .8rem; }
   .field.full { grid-column: 1 / -1; }
@@ -268,6 +269,28 @@
           <div class="field">
             <label for="birth">Dátum narodenia</label>
             <input id="birth" type="date" required>
+            <div class="sub" id="preterm-field" hidden>
+              <label for="preterm">Narodilo sa</label>
+              <select id="preterm">
+              <option value="">v termíne (37. týždeň a neskôr)</option>
+              <option value="36">predčasne, v 36. týždni</option>
+              <option value="35">predčasne, v 35. týždni</option>
+              <option value="34">predčasne, v 34. týždni</option>
+              <option value="33">predčasne, v 33. týždni</option>
+              <option value="32">predčasne, v 32. týždni</option>
+              <option value="31">predčasne, v 31. týždni</option>
+              <option value="30">predčasne, v 30. týždni</option>
+              <option value="29">predčasne, v 29. týždni</option>
+              <option value="28">predčasne, v 28. týždni</option>
+              <option value="27">predčasne, v 27. týždni</option>
+              <option value="26">predčasne, v 26. týždni</option>
+              <option value="25">predčasne, v 25. týždni</option>
+              <option value="24">predčasne, v 24. týždni</option>
+              <option value="23">predčasne, v 23. týždni</option>
+              <option value="22">predčasne, v 22. týždni</option>
+              </select>
+              <span class="hint">Pri predčasne narodených deťoch do 2 rokov počítame s korigovaným vekom.</span>
+            </div>
           </div>
           <div class="field">
             <span class="label" id="sex-label">Pohlavie</span>
@@ -280,7 +303,7 @@
           <div class="field">
             <label for="height">Výška dnes</label>
             <div class="unit" data-unit="cm"><input id="height" inputmode="decimal" placeholder="napr. 118,5" aria-describedby="height-hint"></div>
-            <span class="hint" id="height-hint">Pre oblečenie, bicykle, lyže a ďalšiu výbavu. Bábätko merajte poležiačky.</span>
+            <span class="hint" id="height-hint">Skutočná výška tela, nie veľkosť oblečenia. Bábätko merajte poležiačky.</span>
             <details class="how"><summary>Ako zmerať?</summary><p>Bez topánok, pätami a chrbtom k stene. Na temeno položte knihu a zmerajte výšku po jej spodnú hranu.</p></details>
           </div>
           <div class="field" id="foot-field">
@@ -437,7 +460,7 @@
 
   var CATALOG = [{"id": "body_dupacky", "name": "Body, dupačky, overalčeky", "category": "Bábätká a batoľatá", "sizing": "clothing", "season": "any", "params": {}}, {"id": "kombineza_babatko", "name": "Zimná kombinéza pre bábätko", "category": "Bábätká a batoľatá", "sizing": "clothing", "season": "winter", "params": {}}, {"id": "ciapka_babatko", "name": "Čiapka pre bábätko", "category": "Bábätká a batoľatá", "sizing": "head", "season": "winter", "params": {}}, {"id": "prve_topanky", "name": "Prvé topánky (capačky)", "category": "Bábätká a batoľatá", "sizing": "foot", "season": "any", "params": {"unit": "eu", "allowance_mm": 12, "note": "Prvé topánky kupujte, až keď dieťa samo chodí; dovtedy sú najlepšie bosé nohy alebo capačky."}}, {"id": "odrazadlo", "name": "Odrážadlo", "category": "Bicykle a kolobežky", "sizing": "height_band", "season": "spring", "params": {"unit": "inch", "bands": [[10, 75, 95], [12, 85, 105], [14, 95, 112]]}}, {"id": "bicykel", "name": "Bicykel", "category": "Bicykle a kolobežky", "sizing": "height_band", "season": "spring", "params": {"unit": "inch", "bands": [[12, 85, 98], [14, 95, 106], [16, 100, 116], [20, 114, 132], [24, 128, 148], [26, 142, 165]], "below_note": "Pre takúto výšku je zvyčajne vhodnejšie odrážadlo (10–12\").", "above_note": "Pre takúto výšku sa už hodí dospelý rám XS/S (27,5\" alebo 29\")."}}, {"id": "kolobezka", "name": "Kolobežka", "category": "Bicykle a kolobežky", "sizing": "none", "season": "spring", "params": {}}, {"id": "prilba_bicykel", "name": "Prilba na bicykel", "category": "Bicykle a kolobežky", "sizing": "head", "season": "spring", "params": {}}, {"id": "lyze", "name": "Zjazdové lyže", "category": "Lyžovanie a snowboard", "sizing": "height_length", "season": "winter", "params": {"factor": 1.0, "ideal": -15, "min": -20, "max": -10, "step": 5, "min_len": 70, "max_len": 180, "note": "Lyže: od výšky brady (začiatočníci, ≈ výška − 20 cm) po výšku nosa (zdatní lyžiari, ≈ výška − 10 cm). Hľadám {lo}–{hi} cm."}}, {"id": "lyziarky", "name": "Lyžiarky (lyžiarske topánky)", "category": "Lyžovanie a snowboard", "sizing": "foot", "season": "winter", "params": {"unit": "mondo", "allowance_mm": 5}}, {"id": "lyziarske_palice", "name": "Lyžiarske palice", "category": "Lyžovanie a snowboard", "sizing": "height_length", "season": "winter", "params": {"factor": 0.68, "ideal": 0, "min": -5, "max": 5, "step": 5, "min_len": 60, "max_len": 135, "note": "Palice: dĺžka ≈ 0,68 × výška dieťaťa (lakeť v pravom uhle). Hľadám {lo}–{hi} cm."}}, {"id": "lyziarska_prilba", "name": "Lyžiarska prilba", "category": "Lyžovanie a snowboard", "sizing": "head", "season": "winter", "params": {}}, {"id": "lyziarske_okuliare", "name": "Lyžiarske okuliare", "category": "Lyžovanie a snowboard", "sizing": "none", "season": "winter", "params": {}}, {"id": "snowboard", "name": "Snowboard", "category": "Lyžovanie a snowboard", "sizing": "height_length", "season": "winter", "params": {"factor": 1.0, "ideal": -18, "min": -25, "max": -12, "step": 5, "min_len": 70, "max_len": 165, "note": "Snowboard pre deti: medzi bradou a nosom (≈ výška − 25 až − 12 cm). Hľadám {lo}–{hi} cm."}}, {"id": "snowboard_topanky", "name": "Snowboardové topánky", "category": "Lyžovanie a snowboard", "sizing": "foot", "season": "winter", "params": {"unit": "eu", "allowance_mm": 10}}, {"id": "bezky", "name": "Bežky", "category": "Lyžovanie a snowboard", "sizing": "height_length", "season": "winter", "params": {"factor": 1.0, "ideal": 15, "min": 10, "max": 20, "step": 5, "min_len": 90, "max_len": 200, "note": "Bežky (klasika): výška dieťaťa + 10 až 20 cm. Hľadám {lo}–{hi} cm."}}, {"id": "bezky_topanky", "name": "Topánky na bežky", "category": "Lyžovanie a snowboard", "sizing": "foot", "season": "winter", "params": {"unit": "eu", "allowance_mm": 10}}, {"id": "lyziarska_bunda", "name": "Lyžiarska bunda", "category": "Lyžovanie a snowboard", "sizing": "clothing", "season": "winter", "params": {}}, {"id": "lyziarske_nohavice", "name": "Lyžiarske nohavice (oteplováky)", "category": "Lyžovanie a snowboard", "sizing": "clothing", "season": "winter", "params": {}}, {"id": "kombineza", "name": "Zimná / lyžiarska kombinéza", "category": "Lyžovanie a snowboard", "sizing": "clothing", "season": "winter", "params": {}}, {"id": "termopradlo", "name": "Termoprádlo", "category": "Lyžovanie a snowboard", "sizing": "clothing", "season": "winter", "params": {}}, {"id": "lyziarske_rukavice", "name": "Lyžiarske rukavice", "category": "Lyžovanie a snowboard", "sizing": "age_band", "season": "winter", "params": {"unit": "number", "bands": [[0, 4, 3], [4, 6, 4], [6, 8, 5], [8, 10, 6], [10, 12, 7], [12, 99, 8]], "note": "Veľkosti rukavíc sa líšia podľa značky; najistejšie je vyskúšať alebo zmerať dlaň."}}, {"id": "korcule_ladove", "name": "Ľadové korčule (rekreačné / krasokorčule)", "category": "Korčuľovanie a hokej", "sizing": "foot", "season": "winter", "params": {"unit": "eu", "allowance_mm": 7}}, {"id": "korcule_hokejove", "name": "Hokejové korčule", "category": "Korčuľovanie a hokej", "sizing": "foot", "season": "winter", "params": {"unit": "eu", "allowance_mm": 4, "note": "Hokejové korčule sa nosia tesnejšie – bývajú o 1 až 1,5 čísla menšie než bežná obuv."}}, {"id": "korcule_kolieskove", "name": "Kolieskové korčule", "category": "Korčuľovanie a hokej", "sizing": "foot", "season": "spring", "params": {"unit": "eu", "allowance_mm": 10, "note": "Nastaviteľné korčule (napr. 29–32) vydržia 2–3 sezóny."}}, {"id": "hokejka", "name": "Hokejka", "category": "Korčuľovanie a hokej", "sizing": "height_band", "season": "winter", "params": {"unit": "label", "bands": [["YTH", 0, 130], ["JR", 125, 160], ["INT", 150, 175], ["SR", 170, 230]], "note": "Hokejky sa delia na YTH (najmenšie), JR, INT a SR; dĺžka po bradu dieťaťa v topánkach."}}, {"id": "hokejova_prilba", "name": "Hokejová prilba", "category": "Korčuľovanie a hokej", "sizing": "head", "season": "winter", "params": {}}, {"id": "hokejova_vystroj", "name": "Hokejová výstroj (chrániče)", "category": "Korčuľovanie a hokej", "sizing": "height_band", "season": "winter", "params": {"unit": "label", "bands": [["YTH", 0, 130], ["JR", 125, 160], ["INT", 150, 175], ["SR", 170, 230]]}}, {"id": "chranice", "name": "Chrániče na korčuľovanie (kolená, lakte, zápästia)", "category": "Korčuľovanie a hokej", "sizing": "age_band", "season": "spring", "params": {"unit": "label", "bands": [[0, 5, "XS"], [5, 8, "S"], [8, 12, "M"], [12, 99, "L"]]}}, {"id": "kopacky", "name": "Kopačky (lisovky)", "category": "Futbal a loptové hry", "sizing": "foot", "season": "spring", "params": {"unit": "eu", "allowance_mm": 8}}, {"id": "halovky", "name": "Halovky / turfy", "category": "Futbal a loptové hry", "sizing": "foot", "season": "autumn", "params": {"unit": "eu", "allowance_mm": 8}}, {"id": "chranice_holeni", "name": "Chrániče holení", "category": "Futbal a loptové hry", "sizing": "height_band", "season": "spring", "params": {"unit": "label", "bands": [["XS", 0, 122], ["S", 118, 142], ["M", 138, 162], ["L", 158, 230]]}}, {"id": "futbalova_lopta", "name": "Futbalová lopta", "category": "Futbal a loptové hry", "sizing": "age_band", "season": "spring", "params": {"unit": "number", "bands": [[0, 8, 3], [8, 12, 4], [12, 99, 5]], "note": "Futbalové lopty: č. 3 do 8 rokov, č. 4 pre 8–12 rokov, č. 5 od 12 rokov."}}, {"id": "basketbalova_lopta", "name": "Basketbalová lopta", "category": "Futbal a loptové hry", "sizing": "age_band", "season": "any", "params": {"unit": "number", "bands": [[0, 12, 5], [12, 14, 6], [14, 99, 7]], "note": "Basketbal: č. 5 do 12 rokov, č. 6 pre 12–14 rokov (dievčatá aj neskôr), č. 7 chlapci od 14."}}, {"id": "futbalovy_dres", "name": "Športový / futbalový dres", "category": "Futbal a loptové hry", "sizing": "clothing", "season": "spring", "params": {}}, {"id": "tenisova_raketa", "name": "Tenisová raketa", "category": "Tenis", "sizing": "height_band", "season": "spring", "params": {"unit": "inch", "bands": [[19, 0, 105], [21, 100, 118], [23, 113, 132], [25, 128, 148], [26, 140, 160], [27, 155, 230]]}}, {"id": "plavky", "name": "Plavky", "category": "Plávanie a voda", "sizing": "clothing", "season": "summer", "params": {}}, {"id": "neopren", "name": "Neoprén", "category": "Plávanie a voda", "sizing": "clothing", "season": "summer", "params": {}}, {"id": "plavecke_okuliare", "name": "Plavecké okuliare", "category": "Plávanie a voda", "sizing": "none", "season": "summer", "params": {}}, {"id": "obuv_do_vody", "name": "Obuv do vody", "category": "Plávanie a voda", "sizing": "foot", "season": "summer", "params": {"unit": "eu", "allowance_mm": 10}}, {"id": "turisticka_obuv", "name": "Turistická obuv", "category": "Turistika a outdoor", "sizing": "foot", "season": "spring", "params": {"unit": "eu", "allowance_mm": 12}}, {"id": "softshell_bunda", "name": "Softshellová bunda", "category": "Turistika a outdoor", "sizing": "clothing", "season": "spring", "params": {}}, {"id": "nepremokava_bunda", "name": "Nepremokavá bunda", "category": "Turistika a outdoor", "sizing": "clothing", "season": "spring", "params": {}}, {"id": "softshell_nohavice", "name": "Softshellové nohavice", "category": "Turistika a outdoor", "sizing": "clothing", "season": "spring", "params": {}}, {"id": "cvicky", "name": "Cvičky / baletky", "category": "Gymnastika, tanec, bojové športy", "sizing": "foot", "season": "autumn", "params": {"unit": "eu", "allowance_mm": 5}}, {"id": "kimono", "name": "Kimono (judo, karate)", "category": "Gymnastika, tanec, bojové športy", "sizing": "clothing", "season": "autumn", "params": {"series": [100, 110, 120, 130, 140, 150, 160, 170, 180, 190], "note": "Kimonu sa veľkosť udáva výškou postavy v cm (po 10 cm)."}}, {"id": "gymnasticky_dres", "name": "Gymnastický / tanečný dres", "category": "Gymnastika, tanec, bojové športy", "sizing": "clothing", "season": "autumn", "params": {}}, {"id": "tenisky", "name": "Tenisky / botasky", "category": "Obuv", "sizing": "foot", "season": "any", "params": {"unit": "eu", "allowance_mm": 12}}, {"id": "bezecka_obuv", "name": "Bežecká obuv", "category": "Obuv", "sizing": "foot", "season": "spring", "params": {"unit": "eu", "allowance_mm": 12}}, {"id": "zimna_obuv", "name": "Zimné topánky / snehule", "category": "Obuv", "sizing": "foot", "season": "winter", "params": {"unit": "eu", "allowance_mm": 15, "note": "Pri zimnej obuvi rátame s väčšou rezervou (15 mm) na hrubé ponožky."}}, {"id": "gumaky", "name": "Gumáky", "category": "Obuv", "sizing": "foot", "season": "autumn", "params": {"unit": "eu", "allowance_mm": 15}}, {"id": "sandale", "name": "Sandále", "category": "Obuv", "sizing": "foot", "season": "summer", "params": {"unit": "eu", "allowance_mm": 10}}, {"id": "papuce", "name": "Papuče / prezuvky", "category": "Obuv", "sizing": "foot", "season": "autumn", "params": {"unit": "eu", "allowance_mm": 10}}, {"id": "zimna_bunda", "name": "Zimná bunda", "category": "Oblečenie", "sizing": "clothing", "season": "winter", "params": {}}, {"id": "prechodna_bunda", "name": "Prechodná bunda", "category": "Oblečenie", "sizing": "clothing", "season": "spring", "params": {}}, {"id": "mikina", "name": "Mikina", "category": "Oblečenie", "sizing": "clothing", "season": "any", "params": {}}, {"id": "teplaky", "name": "Tepláky", "category": "Oblečenie", "sizing": "clothing", "season": "any", "params": {}}, {"id": "nohavice", "name": "Nohavice / rifle", "category": "Oblečenie", "sizing": "clothing", "season": "any", "params": {}}, {"id": "tricko", "name": "Tričko", "category": "Oblečenie", "sizing": "clothing", "season": "summer", "params": {}}, {"id": "leginy", "name": "Legíny", "category": "Oblečenie", "sizing": "clothing", "season": "any", "params": {}}, {"id": "pyzamo", "name": "Pyžamo", "category": "Oblečenie", "sizing": "clothing", "season": "any", "params": {}}, {"id": "ciapka", "name": "Čiapka", "category": "Oblečenie", "sizing": "head", "season": "winter", "params": {}}, {"id": "rukavice", "name": "Zimné rukavice", "category": "Oblečenie", "sizing": "age_band", "season": "winter", "params": {"unit": "number", "bands": [[0, 4, 3], [4, 6, 4], [6, 8, 5], [8, 10, 6], [10, 12, 7], [12, 99, 8]], "note": "Veľkosti rukavíc sa líšia podľa značky; najistejšie je vyskúšať alebo zmerať dlaň."}}, {"id": "sanky", "name": "Sánky / boby", "category": "Bez veľkosti", "sizing": "none", "season": "winter", "params": {}}];
 
-  var Z_DRIFT = 0.35, MEAS_ERR = 1.0, MAX_Z = 3.0, IMPOSSIBLE_Z = 5.0, FOOT_RATIO_MIN = 0.67, FOOT_RATIO_MAX = 1.33;
+  var Z_DRIFT = 0.35, MEAS_ERR = 1.0, MAX_Z = 3.0, RARE_Z = 4.0, IMPOSSIBLE_Z = 6.0, FOOT_RATIO_MIN = 0.67, FOOT_RATIO_MAX = 1.33;
   var INFANT_END = 24, FOOT_MIN_AGE = 1.0;
   var DAY_MS = 86400000, DAYS_PER_MONTH = 365.25 / 12;
   var SEASONS = { spring: [4, 1], summer: [6, 15], autumn: [9, 15], winter: [12, 1] };
@@ -585,43 +608,66 @@
     variance += Z_DRIFT * Z_DRIFT * Math.max(0, end - Math.max(start, INFANT_END)) / 12;
     return [keep, Math.sqrt(variance)];
   }
+  // Corrected age for babies born preterm (< 37 weeks): growth is read against the age counted from the due date
+  // (40 weeks), as paediatric growth monitoring does until 2 years of chronological age.
+  function correctionMonths(child) {
+    var w = child.birthWeek;
+    if (!w || w >= 37 || ageMonths(child.birth, child.today) >= 24) return 0;
+    return (40 - w) * 7 / DAYS_PER_MONTH;
+  }
+  function growthAge(child, on) { return Math.max(0, ageMonths(child.birth, on) - correctionMonths(child)); }
   function forecastHeight(child, target) {
-    var age0 = ageMonths(child.birth, child.today), age1 = ageMonths(child.birth, target);
-    var horizon = age1 - age0, notes = [];
+    var age0 = growthAge(child, child.today), age1 = growthAge(child, target);
+    var horizon = age1 - age0, notes = [], corr = correctionMonths(child);
+    if (corr) {
+      var wk = 40 - child.birthWeek;
+      notes.push("Narodené predčasne: počítame s korigovaným vekom (o " + wk + (wk >= 2 && wk <= 4 ? " týždne" : " týždňov") +
+        " menej), ako sa to u predčasne narodených detí robí do 2 rokov.");
+    }
     if (age0 < INFANT_END) notes.push("Bábätká a batoľatá menia percentil častejšie, preto je rozsah predpovede širší.");
     if (horizon > 18) notes.push("Predpoveď je na " + Math.round(horizon) + " mesiacov dopredu; pred sezónou dieťa radšej znova zmerajte.");
     var z = zScore(child.sex, age0, child.height);
     // Far outside anything seen in real children: almost always a wrong birth date or a typo, so show no size at all.
-    if (Math.abs(z) > IMPOSSIBLE_Z) throw new SizingError("Výška " + num(child.height) + " cm nezodpovedá veku " + ageText(age0) +
-      ". Skontrolujte dátum narodenia a výšku dieťaťa.", "birth");
-    if (Math.abs(z) > MAX_Z) { notes.push("Zadaná výška je na tento vek nezvyčajná – skontrolujte meranie."); z = clamp(z, -MAX_Z, MAX_Z); }
+    if (Math.abs(z) > IMPOSSIBLE_Z) throw new SizingError("Výška " + num(child.height) + " cm je vo veku " + ageText(ageMonths(child.birth, child.today)) +
+      " veľmi neobvyklá. Skontrolujte dátum narodenia a výšku (skutočnú dĺžku tela, nie veľkosť oblečenia)." +
+      (corr || ageMonths(child.birth, child.today) >= 24 ? "" : " Ak sa dieťa narodilo predčasne, zadajte týždeň narodenia."), "birth");
+    if (Math.abs(z) > MAX_Z) {
+      // A real child outside the usual range: follow the child's own curve instead of forcing it inside.
+      notes.push("Dieťa je mimo bežného rozsahu pre svoj vek, počítame s jeho vlastnou rastovou krivkou.");
+      if (Math.abs(z) > RARE_Z) notes.push("Takáto výška je na tento vek veľmi zriedkavá – skontrolujte, či ste zadali skutočnú dĺžku tela, nie veľkosť oblečenia.");
+      if (z < 0 && age0 < INFANT_END && !corr) notes.push("Ak sa narodilo predčasne, zadajte týždeň narodenia, výsledok bude presnejší.");
+    }
     var tr = zTracking(age0, age1), zt = z * tr[0];
     var pred = Math.max(child.height, heightAt(child.sex, age1, zt));
+    if (age0 < INFANT_END) { // keep expected infant growth within a plausible band around median growth
+      var mg = heightAt(child.sex, age1, 0) - heightAt(child.sex, age0, 0);
+      pred = clamp(pred, child.height + 0.67 * mg, child.height + 1.4 * mg);
+    }
     var low = heightAt(child.sex, age1, zt - tr[1]), high = heightAt(child.sex, age1, zt + tr[1]);
     low = Math.max(Math.min(low, pred - MEAS_ERR), child.height - MEAS_ERR);
     high = Math.max(high, pred + MEAS_ERR);
     return { value: pred, low: low, high: high, notes: notes };
   }
   function forecastFoot(child, target, itemName) {
-    var a0 = ageMonths(child.birth, child.today) / 12, a1 = ageMonths(child.birth, target) / 12;
+    var a0 = growthAge(child, child.today) / 12, a1 = growthAge(child, target) / 12;
     if (a0 < FOOT_MIN_AGE) throw new SizingError("Rast chodidla počítame od 1 roka, keď deti začínajú chodiť. Prvé topánky vyberte podľa aktuálne zmeraného chodidla.");
     if (!child.foot || child.foot < 0) throw new SizingError("Pre „" + itemName + "“ zadajte dĺžku chodidla dieťaťa. Obuv počítame podľa chodidla, nie podľa výšky.", "foot");
     var ratio = child.foot / footRef(child.sex, a0);
     if (ratio < FOOT_RATIO_MIN || ratio > FOOT_RATIO_MAX) throw new SizingError("Dĺžka chodidla " + num(child.foot) + " cm nezodpovedá veku " +
-      ageText(a0 * 12) + ". Skontrolujte dátum narodenia a dĺžku chodidla.", "birth");
-    var pred = child.foot * footRef(child.sex, a1) / footRef(child.sex, a0);
+      ageText(ageMonths(child.birth, child.today)) + ". Skontrolujte dátum narodenia a dĺžku chodidla.", "birth");
+    var pred = child.foot * (footRef(child.sex, a1) / footRef(child.sex, a0)); // same order as Python
     var band = 0.2 + 0.25 * (pred - child.foot);
     var notes = a0 < 3 ? ["Pri deťoch do 3 rokov je odhad rastu chodidla len orientačný."] : [];
     return { value: pred, low: Math.max(child.foot - 0.2, pred - band), high: pred + band, notes: notes };
   }
   function forecastHead(child, target) {
-    var a1 = ageMonths(child.birth, target) / 12, ref1 = interp(HEAD, a1);
+    var a1 = growthAge(child, target) / 12, ref1 = interp(HEAD, a1);
     if (!child.head) {
       return { value: ref1, low: ref1 - 1.5, high: ref1 + 1.5, notes: [
         "Obvod hlavy nie je zadaný – použil som priemer pre vek. Pre prilbu ho radšej zmerajte krajčírskym metrom tesne nad obočím."] };
     }
-    var a0 = ageMonths(child.birth, child.today) / 12;
-    var pred = child.head * ref1 / interp(HEAD, a0);
+    var a0 = growthAge(child, child.today) / 12;
+    var pred = child.head * (ref1 / interp(HEAD, a0));
     return { value: pred, low: pred - 0.5, high: pred + 0.5, notes: [] };
   }
 
@@ -731,7 +777,7 @@
 
   function findItem(id) { for (var i = 0; i < CATALOG.length; i++) if (CATALOG[i].id === id) return CATALOG[i]; return null; }
 
-  /* child: {birth: Date, sex: "male"|"female"|"unspecified", height: cm, foot?: cm, head?: cm, today?: Date} */
+  /* child: {birth: Date, sex: "male"|"female"|"unspecified", height: cm, foot?: cm, head?: cm, birthWeek?: 22-36, today?: Date} */
   function recommend(child, itemId, targetSpec) {
     var item = findItem(itemId);
     if (!item) throw new SizingError("Vyberte, čo hľadáte.", "item");
@@ -744,6 +790,7 @@
     if (ageNow > 18) throw new SizingError("Kalkulačka je pre deti do 18 rokov.", "birth");
     if (!(child.height >= 40 && child.height <= 210)) throw new SizingError("Zadajte výšku dieťaťa v cm (40–210).", "height");
     if (child.foot && !(child.foot >= 9 && child.foot <= 33)) throw new SizingError("Dĺžka chodidla má byť v cm, napr. 18,5.", "foot");
+    if (child.birthWeek && !(child.birthWeek >= 22 && child.birthWeek <= 42)) throw new SizingError("Týždeň narodenia má byť medzi 22 a 42.", "birth");
     if (child.head && !(child.head >= 30 && child.head <= 64)) throw new SizingError("Obvod hlavy má byť v cm, napr. 52.", "head");
     var target = resolveTarget(targetSpec, child.today);
     if (target < child.today) throw new SizingError("Zvolený mesiac už je minulosťou – vyberte budúci.", "target");
@@ -864,8 +911,13 @@
       height: parseNum($("height").value),
       foot: parseNum($("foot").value),
       head: parseNum($("head").value),
+      birthWeek: null,
       today: today
     };
+    // The prematurity question only matters (and is only shown) under 2 years.
+    var young = child.birth && !isNaN(child.birth) && (today - child.birth) / 86400000 < 730.5;
+    $("preterm-field").hidden = !young;
+    if (young && $("preterm").value) child.birthWeek = parseInt($("preterm").value, 10);
     if (Number.isNaN(child.foot)) child.foot = -1;
     if (Number.isNaN(child.head)) child.head = -1;
     var spec = targetSel.value === "custom" ? $("month").value : targetSel.value;
