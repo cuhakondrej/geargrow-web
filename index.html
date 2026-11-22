@@ -2,7 +2,7 @@
 <html lang="sk">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-+zb75896I5iAmYzA/CMBUe/wHr2+ZOGHePfAIJkQZSw=' 'sha256-05W1uaVG2HChbR8mDJn8GEYP3KUV/Wvrzi6yKLlwWzY=' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src https://cloudflareinsights.com; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-QLvCyaTxYzO/tea4afmUIsC6Ll4rVjI+/0AnM1dp1mw=' 'sha256-05W1uaVG2HChbR8mDJn8GEYP3KUV/Wvrzi6yKLlwWzY=' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src https://cloudflareinsights.com; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
 <meta property="og:title" content="GearGrow – veľkosti detskej výbavy na budúcu sezónu">
@@ -911,7 +911,11 @@
       var unit = item.params.unit || "eu", allow = (item.params.allowance_mm || 12) / 10, foot = ctx.foot();
       var notes = ["Odporúčaná veľkosť už obsahuje rezervu " + num(allow * 10) + " mm, nič nepripočítavajte. Chodidlo v termíne ≈ " +
         num(Math.round(foot.value * 10) / 10) + " cm + " + num(allow * 10) + " mm = vnútorná dĺžka topánky (stielka) približne " +
-        num(Math.round((foot.value + allow) * 10) / 10) + " cm. Veľkosti sa líšia podľa značky – túto dĺžku porovnajte s tabuľkou výrobcu."].concat(itemNote(item));
+        num(Math.round((foot.value + allow) * 10) / 10) + " cm. Veľkosti sa líšia podľa značky – túto dĺžku porovnajte s tabuľkou výrobcu.",
+        "Šírku chodidla a výšku priehlavku kalkulačka nepredpovedá. Ak sa tvar nohy zmenil, vyskúšajte aj iné značky alebo modely so širším strihom."];
+      // around EU 33-37 (inner length 22.0-24.7 cm) children's lines end and adult lasts begin
+      if (foot.value + allow >= 22.0 && foot.value + allow <= 24.7) notes.push("Okolo veľkosti 35–36 končia detské série a začínajú dospelé modely s iným strihom (kopytom). Dĺžka platí aj pre ne, strih však treba vyskúšať.");
+      notes = notes.concat(itemNote(item));
       function eu(fc) { return roundHalfUp((fc + allow) * 1.5); }
       if (unit === "mondo") {
         function mp(fc) { return Math.ceil((fc + allow) * 2 - 1e-9) / 2; }
