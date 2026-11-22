@@ -2,7 +2,7 @@
 <html lang="sk">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-WVfEOJgGFWSZ0BVQZOA6AZJ9NzshVdDy/tFSSjUGcOk=' 'sha256-05W1uaVG2HChbR8mDJn8GEYP3KUV/Wvrzi6yKLlwWzY=' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src https://cloudflareinsights.com; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-+zb75896I5iAmYzA/CMBUe/wHr2+ZOGHePfAIJkQZSw=' 'sha256-05W1uaVG2HChbR8mDJn8GEYP3KUV/Wvrzi6yKLlwWzY=' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src https://cloudflareinsights.com; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
 <meta property="og:title" content="GearGrow – veľkosti detskej výbavy na budúcu sezónu">
@@ -357,13 +357,14 @@
             <span class="hint" id="chest-hint">Pre bundy, mikiny a tričká. Meria sa pod pazuchami cez najširšie miesto.</span>
           </div>
           <div class="field" id="waist-field">
-            <label for="waist">Obvod pása <span class="hint">– nepovinné</span></label>
+            <label for="waist">Obvod pásu <span class="hint">– nepovinné</span></label>
             <div class="unit" data-unit="cm"><input id="waist" inputmode="decimal" placeholder="napr. 60" aria-describedby="waist-hint"></div>
             <span class="hint" id="waist-hint">Pre nohavice a legíny. Meria sa v najužšom mieste, zvyčajne tesne nad pupkom.</span>
           </div>
           <div class="field" id="head-field">
-            <label for="head">Obvod hlavy <span class="hint">– nepovinné, pre prilby a čiapky</span></label>
-            <div class="unit" data-unit="cm"><input id="head" inputmode="decimal" placeholder="napr. 52"></div>
+            <label for="head">Obvod hlavy <span class="hint">– nepovinné</span></label>
+            <div class="unit" data-unit="cm"><input id="head" inputmode="decimal" placeholder="napr. 52" aria-describedby="head-hint"></div>
+            <span class="hint" id="head-hint">Pre prilby a čiapky. Meria sa tesne nad obočím a ušami.</span>
           </div>
         </div>
       </fieldset>
@@ -408,7 +409,7 @@
           <span class="k">Výška</span>
           <h3>Oblečenie, bicykle, lyže</h3>
           <p>Vypočítame, koľko dieťa do zvoleného termínu vyrastie, a podľa toho určíme veľkosť oblečenia, bicykla, lyží,
-            snowboardu či palíc. Pri bábätkách počítame už od narodenia. Ak zadáte hmotnosť, obvod hrudníka alebo pása, pri oblečení zohľadníme aj postavu.</p>
+            snowboardu či palíc. Pri bábätkách počítame už od narodenia. Ak zadáte hmotnosť, obvod hrudníka alebo pásu, pri oblečení zohľadníme aj postavu.</p>
         </div>
         <div class="panel method">
           <span class="k">Chodidlo</span>
@@ -595,7 +596,7 @@
   var HEM_MAX_SIZES = 2, CUFF_MAX_SIZES = 3;
   function waistAdvice(item, heightSize, fits, shift) { // -> [extra sizes, advice]; same as _waist_advice in predictor.py
     var fitText = fits !== null ? num(fits) : "nad 176";
-    if (item.fit !== "bottom") return [1, "Obvodom pása zodpovedá veľkosti " + fitText + ". Hľadajte voľnejší strih (Big/Plus); " +
+    if (item.fit !== "bottom") return [1, "Obvodom pásu zodpovedá veľkosti " + fitText + ". Hľadajte voľnejší strih (Big/Plus); " +
       "ešte väčšia veľkosť by bola príliš dlhá."];
     var cuff = !!item.cuff;
     var big = heightSize >= 134 ? "veľkosť " + num(heightSize) + " v strihu Big/Plus" : "nohavice s nastaviteľným pásom";
@@ -604,17 +605,17 @@
       return [shift, "Veľkosť " + fitText + " sedí v páse, nohavice však bude treba skrátiť (dĺžkou zodpovedá veľkosť " +
         num(heightSize) + "). Alternatíva bez skracovania: " + big + "."];
     }
-    var hem = fits !== null ? " Veľkosť " + fitText + " so skrátením je možná, ale sed (od pása po rozkrok) by bol príliš dlhý." : "";
-    return [1, "Obvodom pása zodpovedá veľkosti " + fitText + ". Hľadajte strih Big/Plus alebo nastaviteľný pás." + hem];
+    var hem = fits !== null ? " Veľkosť " + fitText + " so skrátením je možná, ale sed (od pásu po rozkrok) by bol príliš dlhý." : "";
+    return [1, "Obvodom pásu zodpovedá veľkosti " + fitText + ". Hľadajte strih Big/Plus alebo nastaviteľný pás." + hem];
   }
   var MEASURES = {
     chest: { name: "hrudníka", table: CHEST_BY_SIZE, adult: ADULT_CHEST, kind: "" },
-    waist: { name: "pása", table: WAIST_BY_SIZE, adult: ADULT_WAIST, kind: "nohavice" }
+    waist: { name: "pásu", table: WAIST_BY_SIZE, adult: ADULT_WAIST, kind: "nohavice" }
   };
   var SLIM_TIP = "Dieťa má štíhlu postavu: veľkosť ponechávame podľa výšky (kvôli dĺžke rukávov a nohavíc), ale hľadajte " +
-    "strih Slim alebo nohavice s nastaviteľným pásom. Presnejšie poradíme podľa obvodu pása.";
+    "strih Slim, nohavice s nastaviteľným pásom, alebo nechajte pás zúžiť u krajčírky. Presnejšie poradíme podľa obvodu pásu.";
   var MEASURE_TIP = ["Presnejšie to určí obvod hrudníka – zmerajte ho pod pazuchami cez najširšie miesto.",
-    "Presnejšie to určí obvod pása – zmerajte ho v najužšom mieste, zvyčajne tesne nad pupkom."];
+    "Presnejšie to určí obvod pásu – zmerajte ho v najužšom mieste, zvyčajne tesne nad pupkom."];
   function girthForHeight(table, cm) {
     if (table === CHEST_BY_SIZE) return chestForHeight(cm);
     var n = table.length;
@@ -645,7 +646,7 @@
       if (!best[0] && slimSizes.length === ms.length) {
         var ls = slimSizes[slimSizes.length - 1];
         slim = "Dieťa je štíhlejšie: obvodom " + ls[0].name + " zodpovedá veľkosti " + num(ls[1]) + ", výškou veľkosti " + num(series[iH]) +
-          ". Vyberte veľkosť " + num(series[iH]) + " v strihu Slim alebo s nastaviteľným pásom.";
+          ". Vyberte veľkosť " + num(series[iH]) + " v strihu Slim, s nastaviteľným pásom, alebo nechajte pás zúžiť u krajčírky.";
       }
       return { shift: best[0], girth: best[0] ? best[2] : null, reason: reason, measure: best[0] ? best[1] : null, slim: slim };
     }
@@ -964,7 +965,7 @@
     if (child.birthWeek && !(child.birthWeek >= 22 && child.birthWeek <= 42)) throw new SizingError("Týždeň narodenia má byť medzi 22 a 42.", "birth");
     if (child.weight && !(child.weight >= 2 && child.weight <= 150)) throw new SizingError("Hmotnosť má byť v kg, napr. 32.", "weight");
     if (child.chest && !(child.chest >= 30 && child.chest <= 150)) throw new SizingError("Obvod hrudníka má byť v cm, napr. 70.", "chest");
-    if (child.waist && !(child.waist >= 30 && child.waist <= 150)) throw new SizingError("Obvod pása má byť v cm, napr. 60.", "waist");
+    if (child.waist && !(child.waist >= 30 && child.waist <= 150)) throw new SizingError("Obvod pásu má byť v cm, napr. 60.", "waist");
     if (child.head && !(child.head >= 30 && child.head <= 64)) throw new SizingError("Obvod hlavy má byť v cm, napr. 52.", "head");
     var target = resolveTarget(targetSpec, child.today);
     if (target < child.today) throw new SizingError("Zvolený mesiac už je minulosťou – vyberte budúci.", "target");
