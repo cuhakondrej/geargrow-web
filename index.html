@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-9scHlXEyI57VTxsHu710prR/g7MzRtZUGBf7zyfZ5Sw=' 'sha256-JcwXwsaVrWpXbXQfVgwWuI+ob7EIAedQP/PnnBUUnS4=' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src https://cloudflareinsights.com; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="color-scheme" content="light">
+<meta name="color-scheme" content="light dark">
 <meta property="og:title" content="GearGrow – veľkosti detskej výbavy na budúcu sezónu">
 <meta property="og:description" content="Zadajte výšku a chodidlo dieťaťa a zistite, akú veľkosť oblečenia, obuvi a športovej výbavy bude potrebovať.">
 <meta property="og:type" content="website">
@@ -14,7 +14,8 @@
 <link rel="icon" href="/favicon-48.png" sizes="48x48" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
-<meta name="theme-color" content="#fffcf7">
+<meta name="theme-color" content="#fffcf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1d1c2a" media="(prefers-color-scheme: dark)">
 <meta property="og:image" content="https://geargrow.sk/icon-512.png">
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "1cf2a7a0f417466692ab8e644a200949"}'></script><!-- End Cloudflare Web Analytics -->
 <title>GearGrow</title>
@@ -49,11 +50,35 @@
     --p-sky: #dcecfb;
     --p-lilac: #ece7fb;
     --p-butter: #fff3c8;
+    --peach-ink: #7a3a10;
+    --mint-ink: #173d31;
+    --butter-ink: #5a4410;
     --shade: 45 43 61;
     --font-display: ui-rounded, "SF Pro Rounded", "Segoe UI Variable Display", "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
     --font-body: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     --radius: 18px;
-    color-scheme: light; /* always the light pastel look, even when the device uses dark mode */
+    color-scheme: light dark; /* follows the visitor's light / dark setting */
+  }
+  /* Dark theme for visitors who use dark mode: deep indigo instead of black, the same pastel accents as soft glows. */
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #1d1c2a; --surface: #282737; --ink: #f1eff8; --muted: #b9b5cc; --line: #3a384d;
+      --accent: #8fe0c2; --accent-ink: #12291f; --accent-soft: #24443a; --btn: #8fe0c2; --btn-ink: #12291f;
+      --tape: #ffd97a; --tape-ink: #3a2c06; --warn: #ffbf94; --warn-soft: #43302a;
+      --band: #2e2a47; --band-ink: #f1eff8; --band-muted: #c3bedb; --peach-ink: #ffc7a6; --mint-ink: #a8ecd0; --butter-ink: #ffe08a;
+      --p-mint: #20403a; --p-peach: #4a3229; --p-sky: #213a54; --p-lilac: #352e55; --p-butter: #3f3720;
+      --shade: 0 0 0;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #1d1c2a; --surface: #282737; --ink: #f1eff8; --muted: #b9b5cc; --line: #3a384d;
+    --accent: #8fe0c2; --accent-ink: #12291f; --accent-soft: #24443a; --btn: #8fe0c2; --btn-ink: #12291f;
+    --tape: #ffd97a; --tape-ink: #3a2c06; --warn: #ffbf94; --warn-soft: #43302a;
+    --band: #2e2a47; --band-ink: #f1eff8; --band-muted: #c3bedb; --peach-ink: #ffc7a6; --mint-ink: #a8ecd0; --butter-ink: #ffe08a;
+    --p-mint: #20403a; --p-peach: #4a3229; --p-sky: #213a54; --p-lilac: #352e55; --p-butter: #3f3720;
+    --shade: 0 0 0;
+    color-scheme: dark;
   }
 
   * { box-sizing: border-box; }
@@ -183,10 +208,10 @@
   .price-card:nth-child(2) { border-top-color: var(--p-peach); }
   .price-card:nth-child(3) { border-top-color: var(--tape); }
   .price-card p { color: var(--band-muted); }
-  .price-tag { justify-self: start; font-size: .78rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; color: var(--btn-ink);
+  .price-tag { justify-self: start; font-size: .78rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; color: var(--mint-ink);
     background: var(--p-mint); border-radius: 999px; padding: 4px 10px; }
-  .price-card:nth-child(2) .price-tag { background: var(--p-peach); color: #7a3a10; }
-  .price-card:nth-child(3) .price-tag { background: var(--p-butter); color: var(--tape-ink); }
+  .price-card:nth-child(2) .price-tag { background: var(--p-peach); color: var(--peach-ink); }
+  .price-card:nth-child(3) .price-tag { background: var(--p-butter); color: var(--butter-ink); }
   .price-card p.pilot { color: var(--ink); background: var(--p-mint); border-radius: 10px; padding: 8px 10px; font-size: .92rem; }
   .pricing-note { margin-top: 14px; color: var(--band-muted); max-width: 80ch; }
   .contact { margin-top: 22px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
