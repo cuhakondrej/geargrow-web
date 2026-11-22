@@ -2,7 +2,7 @@
 <html lang="sk">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-9scHlXEyI57VTxsHu710prR/g7MzRtZUGBf7zyfZ5Sw=' 'sha256-JcwXwsaVrWpXbXQfVgwWuI+ob7EIAedQP/PnnBUUnS4=' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src https://cloudflareinsights.com; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-Od31eyE+R5izpAqCgt/LSSb0IH3D30PVLIozSpptiSk=' 'sha256-HPUo5tesZ/zwnlyr3bBT+d3aub0BJMPDTarCVXc+2ME=' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src https://cloudflareinsights.com; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
 <meta property="og:title" content="GearGrow – veľkosti detskej výbavy na budúcu sezónu">
@@ -345,6 +345,16 @@
             <span class="hint" id="foot-hint">Potrebné pre obuv, korčule a lyžiarky.</span>
             <details class="how"><summary>Ako zmerať?</summary><p>Dieťa sa postaví na papier, označte pätu a najdlhší prst a zmerajte vzdialenosť medzi nimi kolmo, nie šikmo. Zmerajte obe nohy, rozhoduje dlhšia. Najlepšie poobede, keď je noha najväčšia.</p></details>
           </div>
+          <div class="field" id="weight-field">
+            <label for="weight">Hmotnosť <span class="hint">– nepovinné</span></label>
+            <div class="unit" data-unit="kg"><input id="weight" inputmode="decimal" placeholder="napr. 32" aria-describedby="weight-hint"></div>
+            <span class="hint" id="weight-hint">Pri oblečení zohľadníme postavu dieťaťa.</span>
+          </div>
+          <div class="field" id="chest-field">
+            <label for="chest">Obvod hrudníka <span class="hint">– nepovinné</span></label>
+            <div class="unit" data-unit="cm"><input id="chest" inputmode="decimal" placeholder="napr. 70" aria-describedby="chest-hint"></div>
+            <span class="hint" id="chest-hint">Najpresnejšie pre bundy a oblečenie. Meria sa pod pazuchami cez najširšie miesto.</span>
+          </div>
           <div class="field full" id="head-field">
             <label for="head">Obvod hlavy <span class="hint">– nepovinné, pre prilby a čiapky</span></label>
             <div class="unit" data-unit="cm"><input id="head" inputmode="decimal" placeholder="napr. 52"></div>
@@ -392,7 +402,7 @@
           <span class="k">Výška</span>
           <h3>Oblečenie, bicykle, lyže</h3>
           <p>Vypočítame, koľko dieťa do zvoleného termínu vyrastie, a podľa toho určíme veľkosť oblečenia, bicykla, lyží,
-            snowboardu či palíc. Pri bábätkách počítame už od narodenia.</p>
+            snowboardu či palíc. Pri bábätkách počítame už od narodenia. Ak zadáte hmotnosť alebo obvod hrudníka, pri oblečení zohľadníme aj postavu.</p>
         </div>
         <div class="panel method">
           <span class="k">Chodidlo</span>
@@ -479,6 +489,7 @@
         <a href="https://www.who.int/tools/growth-reference-data-for-5to19-years/indicators/height-for-age" rel="noopener" target="_blank">WHO rastová referencia (5–19 r.)</a>
         <a href="https://www.frontiersin.org/journals/public-health/articles/10.3389/fpubh.2024.1322333/full" rel="noopener" target="_blank">Wu a kol. 2024 – dĺžka chodidla detí</a>
         <a href="https://pubmed.ncbi.nlm.nih.gov/22118730/" rel="noopener" target="_blank">Müller a kol. 2012 – chodidlo detí 1–13 r.</a>
+        <a href="https://hrcak.srce.hr/file/274047" rel="noopener" target="_blank">Vrdoljak a kol. 2017 – chodidlo detí 2–7 r.</a>
         <a href="https://discovery.ucl.ac.uk/id/eprint/1516597/" rel="noopener" target="_blank">Cole a kol. 2016 – rast v dojčenskom veku</a>
       </div>
     </footer>
@@ -529,19 +540,45 @@
   };
   WHO.male = lengthRows("male").concat(WHO.male);
   WHO.female = lengthRows("female").concat(WHO.female);
-  // Mean foot length (cm) by age: Wu et al. 2024 (3.5-17.5 y); Mueller et al. 2012, 1-year-olds 13.1 cm (1.5 y);
-  // 1.0 y extends the 1.5-3.5 y slope back (estimate). Feet are forecast from 1 year.
+  // Mean foot length (cm) by age (same table as predictor.py): 2-7 y Vrdoljak et al. 2017 (Croatia, n = 2,745);
+  // 1.5 y Mueller et al. 2012 (Germany), 1.0 y extends that slope back; 7.5-17.5 y Wu et al. 2024 scaled to meet 7 y.
   var FOOT_RAW = {
-    male: [[1.0,12.84],[1.5,13.23],[3.5,14.8],[4.5,15.8],[5.5,17.0],[6.5,17.9],[7.5,19.1],[8.5,20.0],[9.5,21.2],[10.5,22.0],
-      [11.5,23.6],[12.5,24.6],[13.5,25.2],[14.5,25.6],[15.5,25.8],[16.5,25.8],[17.5,25.9]],
-    female: [[1.0,12.59],[1.5,12.97],[3.5,14.5],[4.5,15.7],[5.5,16.7],[6.5,17.8],[7.5,18.7],[8.5,19.4],[9.5,21.0],[10.5,21.4],
-      [11.5,22.6],[12.5,23.1],[13.5,23.3],[14.5,23.3],[15.5,23.5],[16.5,23.5],[17.5,23.5]]
+    male: [[1,12.62],[1.5,13.39],[2,14.16],[3,15.74],[4,16.855],[5,17.975],[6,19.065],[7,19.935],[7.5,20.58],[8.5,21.55],[9.5,22.84],[10.5,23.71],[11.5,25.43],[12.5,26.51],[13.5,27.15],[14.5,27.59],[15.5,27.8],[16.5,27.8],[17.5,27.91]],
+    female: [[1,12.07],[1.5,12.81],[2,13.545],[3,15.355],[4,16.635],[5,17.74],[6,18.88],[7,19.64],[7.5,20.12],[8.5,20.88],[9.5,22.6],[10.5,23.03],[11.5,24.32],[12.5,24.86],[13.5,25.07],[14.5,25.07],[15.5,25.29],[16.5,25.29],[17.5,25.29]]
   };
   // Head circumference (cm), sexes averaged: 0-5 y WHO girls' medians x 1.0125 (boys run ~2.5 % higher); later approximate.
   var HEAD = [[0,33.8787],[1,36.5463],[2,38.2521],[3,39.5328],[4,40.5817],[5,41.4590],[6,42.1995],[8,43.3671],[10,44.2319],
     [12,44.8965],[15,45.6551],[18,46.2424],[21,46.7384],[24,47.1822],[30,47.9340],[36,48.5099],[42,48.9629],[48,49.3321],
     [54,49.6464],[60,49.9229]].map(function (r) { return [r[0] / 12, r2(r[1] * 1.0125)]; }).concat([[6.0,51.1],[8.0,51.9],[10.0,52.6],[12.0,53.5],
     [14.0,54.5],[16.0,55.3],[18.0,55.8]]);
+  // Body chest girth (cm) per children's size: 50-86 C&A baby chart, 92-176 s.Oliver kids' table (same as predictor.py).
+  var CHEST_BY_SIZE = [[50,36],[56,38.5],[62,42.5],[68,45.5],[74,47],[80,49],[86,51],[92,52],[98,54],[104,56],[110,58],[116,60],[122,62],[128,64],[134,67],[140,70],[146,73],[152,76],[158,79],[164,82],[170,85],[176,88]];
+  // Adult tops by chest girth (upper end of each size), s.Oliver size tables.
+  var ADULT_CHEST = { female: [["XS",84],["S",88],["M",92],["L",96],["XL",101],["XXL",106]], male: [["S",90],["M",98],["L",102],["XL",114],["XXL",126]] };
+  // WHO Growth Reference 2007, BMI-for-age 5-19 y: [month, L, M, S]. Over +1 / +2 SD = one / two sizes larger (rule of thumb).
+  var WHO_BMI = {
+    male: [[61,-0.7387,15.2641,0.0839],[66,-0.8554,15.2645,0.08516],[72,-0.9921,15.3062,0.08682],[78,-1.123,15.3825,0.08865],[84,-1.246,15.4832,0.09068],[90,-1.3596,15.6023,0.09289],[96,-1.4629,15.7368,0.09526],[102,-1.5542,15.8855,0.09778],[108,-1.6318,16.049,0.10038],[114,-1.6944,16.2333,0.10303],[120,-1.7407,16.4433,0.10566],[126,-1.771,16.6786,0.10823],[132,-1.7862,16.9392,0.1107],[138,-1.7873,17.2236,0.11304],[144,-1.7751,17.5334,0.11522],[150,-1.7511,17.8704,0.1172],[156,-1.7168,18.233,0.11898],[162,-1.6732,18.6148,0.12055],[168,-1.6211,19.005,0.12191],[174,-1.5615,19.3937,0.1231],[180,-1.4961,19.7744,0.12412],[186,-1.4263,20.1427,0.12501],[192,-1.3529,20.4951,0.12579],[198,-1.2762,20.8287,0.1265],[204,-1.1962,21.1423,0.12715],[210,-1.1129,21.4354,0.12777],[216,-1.026,21.7077,0.12836],[222,-0.9356,21.9585,0.12893],[228,-0.8419,22.1883,0.12948]],
+    female: [[61,-0.8886,15.2441,0.09692],[66,-0.978,15.2464,0.0992],[72,-1.0794,15.2697,0.10195],[78,-1.1728,15.32,0.10471],[84,-1.2565,15.4036,0.10746],[90,-1.3287,15.524,0.1102],[96,-1.388,15.681,0.11291],[102,-1.4336,15.8738,0.11557],[108,-1.465,16.0964,0.11816],[114,-1.4823,16.3425,0.12067],[120,-1.4864,16.6133,0.12307],[126,-1.4787,16.9136,0.12534],[132,-1.4606,17.2459,0.12748],[138,-1.4339,17.6088,0.12946],[144,-1.4006,17.9966,0.13129],[150,-1.3621,18.3986,0.13295],[156,-1.3195,18.8012,0.13445],[162,-1.2739,19.1931,0.1358],[168,-1.2266,19.5647,0.137],[174,-1.1788,19.907,0.13808],[180,-1.1311,20.2125,0.13904],[186,-1.0838,20.4769,0.13991],[192,-1.0368,20.7008,0.1407],[198,-0.9898,20.8863,0.14142],[204,-0.9423,21.0367,0.14208],[210,-0.8944,21.1586,0.14271],[216,-0.8462,21.2603,0.1433],[222,-0.798,21.348,0.14386],[228,-0.7496,21.4269,0.14441]]
+  };
+  function bmiZ(sex, months, kg, cm) {
+    if (months < 61 || months > 228) return null;
+    var sexes = sex === "male" || sex === "female" ? [sex] : ["male", "female"], sum = 0;
+    sexes.forEach(function (sx) {
+      var rows = WHO_BMI[sx], col = function (i) { return interp(rows.map(function (r) { return [r[0], r[i]]; }), months); };
+      var L = col(1), M = col(2), S = col(3), bmi = kg / Math.pow(cm / 100, 2);
+      sum += (Math.pow(bmi / M, L) - 1) / (L * S);
+    });
+    return sum / sexes.length;
+  }
+  function chestForHeight(cm) {
+    var last = CHEST_BY_SIZE[CHEST_BY_SIZE.length - 1];
+    return cm > last[0] ? last[1] + (cm - last[0]) * 0.5 : interp(CHEST_BY_SIZE, cm);
+  }
+  function adultSize(sex, chest) {
+    var key = sex === "female" ? "female" : "male", chart = ADULT_CHEST[key], label = chart[chart.length - 1][0];
+    for (var i = 0; i < chart.length; i++) if (chart[i][1] >= chest - 1e-9) { label = chart[i][0]; break; }
+    return [label, key === "female" ? "dámske" : "pánske"];
+  }
   var CLOTHING_SIZES = [50,56,62,68,74,80,86,92,98,104,110,116,122,128,134,140,146,152,158,164,170,176];
 
   function monotone(rows) { var best = 0; return rows.map(function (r) { best = Math.max(best, r[1]); return [r[0], best]; }); }
@@ -690,7 +727,7 @@
       ageText(ageMonths(child.birth, child.today)) + ". Skontrolujte dátum narodenia a dĺžku chodidla.", "birth");
     var pred = child.foot * (footRef(child.sex, a1) / footRef(child.sex, a0)); // same order as Python
     var band = 0.2 + 0.25 * (pred - child.foot);
-    var notes = a0 < 3 ? ["Pri deťoch do 3 rokov je odhad rastu chodidla len orientačný."] : [];
+    var notes = a0 < 2 ? ["Pri deťoch do 2 rokov je odhad rastu chodidla len orientačný."] : [];
     return { value: pred, low: Math.max(child.foot - 0.2, pred - band), high: pred + band, notes: notes };
   }
   function forecastHead(child, target) {
@@ -730,15 +767,40 @@
 
   var RULES = {
     clothing: function (item, ctx) {
-      var series = item.params.series || CLOTHING_SIZES, h = ctx.height();
-      function sizeFor(x) { for (var i = 0; i < series.length; i++) if (series[i] >= x - 1e-9) return series[i]; return series[series.length - 1]; }
-      var p = sizeFor(h.value), s = sizeFor(h.low), l = sizeFor(h.high);
-      var c = ordered(series.filter(function (x) { return x >= s && x <= l; }), p);
-      if (!c.length) c = [p];
-      var step = series.length > 1 ? series[1] - series[0] : 6;
-      var notes = ["Veľkosť " + num(p) + " je pre deti vysoké približne " + num(p - step) + "–" + num(p) + " cm."];
+      var custom = !!item.params.series, series = item.params.series || CLOTHING_SIZES, h = ctx.height(), child = ctx.child;
+      function indexFor(x) { for (var i = 0; i < series.length; i++) if (series[i] >= x - 1e-9) return i; return series.length - 1; }
+      var iP = indexFor(h.value), iS = indexFor(h.low), iL = indexFor(h.high), shift = 0, chestT = null, reason = "";
+      if (!custom) { // broader build: measured chest, or else WHO BMI-for-age from the weight
+        if (child.chest) {
+          chestT = child.chest * chestForHeight(h.value) / chestForHeight(child.height);
+          var iC = CHEST_BY_SIZE.length;
+          for (var k = 0; k < CHEST_BY_SIZE.length; k++) if (CHEST_BY_SIZE[k][1] >= chestT - 0.5) { iC = k; break; }
+          shift = Math.max(0, iC - iP); reason = "obvodu hrudníka";
+        } else if (child.weight) {
+          var z = bmiZ(child.sex, ageMonths(child.birth, child.today), child.weight, child.height);
+          if (z !== null) { shift = (z > 1 ? 1 : 0) + (z > 2 ? 1 : 0); reason = "výšky a hmotnosti"; }
+        }
+      }
+      var step = series.length > 1 ? series[1] - series[0] : 6, heightSize = series[iP], last = series.length - 1, notes = [];
+      iP += shift;
+      if (iP > last) {
+        var chest = chestT !== null ? chestT : CHEST_BY_SIZE[CHEST_BY_SIZE.length - 1][1] + 3 * (iP - last);
+        var ad = adultSize(child.sex, chest);
+        notes.push("Podľa " + reason + " už dieťaťu pravdepodobne sedia dospelé veľkosti: " + ad[1] + " " + ad[0] +
+          " (obvod hrudníka približne " + num(Math.round(chest)) + " cm). Porovnajte s tabuľkou výrobcu.");
+        if (reason === "výšky a hmotnosti") notes.push("Presnejšie to určí obvod hrudníka – zmerajte ho pod pazuchami cez najširšie miesto.");
+        return { unit: "label", candidates: [ad[0]], forecast: h, notes: notes.concat(itemNote(item)) };
+      }
+      var idx = [];
+      for (var j = iS + shift; j <= iL + shift; j++) if (j <= last && idx.indexOf(j) < 0) idx.push(j);
+      if (!idx.length) idx = [iP];
+      var p = series[iP], c = ordered(idx.sort(function (a, b) { return a - b; }).map(function (i) { return series[i]; }), p);
+      if (shift) notes.push("Podľa výšky by stačila veľkosť " + num(heightSize) + ", ale podľa " + reason + " odporúčame o " + shift +
+        (shift === 1 ? " veľkosť" : " veľkosti") + " väčšiu: " + num(p) + ".");
+      else notes.push("Veľkosť " + num(p) + " je pre deti vysoké približne " + num(p - step) + "–" + num(p) + " cm.");
       if (c.length > 1) notes.push("Na celú sezónu je istejšia väčšia z ponúkaných veľkostí.");
-      if (h.value > series[series.length - 1]) notes.push("Predpokladaná výška je nad detskými veľkosťami – použite tínedžerské či dospelé (XS/S).");
+      if (h.value > series[series.length - 1] && !shift) notes.push("Predpokladaná výška je nad detskými veľkosťami – použite tínedžerské či dospelé (XS/S).");
+      if (reason === "výšky a hmotnosti") notes.push("Presnejšie to určí obvod hrudníka – zmerajte ho pod pazuchami cez najširšie miesto.");
       return { unit: "height_cm", candidates: c.map(function (x) { return fmtSize(x, "height_cm"); }), forecast: h, notes: notes.concat(itemNote(item)) };
     },
     height_band: function (item, ctx) {
@@ -810,7 +872,8 @@
 
   function findItem(id) { for (var i = 0; i < CATALOG.length; i++) if (CATALOG[i].id === id) return CATALOG[i]; return null; }
 
-  /* child: {birth: Date, sex: "male"|"female"|"unspecified", height: cm, foot?: cm, head?: cm, birthWeek?: 22-36, today?: Date} */
+  /* child: {birth: Date, sex: "male"|"female"|"unspecified", height: cm, foot?: cm, head?: cm, weight?: kg, chest?: cm,
+     birthWeek?: 22-36, today?: Date} */
   function recommend(child, itemId, targetSpec) {
     var item = findItem(itemId);
     if (!item) throw new SizingError("Vyberte, čo hľadáte.", "item");
@@ -824,11 +887,14 @@
     if (!(child.height >= 40 && child.height <= 210)) throw new SizingError("Zadajte výšku dieťaťa v cm (40–210).", "height");
     if (child.foot && !(child.foot >= 9 && child.foot <= 33)) throw new SizingError("Dĺžka chodidla má byť v cm, napr. 18,5.", "foot");
     if (child.birthWeek && !(child.birthWeek >= 22 && child.birthWeek <= 42)) throw new SizingError("Týždeň narodenia má byť medzi 22 a 42.", "birth");
+    if (child.weight && !(child.weight >= 2 && child.weight <= 150)) throw new SizingError("Hmotnosť má byť v kg, napr. 32.", "weight");
+    if (child.chest && !(child.chest >= 30 && child.chest <= 150)) throw new SizingError("Obvod hrudníka má byť v cm, napr. 70.", "chest");
     if (child.head && !(child.head >= 30 && child.head <= 64)) throw new SizingError("Obvod hlavy má byť v cm, napr. 52.", "head");
     var target = resolveTarget(targetSpec, child.today);
     if (target < child.today) throw new SizingError("Zvolený mesiac už je minulosťou – vyberte budúci.", "target");
     var cache = {};
     var ctx = {
+      child: child,
       ageYears: ageMonths(child.birth, target) / 12,
       height: function () { return cache.h || (cache.h = forecastHeight(child, target)); },
       foot: function () { return cache.f || (cache.f = forecastFoot(child, target, item.name)); },
@@ -934,7 +1000,7 @@
 
   // --- compute & render -------------------------------------------------------
   function setInvalid(field) {
-    ["birth", "height", "foot", "head", "item", "month"].forEach(function (id) { $(id).removeAttribute("aria-invalid"); });
+    ["birth", "height", "foot", "head", "weight", "chest", "item", "month"].forEach(function (id) { $(id).removeAttribute("aria-invalid"); });
     $("foot-field").classList.remove("needs");
     if (field === "target") field = "month";
     if (field && $(field)) $(field).setAttribute("aria-invalid", "true");
@@ -951,6 +1017,8 @@
       height: parseNum($("height").value),
       foot: parseNum($("foot").value),
       head: parseNum($("head").value),
+      weight: parseNum($("weight").value),
+      chest: parseNum($("chest").value),
       birthWeek: null,
       today: today
     };
@@ -960,6 +1028,8 @@
     if (young && $("preterm").value) child.birthWeek = parseInt($("preterm").value, 10);
     if (Number.isNaN(child.foot)) child.foot = -1;
     if (Number.isNaN(child.head)) child.head = -1;
+    if (Number.isNaN(child.weight)) child.weight = -1;
+    if (Number.isNaN(child.chest)) child.chest = -1;
     var spec = targetSel.value === "custom" ? $("month").value : targetSel.value;
     var item = G.findItem(itemSel.value);
     try {
