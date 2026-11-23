@@ -2,7 +2,7 @@
 <html lang="sk">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-QLvCyaTxYzO/tea4afmUIsC6Ll4rVjI+/0AnM1dp1mw=' 'sha256-05W1uaVG2HChbR8mDJn8GEYP3KUV/Wvrzi6yKLlwWzY=' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src https://cloudflareinsights.com; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-w+LkC2KWjMTiCU5HGYO0Er36Lla9TxBmJ7Ud2+h2b4U=' 'sha256-s8W5x335zardgMPMEXZQup9leG8WgZudubc21yzMlXs=' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src https://cloudflareinsights.com; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
 <meta property="og:title" content="GearGrow – veľkosti detskej výbavy na budúcu sezónu">
@@ -366,6 +366,26 @@
             <div class="unit" data-unit="cm"><input id="head" inputmode="decimal" placeholder="napr. 52" aria-describedby="head-hint"></div>
             <span class="hint" id="head-hint">Pre prilby a čiapky. Meria sa tesne nad obočím a ušami.</span>
           </div>
+          <div class="field" id="mother-field" hidden>
+            <label for="mother">Výška matky <span class="hint">– nepovinné</span></label>
+            <div class="unit" data-unit="cm"><input id="mother" inputmode="decimal" placeholder="napr. 166" aria-describedby="mother-hint"></div>
+            <span class="hint" id="mother-hint">Spresní predpoveď rastu v puberte. Zadajte oboch rodičov.</span>
+          </div>
+          <div class="field" id="father-field" hidden>
+            <label for="father">Výška otca <span class="hint">– nepovinné</span></label>
+            <div class="unit" data-unit="cm"><input id="father" inputmode="decimal" placeholder="napr. 180" aria-describedby="father-hint"></div>
+            <span class="hint" id="father-hint">Dospelá výška biologických rodičov.</span>
+          </div>
+          <div class="field" id="prev-height-field" hidden>
+            <label for="prevHeight">Staršie meranie výšky <span class="hint">– nepovinné</span></label>
+            <div class="unit" data-unit="cm"><input id="prevHeight" inputmode="decimal" placeholder="napr. 146" aria-describedby="prev-hint"></div>
+            <span class="hint" id="prev-hint">Napríklad z preventívnej prehliadky pred 6–12 mesiacmi. Podľa rýchlosti rastu spoznáme, či už prišiel rastový skok.</span>
+          </div>
+          <div class="field" id="prev-date-field" hidden>
+            <label for="prevDate">Kedy ste vtedy merali</label>
+            <input id="prevDate" type="date" aria-describedby="prev-date-hint">
+            <span class="hint" id="prev-date-hint">Stačí približný dátum, ideálne 6 mesiacov až 2 roky dozadu.</span>
+          </div>
         </div>
       </fieldset>
 
@@ -409,7 +429,7 @@
           <span class="k">Výška</span>
           <h3>Oblečenie, bicykle, lyže</h3>
           <p>Vypočítame, koľko dieťa do zvoleného termínu vyrastie, a podľa toho určíme veľkosť oblečenia, bicykla, lyží,
-            snowboardu či palíc. Pri bábätkách počítame už od narodenia. Ak zadáte hmotnosť, obvod hrudníka alebo pásu, pri oblečení zohľadníme aj postavu.</p>
+            snowboardu či palíc. Pri bábätkách počítame už od narodenia. Ak zadáte hmotnosť, obvod hrudníka alebo pásu, pri oblečení zohľadníme aj postavu. Od 8 rokov môžete zadať aj výšku rodičov a staršie meranie výšky, ktoré spresnia predpoveď rastu v puberte.</p>
         </div>
         <div class="panel method">
           <span class="k">Chodidlo</span>
@@ -498,6 +518,10 @@
         <a href="https://pubmed.ncbi.nlm.nih.gov/22118730/" rel="noopener" target="_blank">Müller a kol. 2012 – chodidlo detí 1–13 r.</a>
         <a href="https://hrcak.srce.hr/file/274047" rel="noopener" target="_blank">Vrdoljak a kol. 2017 – chodidlo detí 2–7 r.</a>
         <a href="https://discovery.ucl.ac.uk/id/eprint/1516597/" rel="noopener" target="_blank">Cole a kol. 2016 – rast v dojčenskom veku</a>
+        <a href="https://link.springer.com/article/10.1186/s12887-017-0857-1" rel="noopener" target="_blank">Holmgren a kol. 2017 – rast v puberte</a>
+        <a href="https://www.frontiersin.org/journals/pediatrics/articles/10.3389/fped.2024.1438042/full" rel="noopener" target="_blank">Gårdstedt-Berghog a kol. 2024 – rast dievčat v puberte</a>
+        <a href="https://www.mdpi.com/2227-9067/11/8/916" rel="noopener" target="_blank">Zeevi a kol. 2024 – výška rodičov</a>
+        <a href="https://link.springer.com/article/10.1186/1748-7161-6-1" rel="noopener" target="_blank">Busscher a kol. 2011 – chodidlo v puberte</a>
       </div>
     </footer>
   </div>
@@ -766,6 +790,71 @@
     return (40 - w) * 7 / DAYS_PER_MONTH;
   }
   function growthAge(child, on) { return Math.max(0, ageMonths(child.birth, on) - correctionMonths(child)); }
+
+  // Puberty (Holmgren et al. 2017, Gårdstedt-Berghog et al. 2024; feet: Busscher et al. 2011) and parents' heights
+  // (Zeevi et al. 2024; Tanner et al. 1956; Cole & Wright 2011). Same constants as predictor.py.
+  var PUBERTY_WINDOW = { female: [8.5, 15.0], male: [10.0, 16.5], unspecified: [8.5, 16.5] };
+  var FOOT_PUBERTY_WINDOW = { female: [8.5, 13.0], male: [9.5, 14.5], unspecified: [8.5, 14.5] };
+  var PHV_AGE = { female: 11.8, male: 13.6, unspecified: 12.7 }, GROWTH_END = { female: 16.0, male: 18.0, unspecified: 17.0 };
+  var PARENTS_FROM_AGE = 8.0, ADULT_MONTH = 228, PARENT_GAP_SHARE = 0.35;
+  // Late spurt: wider upper end of the range. Earlier measurement: measured growth speed (see predictor.py).
+  var LATE_PUBERTY_WINDOW = { female: [12.5, 15.0], male: [14.5, 16.5], unspecified: [12.5, 16.5] };
+  var LATE_EXTRA_PER_YEAR = 2.5, LATE_EXTRA_MAX = 3.0, VELOCITY_EXTRA_SHARE = 0.5;
+  var VEL_PERSIST = 0.5, VEL_SD_CHILD = 1.2, VEL_SD_PUBERTY = 2.5, HOME_MEAS_SD = 0.7;
+  var PREV_MIN_MONTHS = 3, PREV_MAX_MONTHS = 24, MAX_GROWTH_PER_YEAR = 20;
+  var CHECKUP = "staršie meranie výšky (napr. z preventívnej prehliadky)";
+  var MISSING_HINTS = { "true,true": "Výsledok spresní výška oboch rodičov a " + CHECKUP + ".",
+    "true,false": "Výsledok spresní aj výška oboch rodičov.", "false,true": "Výsledok spresní aj " + CHECKUP + "." };
+  function lateExtra(sex, a0m, a1m) {
+    var w = LATE_PUBERTY_WINDOW[sexKey(sex)], overlap = Math.min(a1m / 12, w[1]) - Math.max(a0m / 12, w[0]);
+    return Math.min(LATE_EXTRA_MAX, LATE_EXTRA_PER_YEAR * Math.max(0, overlap));
+  }
+  function velocityZShift(sex, a0m, intervalM, horizonM, z, zPrev) {
+    var years = intervalM / 12, sd = overlaps(PUBERTY_WINDOW[sexKey(sex)], a0m / 12, a0m / 12) ? VEL_SD_PUBERTY : VEL_SD_CHILD;
+    var noise = 2 * HOME_MEAS_SD * HOME_MEAS_SD / (years * years), rel = sd * sd / (sd * sd + noise);
+    return VEL_PERSIST * rel * (z - zPrev) / years * Math.min(1, horizonM / 12);
+  }
+  function velocityShift(child, a0, a1, z, notes) { // -> z change or null; same as SizePredictor._velocity_shift
+    var aPrev = growthAge(child, child.prevDate), interval = a0 - aPrev, growth = child.height - child.prevHeight;
+    if (growth < -MEAS_ERR) throw new SizingError("Predchádzajúca výška je väčšia ako dnešná. Skontrolujte obe merania a ich dátumy.", "prevHeight");
+    if (interval > 0 && interval >= PREV_MIN_MONTHS && growth / (interval / 12) > MAX_GROWTH_PER_YEAR)
+      throw new SizingError("Medzi meraniami by dieťa vyrástlo o " + num(Math.round(growth * 10) / 10) + " cm, to je na ten čas priveľa. Skontrolujte obe merania a ich dátumy.", "prevHeight");
+    if (interval < PREV_MIN_MONTHS) { notes.push("Predchádzajúce meranie je príliš nedávne (menej ako 3 mesiace), rýchlosť rastu sa z neho nedá spoľahlivo určiť."); return null; }
+    if (interval > PREV_MAX_MONTHS) { notes.push("Predchádzajúce meranie je staršie ako 2 roky, na rýchlosť rastu ho nepoužívame."); return null; }
+    var years = interval / 12, zPrev = zScore(child.sex, aPrev, child.prevHeight);
+    var typical = (heightAt(child.sex, a0, z) - heightAt(child.sex, aPrev, z)) / years;
+    notes.push("Podľa predchádzajúceho merania rastie dieťa asi " + num(Math.round(growth / years * 10) / 10) + " cm za rok (deti s rovnakou výškou na svoj vek v tomto období bežne " +
+      num(Math.round(typical * 10) / 10) + " cm).");
+    return velocityZShift(child.sex, a0, interval, a1 - a0, z, zPrev);
+  }
+  var PUBERTY_TEXT = {
+    female: "dievčatá majú rastový skok zvyčajne medzi 9. a 14. rokom, najrýchlejšie rastú okolo 12 rokov (približne 8 cm za rok).",
+    male: "chlapci majú rastový skok zvyčajne medzi 11. a 16. rokom, najrýchlejšie rastú okolo 13,5 roka (približne 9–10 cm za rok).",
+    unspecified: "rastový skok prichádza u dievčat zvyčajne medzi 9. a 14. rokom (až 8 cm za rok), u chlapcov medzi 11. a 16. rokom (až 9–10 cm za rok)."
+  };
+  var FOOT_PUBERTY_TEXT = { female: "u dievčat okolo 10 rokov", male: "u chlapcov okolo 11–12 rokov", unspecified: "u dievčat okolo 10, u chlapcov okolo 11–12 rokov" };
+  function sexKey(sex) { return sex === "female" || sex === "male" ? sex : "unspecified"; }
+  function overlaps(w, a, b) { return a <= w[1] && b >= w[0]; }
+  function pubertyNote(sex, a0m, a1m) {
+    var k = sexKey(sex);
+    if (!overlaps(PUBERTY_WINDOW[k], a0m / 12, a1m / 12)) return null;
+    return "Puberta: " + PUBERTY_TEXT[k] + " Kedy príde, je u každého dieťaťa iné, takže môže dieťa vyrásť viac alebo menej, ako ukazuje predpoveď. Pred nákupom ho znova zmerajte.";
+  }
+  function footPubertyNote(sex, a0, a1) {
+    var k = sexKey(sex);
+    if (!overlaps(FOOT_PUBERTY_WINDOW[k], a0, a1)) return null;
+    return "Puberta: chodidlo rastie najrýchlejšie ešte pred výškovým skokom (" + FOOT_PUBERTY_TEXT[k] + ") a dorastie skôr ako telo. Obuv kupujte radšej tesne pred sezónou.";
+  }
+  function midParentalZ(mother, father) { return (zScore("female", ADULT_MONTH, mother) + zScore("male", ADULT_MONTH, father)) / 2; }
+  function parentsShift(sex, a0, a1, z, pz) { // extra growth (cm) by the target date because of the parents' heights
+    var k = sexKey(sex), years = a0 / 12, phv = PHV_AGE[k], end = GROWTH_END[k];
+    var share = years <= phv ? PARENT_GAP_SHARE : PARENT_GAP_SHARE * Math.max(0, (end - years) / (end - phv));
+    var remaining = heightAt(sex, ADULT_MONTH, 0) - heightAt(sex, a0, 0);
+    if (share <= 0 || remaining <= 0) return 0;
+    var adultShift = heightAt(sex, ADULT_MONTH, z + share * (pz - z)) - heightAt(sex, ADULT_MONTH, z);
+    var done = heightAt(sex, a1, 0) - heightAt(sex, a0, 0);
+    return adultShift * Math.min(1, done / remaining);
+  }
   function forecastHeight(child, target) {
     var age0 = growthAge(child, child.today), age1 = growthAge(child, target);
     var horizon = age1 - age0, notes = [], corr = correctionMonths(child);
@@ -787,13 +876,41 @@
       if (Math.abs(z) > RARE_Z) notes.push("Takáto výška je na tento vek veľmi zriedkavá – skontrolujte, či ste zadali skutočnú dĺžku tela, nie veľkosť oblečenia.");
       if (z < 0 && age0 < INFANT_END && !corr) notes.push("Ak sa narodilo predčasne, zadajte týždeň narodenia, výsledok bude presnejší.");
     }
-    var tr = zTracking(age0, age1), zt = z * tr[0];
+    var tr = zTracking(age0, age1), zt = z * tr[0], velUsed = false, velNotes = [];
+    if (age0 / 12 >= PARENTS_FROM_AGE && child.prevHeight && child.prevDate) {
+      var dz = velocityShift(child, age0, age1, z, velNotes);
+      if (dz !== null) {
+        velUsed = true;
+        var before = heightAt(child.sex, age1, zt);
+        zt += dz;
+        var moved = heightAt(child.sex, age1, zt) - before;
+        velNotes.push(Math.abs(moved) >= 0.5 ? "Predpoveď sme preto posunuli o " + num(Math.round(Math.abs(moved) * 10) / 10) + " cm " + (moved > 0 ? "vyššie" : "nižšie") + "."
+          : "Predpoveď sa tým takmer nemení.");
+      }
+    }
     var pred = Math.max(child.height, heightAt(child.sex, age1, zt));
     if (age0 < INFANT_END) { // keep expected infant growth within a plausible band around median growth
       var mg = heightAt(child.sex, age1, 0) - heightAt(child.sex, age0, 0);
       pred = clamp(pred, child.height + 0.67 * mg, child.height + 1.4 * mg);
     }
     var low = heightAt(child.sex, age1, zt - tr[1]), high = heightAt(child.sex, age1, zt + tr[1]);
+    var pn = pubertyNote(child.sex, age0, age1), extra = lateExtra(child.sex, age0, age1) * (velUsed ? VELOCITY_EXTRA_SHARE : 1);
+    high += extra;
+    if (pn) notes.push(extra < 0.5 ? pn : pn.replace(" Pred nákupom", " Rozsah predpovede je preto smerom nahor širší. Pred nákupom"));
+    notes.push.apply(notes, velNotes);
+    if (age0 / 12 >= PARENTS_FROM_AGE) {
+      if (child.mother && child.father) {
+        var sh = parentsShift(child.sex, age0, age1, z, midParentalZ(child.mother, child.father));
+        pred = Math.max(child.height, pred + sh); low += sh; high += sh;
+        notes.push(Math.abs(sh) >= 0.5
+          ? "Zohľadnili sme výšku rodičov: predpoveď je o " + num(Math.round(Math.abs(sh) * 10) / 10) + " cm " + (sh > 0 ? "vyššia" : "nižšia") + ", než by bola len podľa výšky dieťaťa."
+          : "Zohľadnili sme výšku rodičov; na predpoveď k tomuto termínu má len malý vplyv (pod 0,5 cm).");
+      } else if (child.mother || child.father) {
+        notes.push("Výšku rodičov zohľadníme, keď zadáte výšku matky aj otca.");
+      }
+      var missing = MISSING_HINTS[[!child.mother && !child.father, !child.prevHeight].join(",")];
+      if (pn && missing) notes.push(missing);
+    }
     low = Math.max(Math.min(low, pred - MEAS_ERR), child.height - MEAS_ERR);
     high = Math.max(high, pred + MEAS_ERR);
     return { value: pred, low: low, high: high, notes: notes };
@@ -808,6 +925,8 @@
     var pred = child.foot * (footRef(child.sex, a1) / footRef(child.sex, a0)); // same order as Python
     var band = 0.2 + 0.25 * (pred - child.foot);
     var notes = a0 < 2 ? ["Pri deťoch do 2 rokov je odhad rastu chodidla len orientačný."] : [];
+    var fpn = footPubertyNote(child.sex, a0, a1);
+    if (fpn) notes.push(fpn);
     return { value: pred, low: Math.max(child.foot - 0.2, pred - band), high: pred + band, notes: notes };
   }
   function forecastHead(child, target) {
@@ -953,7 +1072,8 @@
   function findItem(id) { for (var i = 0; i < CATALOG.length; i++) if (CATALOG[i].id === id) return CATALOG[i]; return null; }
 
   /* child: {birth: Date, sex: "male"|"female"|"unspecified", height: cm, foot?: cm, head?: cm, weight?: kg, chest?: cm, waist?: cm,
-     birthWeek?: 22-36, today?: Date} */
+     birthWeek?: 22-36, mother?: cm, father?: cm (parents' heights, used from 8 years),
+     prevHeight?: cm, prevDate?: Date (an earlier height measurement, used from 8 years), today?: Date} */
   function recommend(child, itemId, targetSpec) {
     var item = findItem(itemId);
     if (!item) throw new SizingError("Vyberte, čo hľadáte.", "item");
@@ -971,6 +1091,14 @@
     if (child.chest && !(child.chest >= 30 && child.chest <= 150)) throw new SizingError("Obvod hrudníka má byť v cm, napr. 70.", "chest");
     if (child.waist && !(child.waist >= 30 && child.waist <= 150)) throw new SizingError("Obvod pásu má byť v cm, napr. 60.", "waist");
     if (child.head && !(child.head >= 30 && child.head <= 64)) throw new SizingError("Obvod hlavy má byť v cm, napr. 52.", "head");
+    if (child.mother && !(child.mother >= 120 && child.mother <= 220)) throw new SizingError("Výšku matky zadajte v cm, napr. 166.", "mother");
+    if (child.father && !(child.father >= 120 && child.father <= 220)) throw new SizingError("Výšku otca zadajte v cm, napr. 180.", "father");
+    if (child.prevHeight) {
+      if (!(child.prevHeight >= 40 && child.prevHeight <= 210)) throw new SizingError("Predchádzajúcu výšku zadajte v cm, napr. 146.", "prevHeight");
+      if (!child.prevDate || isNaN(child.prevDate)) throw new SizingError("Zadajte, kedy ste dieťa predtým merali.", "prevDate");
+      child.prevDate = toUTC(child.prevDate);
+      if (child.prevDate < child.birth || child.prevDate >= child.today) throw new SizingError("Predchádzajúce meranie musí byť medzi narodením a dneškom.", "prevDate");
+    }
     var target = resolveTarget(targetSpec, child.today);
     if (target < child.today) throw new SizingError("Zvolený mesiac už je minulosťou – vyberte budúci.", "target");
     var cache = {};
@@ -1042,6 +1170,7 @@
   targetOpts.push(["custom", "Vlastný mesiac…"]);
   targetOpts.forEach(function (o) { var el = document.createElement("option"); el.value = o[0]; el.textContent = o[1]; targetSel.appendChild(el); });
   $("birth").max = iso(today);
+  $("prevDate").max = iso(today);
   $("month").min = iso(today).slice(0, 7);
 
   // --- example child (clearly marked) ---------------------------------------
@@ -1081,7 +1210,7 @@
 
   // --- compute & render -------------------------------------------------------
   function setInvalid(field) {
-    ["birth", "height", "foot", "head", "weight", "chest", "waist", "item", "month"].forEach(function (id) { $(id).removeAttribute("aria-invalid"); });
+    ["birth", "height", "foot", "head", "weight", "chest", "waist", "mother", "father", "prevHeight", "prevDate", "item", "month"].forEach(function (id) { $(id).removeAttribute("aria-invalid"); });
     $("foot-field").classList.remove("needs");
     if (field === "target") field = "month";
     if (field && $(field)) $(field).setAttribute("aria-invalid", "true");
@@ -1108,6 +1237,16 @@
     var young = child.birth && !isNaN(child.birth) && (today - child.birth) / 86400000 < 730.5;
     $("preterm-field").hidden = !young;
     if (young && $("preterm").value) child.birthWeek = parseInt($("preterm").value, 10);
+    // Parents' heights only matter (and are only shown) from 8 years, when puberty gets close.
+    var older = child.birth && !isNaN(child.birth) && (today - child.birth) / 86400000 >= 8 * 365.25;
+    $("mother-field").hidden = $("father-field").hidden = $("prev-height-field").hidden = $("prev-date-field").hidden = !older;
+    if (older) {
+      child.mother = parseNum($("mother").value);
+      child.father = parseNum($("father").value);
+      child.prevHeight = parseNum($("prevHeight").value);
+      child.prevDate = $("prevDate").value ? new Date($("prevDate").value + "T00:00:00Z") : null;
+      ["mother", "father", "prevHeight"].forEach(function (k) { if (Number.isNaN(child[k])) child[k] = -1; });
+    }
     if (Number.isNaN(child.foot)) child.foot = -1;
     if (Number.isNaN(child.head)) child.head = -1;
     if (Number.isNaN(child.weight)) child.weight = -1;
