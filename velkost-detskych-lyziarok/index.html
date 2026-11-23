@@ -1,8 +1,8 @@
 <!doctype html>
-<html lang="sk">
+<html lang="sk" data-root="../">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-EU+8q7lVvKCZim0dkfJxUWiNQHbPYi0Ft6d97ltWHxY=' 'sha256-+6siOq3JNnrerFFR9IgKiNlFHZwwVAS8otfNR+F2xjE=' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src https://cloudflareinsights.com; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-EU+8q7lVvKCZim0dkfJxUWiNQHbPYi0Ft6d97ltWHxY=' 'sha256-+kDg5ce7MlxMt2vcf5cNg3Av1JMQnwhW/5Wshbf9x7E=' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src https://cloudflareinsights.com; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
 <meta property="og:title" content="Veľkosť detských lyžiarok (Mondopoint) – kalkulačka a tabuľka | GearGrow">
@@ -224,6 +224,30 @@
   footer .src, footer .guides-foot { display: flex; flex-wrap: wrap; gap: 6px 16px; }
   footer .guides-foot a { font-weight: 600; }
 
+  /* guide cards and links */
+  .guide-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  .guide-card { display: grid; gap: 6px; align-content: start; padding: 20px; border-radius: var(--radius); text-decoration: none; color: var(--ink);
+    border: 2px solid transparent; transition: transform .15s ease, border-color .15s ease; }
+  .guide-card:nth-child(1) { background: var(--p-sky); }
+  .guide-card:nth-child(2) { background: var(--p-mint); }
+  .guide-card:nth-child(3) { background: var(--p-peach); }
+  .guide-card:hover { transform: translateY(-2px); border-color: var(--accent); }
+  .guide-card .k { font-family: var(--font-display); font-weight: 800; color: var(--accent); font-size: 1.4rem; }
+  .guide-card strong { font-size: 1.05rem; }
+  .guide-card span { color: var(--ink); opacity: .85; font-size: .94rem; }
+  .guide-card .go { opacity: 1; font-weight: 700; color: var(--accent); margin-top: 4px; }
+  .guide-card.current { border-color: var(--accent); cursor: default; }
+  .guide-card.current:hover { transform: none; }
+  .guide-link { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 12px 14px; border-radius: 12px;
+    background: var(--accent-soft); color: var(--ink); font-weight: 700; text-decoration: none; }
+  .guide-link:hover { filter: brightness(1.03); }
+  .guide-link span { color: var(--accent); white-space: nowrap; }
+  .back { justify-self: start; }
+  .hero-guides { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: .92rem; color: var(--muted); }
+  .hero-guides a { text-decoration: none; font-weight: 700; color: var(--accent); background: var(--accent-soft); border-radius: 999px; padding: 5px 12px; }
+  .hero-guides a:hover { filter: brightness(1.04); }
+  .back-row { margin-top: 26px; }
+
   /* guide pages (lyže, lyžiarky, korčule) */
   .crumbs { font-size: .86rem; color: var(--muted); }
   .crumbs a { color: var(--accent); }
@@ -259,10 +283,12 @@
     .offers { grid-template-columns: minmax(0, 1fr); }
     .pricing { grid-template-columns: minmax(0, 1fr); }
     .guide-grid { grid-template-columns: minmax(0, 1fr); }
+    .guide-cards { grid-template-columns: minmax(0, 1fr); }
   }
   @media (max-width: 520px) {
     header nav { margin-left: 0; width: 100%; justify-content: space-between; }
-    header nav a { padding: 4px 6px; font-size: .86rem; }
+    header nav { flex-wrap: nowrap; gap: 0; }
+    header nav a { padding: 4px 5px; font-size: .82rem; white-space: nowrap; }
     .grid2 { grid-template-columns: minmax(0, 1fr); }
     .panel { padding: 16px; }
     .hero { padding-block: 24px 14px; }
@@ -298,6 +324,7 @@
     </a>
     <nav aria-label="Hlavná navigácia">
       <a href="#kalkulacka">Kalkulačka</a>
+      <a href="#navody">Návody</a>
       <a href="/#ako-to-funguje">Ako to funguje</a>
       <a href="/#pre-obchody" class="cta">Pre obchody</a>
     </nav>
@@ -306,7 +333,7 @@
 
 <main id="top">
   <div class="wrap hero">
-    <nav class="crumbs" aria-label="Kde sa nachádzate"><a href="/">GearGrow</a> › Lyžiarky</nav>
+    <a class="btn back" href="/">← Späť na hlavnú stránku</a>
     <h1>Akú veľkosť lyžiarok pre dieťa?</h1>
     <p class="lead">Zadajte dátum narodenia a dĺžku chodidla. Kalkulačka vypočíta veľkosť lyžiarok v Mondopointe aj v EU číslovaní a započíta, o koľko noha do sezóny narastie.</p>
   </div>
@@ -474,9 +501,30 @@
       </div>
       <p class="table-note">Mondopoint = dĺžka chodidla + 5 mm rezervy, zaokrúhlená nahor na pol veľkosti. EU veľkosť je podľa bežnej prevodovej
         tabuľky lyžiarok; jednotlivé značky sa môžu o pol až jednu veľkosť líšiť, preto rozhoduje Mondopoint.</p>
+      <p class="back-row"><a class="btn back" href="/">← Späť na hlavnú stránku</a></p>
     </div>
   </section>
 
+  <section class="block guides" id="navody">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Návody</span>
+        <h2>Všetky návody</h2>
+        <p>Krátke návody s tabuľkami a radami z praxe. Každý má kalkulačku, v ktorej je daná vec už vybraná.</p>
+      </div>
+      <div class="guide-cards">
+        <a class="guide-card" data-slug="velkost-detskych-lyzi" href="https://geargrow.sk/velkost-detskych-lyzi/">
+          <span class="k">Lyže</span><strong>Aké dlhé lyže pre dieťa?</strong>
+          <span>Pravidlo brada – nos, tabuľka podľa výšky a čo s viazaním.</span><span class="go">Otvoriť návod →</span></a>
+        <a class="guide-card current" data-slug="velkost-detskych-lyziarok" href="#kalkulacka" aria-current="page">
+          <span class="k">Lyžiarky</span><strong>Akú veľkosť lyžiarok?</strong>
+          <span>Mondopoint, prevod na EU a skúška v obchode.</span><span class="go">Práve ste tu</span></a>
+        <a class="guide-card" data-slug="velkost-detskych-korcul" href="https://geargrow.sk/velkost-detskych-korcul/">
+          <span class="k">Korčule</span><strong>Akú veľkosť korčúľ?</strong>
+          <span>Hokejové, ľadové aj kolieskové: koľko rezervy a prečo nie „na rast“.</span><span class="go">Otvoriť návod →</span></a>
+      </div>
+    </div>
+  </section>
   <section class="block" id="ako-to-funguje">
     <div class="wrap">
       <div class="section-head">
@@ -1170,6 +1218,30 @@
   "use strict";
   // Kontakt pre obchody: doplňte e-mail, napr. "info@geargrow.sk". Kým je prázdny, zobrazí sa text bez adresy.
   var CONTACT_EMAIL = "info@geargrow.sk";
+  // Guide page for an item, shown as a link under the result.
+  var GUIDE_FOR = {
+    lyze: ["velkost-detskych-lyzi", "Návod: aké dlhé lyže pre dieťa"],
+    lyziarske_palice: ["velkost-detskych-lyzi", "Návod: lyže a palice pre dieťa"],
+    lyziarky: ["velkost-detskych-lyziarok", "Návod: veľkosť lyžiarok a skúška v obchode"],
+    korcule_ladove: ["velkost-detskych-korcul", "Návod: veľkosť detských korčúľ"],
+    korcule_hokejove: ["velkost-detskych-korcul", "Návod: veľkosť hokejových korčúľ"],
+    korcule_kolieskove: ["velkost-detskych-korcul", "Návod: veľkosť kolieskových korčúľ"]
+  };
+  // Pages opened straight from disk (file://) cannot follow site-absolute links: point them at the local files.
+  var ROOT = document.documentElement.getAttribute("data-root") || "./";
+  function localHref(href) {
+    if (location.protocol !== "file:") return href;
+    var path = href.replace(/^https:\/\/geargrow\.sk\//, "/");
+    if (path.charAt(0) !== "/") return href;
+    var hash = path.indexOf("#") >= 0 ? path.slice(path.indexOf("#")) : "";
+    path = path.replace(/#.*$/, "").slice(1);
+    return ROOT + (path === "" || path.slice(-1) === "/" ? path + "index.html" : path) + hash;
+  }
+  if (location.protocol === "file:") {
+    Array.prototype.forEach.call(document.querySelectorAll('a[href^="/"], a[href^="https://geargrow.sk/"]'), function (a) {
+      a.setAttribute("href", localHref(a.getAttribute("href")));
+    });
+  }
 
   // Anonymná spätná väzba cez Google Formulár. Kým je "action" prázdne, otázka sa nezobrazí.
   // action = adresa formulára končiaca na /formResponse, polia = čísla otázok "entry.123456789".
@@ -1305,6 +1377,10 @@
       }
       if (r.basisText) html += '<p class="basis">' + esc(r.basisText) + "</p>";
       if (r.notes.length) html += '<ul class="notes">' + r.notes.map(function (n) { return "<li>" + esc(n) + "</li>"; }).join("") + "</ul>";
+      var guide = GUIDE_FOR[r.item.id];
+      if (guide && location.pathname.indexOf(guide[0]) < 0) {
+        html += '<a class="guide-link" href="' + localHref("https://geargrow.sk/" + guide[0] + "/") + '">' + esc(guide[1]) + "<span>Otvoriť →</span></a>";
+      }
       html += '<p class="disclaimer">Odporúčanie, nie záruka: každé dieťa rastie inak. Pred kúpou porovnajte veľkosť s tabuľkou výrobcu.</p>';
       result.innerHTML = html;
       var pend = pendingSample();
