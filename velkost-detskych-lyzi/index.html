@@ -2,7 +2,7 @@
 <html lang="sk" data-root="../">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-EU+8q7lVvKCZim0dkfJxUWiNQHbPYi0Ft6d97ltWHxY=' 'sha256-GsfSk39Rh6g5ObmlF6+w+3dDIuPPraCgfTainOMVi0M=' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src https://cloudflareinsights.com; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-2oOIBn2uCmnx+SwVCfh1nJkPva2Z+wIC++cCJczQFEA=' 'sha256-DSZ4MDOu4W3uO4x6yO9MKv02rhfscgZsJwAqlzTFKu4=' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src https://cloudflareinsights.com; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
 <meta property="og:title" content="Aké dlhé lyže pre dieťa? Kalkulačka a tabuľka dĺžky lyží | GearGrow">
@@ -156,6 +156,14 @@
   .alts { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: .9rem; color: var(--muted); }
   .chip { background: var(--accent-soft); color: var(--ink); border-radius: 999px; padding: 3px 10px; font-weight: 700; font-variant-numeric: tabular-nums; }
   .basis { font-size: .95rem; }
+  .m-lead { font-weight: 700; font-size: 1.02rem; margin-bottom: -8px; }
+  .m-range { color: var(--muted); font-size: .92rem; margin-top: -8px; font-variant-numeric: tabular-nums; }
+  .m-instr { display: grid; gap: 4px; background: var(--surface); border: 2px solid var(--accent); border-radius: 12px; padding: 12px 14px; }
+  .m-instr strong { font-size: 1.02rem; }
+  .m-instr span { color: var(--muted); font-size: .9rem; }
+  .m-typical { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: .95rem; }
+  .m-typical small { flex-basis: 100%; color: var(--muted); font-size: .84rem; }
+  .chip.big { font-size: 1.05rem; padding: 4px 12px; }
   .notes { margin: 0; padding-left: 18px; display: grid; gap: 6px; font-size: .9rem; color: var(--muted); }
   .tape { width: 100%; height: auto; display: block; }
   .tape text { font: 600 9px var(--font-body); fill: var(--ink); }
@@ -602,7 +610,7 @@
 (function (global) {
   "use strict";
 
-  var VERSION = "1.0.0";
+  var VERSION = "1.1.0";
   var CATALOG = [{"id": "body_dupacky", "name": "Body, dupačky, overalčeky", "category": "Bábätká a batoľatá", "sizing": "clothing", "season": "any", "params": {}, "fit": "full", "cuff": false}, {"id": "kombineza_babatko", "name": "Zimná kombinéza pre bábätko", "category": "Bábätká a batoľatá", "sizing": "clothing", "season": "winter", "params": {}, "fit": "full", "cuff": false}, {"id": "ciapka_babatko", "name": "Čiapka pre bábätko", "category": "Bábätká a batoľatá", "sizing": "head", "season": "winter", "params": {}, "fit": "top", "cuff": false}, {"id": "prve_topanky", "name": "Prvé topánky (capačky)", "category": "Bábätká a batoľatá", "sizing": "foot", "season": "any", "params": {"unit": "eu", "allowance_mm": 12, "note": "Prvé topánky kupujte, až keď dieťa samo chodí; dovtedy sú najlepšie bosé nohy alebo capačky."}, "fit": "top", "cuff": false}, {"id": "odrazadlo", "name": "Odrážadlo", "category": "Bicykle a kolobežky", "sizing": "height_band", "season": "spring", "params": {"unit": "inch", "bands": [[10, 75, 95], [12, 85, 105], [14, 95, 112]]}, "fit": "top", "cuff": false}, {"id": "bicykel", "name": "Bicykel", "category": "Bicykle a kolobežky", "sizing": "height_band", "season": "spring", "params": {"unit": "inch", "bands": [[12, 85, 98], [14, 95, 106], [16, 100, 116], [20, 114, 132], [24, 128, 148], [26, 142, 165]], "below_note": "Pre takúto výšku je zvyčajne vhodnejšie odrážadlo (10–12\").", "above_note": "Pre takúto výšku sa už hodí dospelý rám XS/S (27,5\" alebo 29\")."}, "fit": "top", "cuff": false}, {"id": "kolobezka", "name": "Kolobežka", "category": "Bicykle a kolobežky", "sizing": "none", "season": "spring", "params": {}, "fit": "top", "cuff": false}, {"id": "prilba_bicykel", "name": "Prilba na bicykel", "category": "Bicykle a kolobežky", "sizing": "head", "season": "spring", "params": {}, "fit": "top", "cuff": false}, {"id": "lyze", "name": "Zjazdové lyže", "category": "Lyžovanie a snowboard", "sizing": "height_length", "season": "winter", "params": {"factor": 1.0, "ideal": -15, "min": -20, "max": -10, "step": 5, "min_len": 70, "max_len": 180, "note": "Lyže: od výšky brady (začiatočníci, ≈ výška − 20 cm) po výšku nosa (zdatní lyžiari, ≈ výška − 10 cm). Hľadám {lo}–{hi} cm."}, "fit": "top", "cuff": false}, {"id": "lyziarky", "name": "Lyžiarky (lyžiarske topánky)", "category": "Lyžovanie a snowboard", "sizing": "foot", "season": "winter", "params": {"unit": "mondo", "allowance_mm": 5}, "fit": "top", "cuff": false}, {"id": "lyziarske_palice", "name": "Lyžiarske palice", "category": "Lyžovanie a snowboard", "sizing": "height_length", "season": "winter", "params": {"factor": 0.68, "ideal": 0, "min": -5, "max": 5, "step": 5, "min_len": 60, "max_len": 135, "note": "Palice: dĺžka ≈ 0,68 × výška dieťaťa (lakeť v pravom uhle). Hľadám {lo}–{hi} cm."}, "fit": "top", "cuff": false}, {"id": "lyziarska_prilba", "name": "Lyžiarska prilba", "category": "Lyžovanie a snowboard", "sizing": "head", "season": "winter", "params": {}, "fit": "top", "cuff": false}, {"id": "lyziarske_okuliare", "name": "Lyžiarske okuliare", "category": "Lyžovanie a snowboard", "sizing": "none", "season": "winter", "params": {}, "fit": "top", "cuff": false}, {"id": "snowboard", "name": "Snowboard", "category": "Lyžovanie a snowboard", "sizing": "height_length", "season": "winter", "params": {"factor": 1.0, "ideal": -18, "min": -25, "max": -12, "step": 5, "min_len": 70, "max_len": 165, "note": "Snowboard pre deti: medzi bradou a nosom (≈ výška − 25 až − 12 cm). Hľadám {lo}–{hi} cm."}, "fit": "top", "cuff": false}, {"id": "snowboard_topanky", "name": "Snowboardové topánky", "category": "Lyžovanie a snowboard", "sizing": "foot", "season": "winter", "params": {"unit": "eu", "allowance_mm": 10}, "fit": "top", "cuff": false}, {"id": "bezky", "name": "Bežky", "category": "Lyžovanie a snowboard", "sizing": "height_length", "season": "winter", "params": {"factor": 1.0, "ideal": 15, "min": 10, "max": 20, "step": 5, "min_len": 90, "max_len": 200, "note": "Bežky (klasika): výška dieťaťa + 10 až 20 cm. Hľadám {lo}–{hi} cm."}, "fit": "top", "cuff": false}, {"id": "bezky_topanky", "name": "Topánky na bežky", "category": "Lyžovanie a snowboard", "sizing": "foot", "season": "winter", "params": {"unit": "eu", "allowance_mm": 10}, "fit": "top", "cuff": false}, {"id": "lyziarska_bunda", "name": "Lyžiarska bunda", "category": "Lyžovanie a snowboard", "sizing": "clothing", "season": "winter", "params": {}, "fit": "top", "cuff": false}, {"id": "lyziarske_nohavice", "name": "Lyžiarske nohavice (oteplováky)", "category": "Lyžovanie a snowboard", "sizing": "clothing", "season": "winter", "params": {}, "fit": "bottom", "cuff": false}, {"id": "kombineza", "name": "Zimná / lyžiarska kombinéza", "category": "Lyžovanie a snowboard", "sizing": "clothing", "season": "winter", "params": {}, "fit": "full", "cuff": false}, {"id": "termopradlo", "name": "Termoprádlo", "category": "Lyžovanie a snowboard", "sizing": "clothing", "season": "winter", "params": {}, "fit": "full", "cuff": false}, {"id": "lyziarske_rukavice", "name": "Lyžiarske rukavice", "category": "Lyžovanie a snowboard", "sizing": "age_band", "season": "winter", "params": {"unit": "number", "bands": [[0, 4, 3], [4, 6, 4], [6, 8, 5], [8, 10, 6], [10, 12, 7], [12, 99, 8]], "note": "Veľkosti rukavíc sa líšia podľa značky; najistejšie je vyskúšať alebo zmerať dlaň."}, "fit": "top", "cuff": false}, {"id": "korcule_ladove", "name": "Ľadové korčule (rekreačné / krasokorčule)", "category": "Korčuľovanie a hokej", "sizing": "foot", "season": "winter", "params": {"unit": "eu", "allowance_mm": 7}, "fit": "top", "cuff": false}, {"id": "korcule_hokejove", "name": "Hokejové korčule", "category": "Korčuľovanie a hokej", "sizing": "foot", "season": "winter", "params": {"unit": "eu", "allowance_mm": 4, "note": "Hokejové korčule sa nosia tesnejšie – bývajú o 1 až 1,5 čísla menšie než bežná obuv."}, "fit": "top", "cuff": false}, {"id": "korcule_kolieskove", "name": "Kolieskové korčule", "category": "Korčuľovanie a hokej", "sizing": "foot", "season": "spring", "params": {"unit": "eu", "allowance_mm": 10, "note": "Nastaviteľné korčule (napr. 29–32) vydržia 2–3 sezóny."}, "fit": "top", "cuff": false}, {"id": "hokejka", "name": "Hokejka", "category": "Korčuľovanie a hokej", "sizing": "height_band", "season": "winter", "params": {"unit": "label", "bands": [["YTH", 0, 130], ["JR", 125, 160], ["INT", 150, 175], ["SR", 170, 230]], "note": "Hokejky sa delia na YTH (najmenšie), JR, INT a SR; dĺžka po bradu dieťaťa v topánkach."}, "fit": "top", "cuff": false}, {"id": "hokejova_prilba", "name": "Hokejová prilba", "category": "Korčuľovanie a hokej", "sizing": "head", "season": "winter", "params": {}, "fit": "top", "cuff": false}, {"id": "hokejova_vystroj", "name": "Hokejová výstroj (chrániče)", "category": "Korčuľovanie a hokej", "sizing": "height_band", "season": "winter", "params": {"unit": "label", "bands": [["YTH", 0, 130], ["JR", 125, 160], ["INT", 150, 175], ["SR", 170, 230]]}, "fit": "top", "cuff": false}, {"id": "chranice", "name": "Chrániče na korčuľovanie (kolená, lakte, zápästia)", "category": "Korčuľovanie a hokej", "sizing": "age_band", "season": "spring", "params": {"unit": "label", "bands": [[0, 5, "XS"], [5, 8, "S"], [8, 12, "M"], [12, 99, "L"]]}, "fit": "top", "cuff": false}, {"id": "kopacky", "name": "Kopačky (lisovky)", "category": "Futbal a loptové hry", "sizing": "foot", "season": "spring", "params": {"unit": "eu", "allowance_mm": 8}, "fit": "top", "cuff": false}, {"id": "halovky", "name": "Halovky / turfy", "category": "Futbal a loptové hry", "sizing": "foot", "season": "autumn", "params": {"unit": "eu", "allowance_mm": 8}, "fit": "top", "cuff": false}, {"id": "chranice_holeni", "name": "Chrániče holení", "category": "Futbal a loptové hry", "sizing": "height_band", "season": "spring", "params": {"unit": "label", "bands": [["XS", 0, 122], ["S", 118, 142], ["M", 138, 162], ["L", 158, 230]]}, "fit": "top", "cuff": false}, {"id": "futbalova_lopta", "name": "Futbalová lopta", "category": "Futbal a loptové hry", "sizing": "age_band", "season": "spring", "params": {"unit": "number", "bands": [[0, 8, 3], [8, 12, 4], [12, 99, 5]], "note": "Futbalové lopty: č. 3 do 8 rokov, č. 4 pre 8–12 rokov, č. 5 od 12 rokov."}, "fit": "top", "cuff": false}, {"id": "basketbalova_lopta", "name": "Basketbalová lopta", "category": "Futbal a loptové hry", "sizing": "age_band", "season": "any", "params": {"unit": "number", "bands": [[0, 12, 5], [12, 14, 6], [14, 99, 7]], "note": "Basketbal: č. 5 do 12 rokov, č. 6 pre 12–14 rokov (dievčatá aj neskôr), č. 7 chlapci od 14."}, "fit": "top", "cuff": false}, {"id": "futbalovy_dres", "name": "Športový / futbalový dres", "category": "Futbal a loptové hry", "sizing": "clothing", "season": "spring", "params": {}, "fit": "top", "cuff": false}, {"id": "tenisova_raketa", "name": "Tenisová raketa", "category": "Tenis", "sizing": "height_band", "season": "spring", "params": {"unit": "inch", "bands": [[19, 0, 105], [21, 100, 118], [23, 113, 132], [25, 128, 148], [26, 140, 160], [27, 155, 230]]}, "fit": "top", "cuff": false}, {"id": "plavky", "name": "Plavky", "category": "Plávanie a voda", "sizing": "clothing", "season": "summer", "params": {}, "fit": "full", "cuff": false}, {"id": "neopren", "name": "Neoprén", "category": "Plávanie a voda", "sizing": "clothing", "season": "summer", "params": {}, "fit": "full", "cuff": false}, {"id": "plavecke_okuliare", "name": "Plavecké okuliare", "category": "Plávanie a voda", "sizing": "none", "season": "summer", "params": {}, "fit": "top", "cuff": false}, {"id": "obuv_do_vody", "name": "Obuv do vody", "category": "Plávanie a voda", "sizing": "foot", "season": "summer", "params": {"unit": "eu", "allowance_mm": 10}, "fit": "top", "cuff": false}, {"id": "turisticka_obuv", "name": "Turistická obuv", "category": "Turistika a outdoor", "sizing": "foot", "season": "spring", "params": {"unit": "eu", "allowance_mm": 12}, "fit": "top", "cuff": false}, {"id": "softshell_bunda", "name": "Softshellová bunda", "category": "Turistika a outdoor", "sizing": "clothing", "season": "spring", "params": {}, "fit": "top", "cuff": false}, {"id": "nepremokava_bunda", "name": "Nepremokavá bunda", "category": "Turistika a outdoor", "sizing": "clothing", "season": "spring", "params": {}, "fit": "top", "cuff": false}, {"id": "softshell_nohavice", "name": "Softshellové nohavice", "category": "Turistika a outdoor", "sizing": "clothing", "season": "spring", "params": {}, "fit": "bottom", "cuff": false}, {"id": "cvicky", "name": "Cvičky / baletky", "category": "Gymnastika, tanec, bojové športy", "sizing": "foot", "season": "autumn", "params": {"unit": "eu", "allowance_mm": 5}, "fit": "top", "cuff": false}, {"id": "kimono", "name": "Kimono (judo, karate)", "category": "Gymnastika, tanec, bojové športy", "sizing": "clothing", "season": "autumn", "params": {"series": [100, 110, 120, 130, 140, 150, 160, 170, 180, 190], "note": "Kimonu sa veľkosť udáva výškou postavy v cm (po 10 cm)."}, "fit": "top", "cuff": false}, {"id": "gymnasticky_dres", "name": "Gymnastický / tanečný dres", "category": "Gymnastika, tanec, bojové športy", "sizing": "clothing", "season": "autumn", "params": {}, "fit": "full", "cuff": false}, {"id": "tenisky", "name": "Tenisky / botasky", "category": "Obuv", "sizing": "foot", "season": "any", "params": {"unit": "eu", "allowance_mm": 12}, "fit": "top", "cuff": false}, {"id": "bezecka_obuv", "name": "Bežecká obuv", "category": "Obuv", "sizing": "foot", "season": "spring", "params": {"unit": "eu", "allowance_mm": 12}, "fit": "top", "cuff": false}, {"id": "zimna_obuv", "name": "Zimné topánky / snehule", "category": "Obuv", "sizing": "foot", "season": "winter", "params": {"unit": "eu", "allowance_mm": 15, "note": "Pri zimnej obuvi rátame s väčšou rezervou (15 mm) na hrubé ponožky."}, "fit": "top", "cuff": false}, {"id": "gumaky", "name": "Gumáky", "category": "Obuv", "sizing": "foot", "season": "autumn", "params": {"unit": "eu", "allowance_mm": 15}, "fit": "top", "cuff": false}, {"id": "sandale", "name": "Sandále", "category": "Obuv", "sizing": "foot", "season": "summer", "params": {"unit": "eu", "allowance_mm": 10}, "fit": "top", "cuff": false}, {"id": "papuce", "name": "Papuče / prezuvky", "category": "Obuv", "sizing": "foot", "season": "autumn", "params": {"unit": "eu", "allowance_mm": 10}, "fit": "top", "cuff": false}, {"id": "zimna_bunda", "name": "Zimná bunda", "category": "Oblečenie", "sizing": "clothing", "season": "winter", "params": {}, "fit": "top", "cuff": false}, {"id": "prechodna_bunda", "name": "Prechodná bunda", "category": "Oblečenie", "sizing": "clothing", "season": "spring", "params": {}, "fit": "top", "cuff": false}, {"id": "mikina", "name": "Mikina", "category": "Oblečenie", "sizing": "clothing", "season": "any", "params": {}, "fit": "top", "cuff": false}, {"id": "teplaky", "name": "Tepláky", "category": "Oblečenie", "sizing": "clothing", "season": "any", "params": {}, "fit": "bottom", "cuff": true}, {"id": "nohavice", "name": "Nohavice / rifle", "category": "Oblečenie", "sizing": "clothing", "season": "any", "params": {}, "fit": "bottom", "cuff": false}, {"id": "tricko", "name": "Tričko", "category": "Oblečenie", "sizing": "clothing", "season": "summer", "params": {}, "fit": "top", "cuff": false}, {"id": "leginy", "name": "Legíny", "category": "Oblečenie", "sizing": "clothing", "season": "any", "params": {}, "fit": "bottom", "cuff": true}, {"id": "pyzamo", "name": "Pyžamo", "category": "Oblečenie", "sizing": "clothing", "season": "any", "params": {}, "fit": "full", "cuff": false}, {"id": "ciapka", "name": "Čiapka", "category": "Oblečenie", "sizing": "head", "season": "winter", "params": {}, "fit": "top", "cuff": false}, {"id": "rukavice", "name": "Zimné rukavice", "category": "Oblečenie", "sizing": "age_band", "season": "winter", "params": {"unit": "number", "bands": [[0, 4, 3], [4, 6, 4], [6, 8, 5], [8, 10, 6], [10, 12, 7], [12, 99, 8]], "note": "Veľkosti rukavíc sa líšia podľa značky; najistejšie je vyskúšať alebo zmerať dlaň."}, "fit": "top", "cuff": false}, {"id": "sanky", "name": "Sánky / boby", "category": "Bez veľkosti", "sizing": "none", "season": "winter", "params": {}, "fit": "top", "cuff": false}];
 
   var Z_DRIFT = 0.35, MEAS_ERR = 1.0, MAX_Z = 3.0, RARE_Z = 4.0, IMPOSSIBLE_Z = 6.0, FOOT_RATIO_MIN = 0.67, FOOT_RATIO_MAX = 1.33;
@@ -1139,6 +1147,51 @@
 
   var BASIS = { clothing: "height", height_band: "height", height_length: "height", foot: "foot", head: "head", age_band: "age", none: "none" };
 
+  // What the parent should look up in a brand's size chart: the forecast measurement itself. Brands number sizes
+  // differently, but a height or an insole length in cm means the same everywhere. `leads` says whether the
+  // measurement (not the size label) should be shown first: clothing, shoes and skates in EU sizes, helmets.
+  var MONTH_LOC = ["v januári", "vo februári", "v marci", "v apríli", "v máji", "v júni", "v júli", "v auguste", "v septembri",
+    "v októbri", "v novembri", "v decembri"];
+  function whenText(target, today) {
+    var t = MONTH_LOC[target.getUTCMonth()] + (target.getUTCFullYear() !== today.getUTCFullYear() ? " " + target.getUTCFullYear() : "");
+    return t.charAt(0).toUpperCase() + t.slice(1);
+  }
+  function r1(x) { return Math.round(x * 10) / 10; }
+  function measureFor(item, rule, f, basis, target, today) {
+    if (!f || (basis !== "height" && basis !== "foot" && basis !== "head")) return null;
+    var when = whenText(target, today), m = { kind: basis, leads: false, innerLength: null, instructionDetail: "", typical: "", duplicateNote: null };
+    if (basis === "height") {
+      m.value = Math.round(f.value); m.low = Math.round(f.low); m.high = Math.round(f.high);
+      m.lead = when + " bude merať približne"; m.valueText = m.value + " cm"; m.range = "rozsah " + m.low + "–" + m.high + " cm";
+      var forHeight = "pre výšku " + (m.high > m.value ? m.value + " až " + m.high : m.value) + " cm.";
+      if (item.sizing === "clothing") {
+        m.leads = true;
+        m.instruction = "V tabuľke veľkostí konkrétnej značky hľadajte veľkosť " + forHeight;
+        m.instructionDetail = "Horná hranica počíta s tým, že dieťa môže vyrásť aj viac.";
+        m.typical = "Bežne je to";
+      } else m.instruction = "Ak výrobca uvádza tabuľku podľa výšky dieťaťa, hľadajte v nej veľkosť " + forHeight;
+    } else if (basis === "foot") {
+      var allow = (item.params.allowance_mm || 12) / 10;
+      m.value = r1(f.value); m.low = r1(f.low); m.high = r1(f.high); m.innerLength = r1(f.value + allow);
+      m.lead = when + " bude mať chodidlo približne"; m.valueText = num(m.value) + " cm"; m.range = "rozsah " + num(m.low) + "–" + num(m.high) + " cm";
+      if ((item.params.unit || "eu") !== "mondo") {
+        m.leads = true;
+        m.instruction = "Hľadajte vnútornú dĺžku (stielku) aspoň " + num(m.innerLength) + " cm.";
+        m.instructionDetail = "Túto dĺžku nájdite v tabuľke veľkostí konkrétnej značky. Rezerva " + num(allow * 10) + " mm na pohodlie je už započítaná.";
+        m.typical = "Bežne je to";
+        m.duplicateNote = rule.notes[0];
+      } else m.instruction = "Mondopoint je dĺžka chodidla v cm, preto sa medzi značkami líši len málo.";
+    } else {
+      m.value = m.low = m.high = roundHalfUp(f.value);
+      m.lead = when + " bude mať obvod hlavy približne"; m.valueText = m.value + " cm"; m.range = "";
+      m.leads = true;
+      m.instruction = "Vyberte prilbu alebo čiapku, ktorej rozsah obsahuje " + m.value + " cm (napr. " + (m.value - 2) + "–" + (m.value + 2) + " cm).";
+      m.instructionDetail = "Označenie S, M, L sa medzi značkami líši, centimetre nie.";
+      m.duplicateNote = rule.notes[0];
+    }
+    return m;
+  }
+
   function findItem(id) { for (var i = 0; i < CATALOG.length; i++) if (CATALOG[i].id === id) return CATALOG[i]; return null; }
 
   /* child: {birth: Date, sex: "male"|"female"|"unspecified", height: cm, foot?: cm, head?: cm, weight?: kg, chest?: cm, waist?: cm,
@@ -1189,7 +1242,8 @@
     return {
       item: item, target: target, targetText: fmtDate(target), basis: basis, basisText: basisText,
       primary: r.candidates[0] || "bez veľkosti", alternatives: r.candidates.slice(1),
-      candidates: r.candidates, forecast: f, notes: (f ? f.notes : []).concat(r.notes)
+      candidates: r.candidates, forecast: f, notes: (f ? f.notes : []).concat(r.notes),
+      measure: measureFor(item, r, f, basis, target, child.today)
     };
   }
 
@@ -1305,7 +1359,9 @@
     for (var v = min; v <= max + 1e-9; v += step) {
       var big = Math.abs(v / label - Math.round(v / label)) < 1e-9;
       s += '<line x1="' + x(v) + '" x2="' + x(v) + '" y1="' + Y + '" y2="' + (Y + (big ? 9 : 5)) + '" stroke="var(--tape-ink)" stroke-width="' + (big ? 1.2 : .7) + '"/>';
-      if (big) s += '<text x="' + x(v) + '" y="' + (Y + 19) + '" text-anchor="middle" style="fill:var(--tape-ink)">' + G.fmtNum(v) + '</text>';
+      // the end labels stay on the tape, where their color reads in both themes
+      var anchor = v - min < 1e-9 ? "start" : max - v < 1e-9 ? "end" : "middle", tx = x(v) + (anchor === "start" ? 2 : anchor === "end" ? -2 : 0);
+      if (big) s += '<text x="' + tx + '" y="' + (Y + 19) + '" text-anchor="' + anchor + '" style="fill:var(--tape-ink)">' + G.fmtNum(v) + '</text>';
     }
     s += '<line x1="' + x(now) + '" x2="' + x(now) + '" y1="' + (Y - 6) + '" y2="' + (Y + H) + '" stroke="var(--muted)" stroke-width="2" stroke-dasharray="3 2"/>';
     s += '<line x1="' + x(f.value) + '" x2="' + x(f.value) + '" y1="' + (Y - 6) + '" y2="' + (Y + H) + '" stroke="var(--accent)" stroke-width="2.6"/>';
@@ -1366,16 +1422,32 @@
       if (targetSel.value === "custom" && !spec) throw new G.SizingError("Vyberte mesiac, do kedy vec potrebujete.", "month");
       var r = G.recommend(child, itemSel.value, spec);
       setInvalid(null);
-      var html = '<div class="label">Odporúčaná veľkosť · ' + esc(r.item.name) + ' · na ' + esc(r.targetText) + "</div>";
-      html += '<div class="size">' + esc(r.primary) + "</div>";
-      if (r.alternatives.length) {
-        html += '<div class="alts">alebo ' + r.alternatives.map(function (a) { return '<span class="chip">' + esc(a) + "</span>"; }).join("") + "</div>";
+      var m = r.measure, html, notes = r.notes;
+      var chips = function (list) { return list.map(function (a) { return '<span class="chip">' + esc(a) + "</span>"; }).join(""); };
+      if (m && m.leads) {
+        // Brands number sizes differently, so the forecast measurement leads and the size label is only a guide.
+        html = '<div class="label">' + esc(r.item.name) + " · na " + esc(r.targetText) + "</div>";
+        html += '<div class="m-lead">' + esc(m.lead) + '</div><div class="size">' + esc(m.valueText) + "</div>";
+        if (m.range) html += '<div class="m-range">' + esc(m.range) + "</div>";
+        html += '<div class="m-instr"><strong>' + esc(m.instruction) + "</strong>" + (m.instructionDetail ? "<span>" + esc(m.instructionDetail) + "</span>" : "") + "</div>";
+        if (m.typical) {
+          html += '<div class="m-typical"><span>' + esc(m.typical) + '</span><span class="chip big">' + esc(r.primary) + "</span>" +
+            (r.alternatives.length ? "<span>niekde aj</span>" + chips(r.alternatives) : "") +
+            '<small>Orientačne, každá značka čísluje trochu inak.</small></div>';
+        }
+        notes = notes.filter(function (n) { return n !== m.duplicateNote; });
+      } else {
+        html = '<div class="label">Odporúčaná veľkosť · ' + esc(r.item.name) + " · na " + esc(r.targetText) + "</div>";
+        html += '<div class="size">' + esc(r.primary) + "</div>";
+        if (r.alternatives.length) html += '<div class="alts">alebo ' + chips(r.alternatives) + "</div>";
+        if (m) html += '<div class="m-instr"><strong>' + esc(m.lead) + " " + esc(m.valueText) + (m.range ? " (" + esc(m.range) + ")" : "") +
+          "</strong><span>" + esc(m.instruction) + "</span></div>";
       }
       if (r.forecast && (r.basis === "height" || r.basis === "foot")) {
         html += tapeSvg(r.basis === "foot" ? child.foot : child.height, r.forecast, r.basis);
       }
-      if (r.basisText) html += '<p class="basis">' + esc(r.basisText) + "</p>";
-      if (r.notes.length) html += '<ul class="notes">' + r.notes.map(function (n) { return "<li>" + esc(n) + "</li>"; }).join("") + "</ul>";
+      if (r.basisText && !m) html += '<p class="basis">' + esc(r.basisText) + "</p>";
+      if (notes.length) html += '<ul class="notes">' + notes.map(function (n) { return "<li>" + esc(n) + "</li>"; }).join("") + "</ul>";
       var guide = GUIDE_FOR[r.item.id];
       if (guide && location.pathname.indexOf(guide[0]) < 0) {
         html += '<a class="guide-link" href="' + localHref("https://geargrow.sk/" + guide[0] + "/") + '">' + esc(guide[1]) + "<span>Otvoriť →</span></a>";
