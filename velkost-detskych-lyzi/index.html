@@ -2,7 +2,7 @@
 <html lang="sk" data-root="../" data-url-sk="/velkost-detskych-lyzi/" data-url-en="/en/kids-ski-length/">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-0aJGrNu/plyuYjozO/K50iKegKW6O7WfP8LQq1YPI30=' 'sha256-+kar/q6XEYxod8e3sKepRLJ3PsSQ/nOx3bOGpQknKFM=' 'sha256-3JCdrSzGg1i38IddeKzxd7RoFszRS39eCkAmUq/86aY=' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src https://cloudflareinsights.com; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-0aJGrNu/plyuYjozO/K50iKegKW6O7WfP8LQq1YPI30=' 'sha256-+kar/q6XEYxod8e3sKepRLJ3PsSQ/nOx3bOGpQknKFM=' 'sha256-jB5yuQ20/zNbXcX4amAD1RjieE0FU8OY708clVszBLo=' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src https://cloudflareinsights.com; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
 <meta property="og:title" content="Aké dlhé lyže pre dieťa? Kalkulačka a tabuľka dĺžky lyží | GearGrow">
@@ -1962,13 +1962,20 @@
   }
 
   // --- opening notice -----------------------------------------------------------
+  // Shown on the first visit and again after a switch of language, not on every page: the browser remembers
+  // the language in which it was last shown (only this, nothing about the child). Without storage it shows each time.
   var dlg = $("intro");
   function closeIntro() { if (dlg.open) dlg.close(); }
   $("intro-ok").addEventListener("click", closeIntro);
-  if (typeof dlg.showModal === "function") {
-    try { dlg.showModal(); $("intro-ok").focus(); } catch (err) { dlg.setAttribute("open", ""); }
-  } else {
-    dlg.setAttribute("open", "");
+  var introSeen = null;
+  try { introSeen = localStorage.getItem("gg-intro"); } catch (e) { /* storage blocked */ }
+  if (introSeen !== LANG) {
+    try { localStorage.setItem("gg-intro", LANG); } catch (e) { /* storage blocked */ }
+    if (typeof dlg.showModal === "function") {
+      try { dlg.showModal(); $("intro-ok").focus(); } catch (err) { dlg.setAttribute("open", ""); }
+    } else {
+      dlg.setAttribute("open", "");
+    }
   }
 })();
 </script>
