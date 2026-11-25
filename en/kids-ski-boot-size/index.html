@@ -2,7 +2,7 @@
 <html lang="en" data-root="../../" data-url-sk="/velkost-detskych-lyziarok/" data-url-en="/en/kids-ski-boot-size/">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-0aJGrNu/plyuYjozO/K50iKegKW6O7WfP8LQq1YPI30=' 'sha256-+kar/q6XEYxod8e3sKepRLJ3PsSQ/nOx3bOGpQknKFM=' 'sha256-n0oWnkm0hh7wtEGow8bqW5kB1obGuf9irRHN87uuDOI=' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src https://cloudflareinsights.com; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-0aJGrNu/plyuYjozO/K50iKegKW6O7WfP8LQq1YPI30=' 'sha256-+kar/q6XEYxod8e3sKepRLJ3PsSQ/nOx3bOGpQknKFM=' 'sha256-qGDyAkds6YlGNg9fANWa0gRzbVPa7pvHLvDRrzpl2mM=' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src https://cloudflareinsights.com; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
 <meta property="og:title" content="Kids&#x27; Ski Boot Size (Mondopoint) – Calculator and Chart | GearGrow">
@@ -21,6 +21,7 @@
 <meta name="theme-color" content="#fffcf7" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#1d1c2a" media="(prefers-color-scheme: dark)">
 <meta property="og:image" content="https://geargrow.sk/icon-512.png">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"GearGrow","item":"https://geargrow.sk/en/"},{"@type":"ListItem","position":2,"name":"Ski boots","item":"https://geargrow.sk/en/kids-ski-boot-size/"}]},{"@type":"FAQPage","inLanguage":"en","mainEntity":[{"@type":"Question","name":"What is Mondopoint for ski boots?","acceptedAnswer":{"@type":"Answer","text":"Mondopoint (MP) is the foot length in centimetres, for example 21.5. It's the most precise way to size ski boots, so most makers use it. The calculator adds a small 5 mm of room to the foot."}},{"@type":"Question","name":"How do I convert Mondopoint to EU sizes?","acceptedAnswer":{"@type":"Answer","text":"For a 20 cm foot it's MP 20.5, roughly EU 32. The table above gives the conversion for other lengths. Conversions differ a little between brands; Mondopoint is more reliable."}},{"@type":"Question","name":"Should I buy ski boots one size bigger?","acceptedAnswer":{"@type":"Answer","text":"We don't recommend it. In a boot that is too big the foot slides, the child controls the skis less well and tires faster. If you want boots for several seasons, choose adjustable ones that extend by 2 to 3 sizes."}},{"@type":"Question","name":"How do I check ski boots in the shop?","acceptedAnswer":{"@type":"Answer","text":"Take out the liner and have your child put their foot in the shell, toes right at the front. Behind the heel there should be a gap about an adult finger wide, 1.5 to 2 cm. Then put the liner back, close the buckles and check that the heel doesn't lift when leaning forward."}}]}]}</script>
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "1cf2a7a0f417466692ab8e644a200949"}'></script><!-- End Cloudflare Web Analytics -->
 <title>Kids&#x27; Ski Boot Size (Mondopoint) – Calculator and Chart | GearGrow</title>
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -261,12 +262,13 @@
   footer .guides-foot a { font-weight: 600; }
 
   /* guide cards and links */
-  .guide-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  .guide-cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
   .guide-card { display: grid; gap: 6px; align-content: start; padding: 20px; border-radius: var(--radius); text-decoration: none; color: var(--ink);
     border: 2px solid transparent; transition: transform .15s ease, border-color .15s ease; }
-  .guide-card:nth-child(1) { background: var(--p-sky); }
-  .guide-card:nth-child(2) { background: var(--p-mint); }
-  .guide-card:nth-child(3) { background: var(--p-peach); }
+  .guide-card:nth-child(4n+1) { background: var(--p-sky); }
+  .guide-card:nth-child(4n+2) { background: var(--p-mint); }
+  .guide-card:nth-child(4n+3) { background: var(--p-peach); }
+  .guide-card:nth-child(4n+4) { background: var(--p-lilac); }
   .guide-card:hover { transform: translateY(-2px); border-color: var(--accent); }
   .guide-card .k { font-family: var(--font-display); font-weight: 800; color: var(--accent); font-size: 1.4rem; }
   .guide-card strong { font-size: 1.05rem; }
@@ -300,6 +302,14 @@
   table.size-table thead th { background: var(--p-butter); color: var(--ink); font-weight: 700; }
   table.size-table tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--accent-soft) 45%, transparent); }
   .table-note { font-size: .88rem; color: var(--muted); margin-top: 8px; max-width: 80ch; }
+  .faq-list { margin-top: 28px; display: grid; gap: 10px; max-width: 80ch; }
+  .faq-list h3 { margin: 0 0 4px; }
+  details.faq { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; }
+  details.faq summary { cursor: pointer; font-weight: 700; padding: 12px 16px; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
+  details.faq summary::-webkit-details-marker { display: none; }
+  details.faq summary::after { content: "+"; color: var(--accent); font-weight: 800; flex: none; }
+  details.faq[open] summary::after { content: "−"; }
+  details.faq p { margin: 0; padding: 0 16px 14px; color: var(--muted); }
 
   /* intro dialog */
   dialog#intro { border: 0; border-radius: 18px; padding: 0; width: min(560px, calc(100vw - 32px)); max-height: calc(100dvh - 32px); background: var(--surface); color: var(--ink);
@@ -319,9 +329,11 @@
     .offers { grid-template-columns: minmax(0, 1fr); }
     .pricing { grid-template-columns: minmax(0, 1fr); }
     .guide-grid { grid-template-columns: minmax(0, 1fr); }
-    .guide-cards { grid-template-columns: minmax(0, 1fr); }
+    .guide-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
   @media (max-width: 520px) {
+    table.size-table { font-size: .86rem; }
+    table.size-table th, table.size-table td { padding: 7px 6px; }
     header nav { margin-left: 0; width: 100%; justify-content: space-between; order: 3; }
     header .lang { order: 2; margin-left: auto; }
     header nav { flex-wrap: nowrap; gap: 0; }
@@ -538,6 +550,17 @@
       </div>
       <p class="table-note">Mondopoint = foot length + 5 mm of room, rounded up to a half size. The EU size follows the common ski boot conversion chart;
         brands can differ by half a size to a size, so Mondopoint is what counts.</p>
+      <div class="faq-list">
+        <h3>Frequently asked questions</h3>
+        <details class="faq"><summary>What is Mondopoint for ski boots?</summary>
+          <p>Mondopoint (MP) is the foot length in centimetres, for example 21.5. It's the most precise way to size ski boots, so most makers use it. The calculator adds a small 5 mm of room to the foot.</p></details>
+        <details class="faq"><summary>How do I convert Mondopoint to EU sizes?</summary>
+          <p>For a 20 cm foot it's MP 20.5, roughly EU 32. The table above gives the conversion for other lengths. Conversions differ a little between brands; Mondopoint is more reliable.</p></details>
+        <details class="faq"><summary>Should I buy ski boots one size bigger?</summary>
+          <p>We don't recommend it. In a boot that is too big the foot slides, the child controls the skis less well and tires faster. If you want boots for several seasons, choose adjustable ones that extend by 2 to 3 sizes.</p></details>
+        <details class="faq"><summary>How do I check ski boots in the shop?</summary>
+          <p>Take out the liner and have your child put their foot in the shell, toes right at the front. Behind the heel there should be a gap about an adult finger wide, 1.5 to 2 cm. Then put the liner back, close the buckles and check that the heel doesn't lift when leaning forward.</p></details>
+      </div>
       <p class="back-row"><a class="btn back" href="/en/">← Back to the home page</a></p>
     </div>
   </section>
@@ -559,6 +582,21 @@
         <a class="guide-card" data-slug="en/kids-skate-size" href="https://geargrow.sk/en/kids-skate-size/">
           <span class="k">Skates</span><strong>What size skates?</strong>
           <span>Hockey, ice and inline: how much room and why not to buy "to grow into".</span><span class="go">Open guide →</span></a>
+        <a class="guide-card" data-slug="en/kids-cross-country-ski-length" href="https://geargrow.sk/en/kids-cross-country-ski-length/">
+          <span class="k">Cross-country</span><strong>How long should cross-country skis be?</strong>
+          <span>Length by height, poles, boots and bindings.</span><span class="go">Open guide →</span></a>
+        <a class="guide-card" data-slug="en/kids-bike-size" href="https://geargrow.sk/en/kids-bike-size/">
+          <span class="k">Bikes</span><strong>What size bike?</strong>
+          <span>Wheel size by height, balance bikes and why not to buy "to grow into".</span><span class="go">Open guide →</span></a>
+        <a class="guide-card" data-slug="en/kids-helmet-size" href="https://geargrow.sk/en/kids-helmet-size/">
+          <span class="k">Helmets</span><strong>What size helmet?</strong>
+          <span>Head circumference, choosing the range and how a helmet should fit.</span><span class="go">Open guide →</span></a>
+        <a class="guide-card" data-slug="en/kids-shoe-size" href="https://geargrow.sk/en/kids-shoe-size/">
+          <span class="k">Shoes</span><strong>What size shoes?</strong>
+          <span>How to measure the foot, how much room and an EU size chart.</span><span class="go">Open guide →</span></a>
+        <a class="guide-card" data-slug="en/kids-clothing-size" href="https://geargrow.sk/en/kids-clothing-size/">
+          <span class="k">Clothing</span><strong>What clothing size?</strong>
+          <span>A chart of sizes 50 to 176 by height and age.</span><span class="go">Open guide →</span></a>
       </div>
     </div>
   </section>
@@ -610,7 +648,12 @@
       <p class="guides-foot"><span>Guides:</span>
         <a href="https://geargrow.sk/en/kids-ski-length/">How long should kids' skis be</a>
         <a href="https://geargrow.sk/en/kids-ski-boot-size/">Kids' ski boot sizes</a>
-        <a href="https://geargrow.sk/en/kids-skate-size/">Kids' skate sizes</a></p>
+        <a href="https://geargrow.sk/en/kids-skate-size/">Kids' skate sizes</a>
+        <a href="https://geargrow.sk/en/kids-cross-country-ski-length/">How long should kids' cross-country skis be</a>
+        <a href="https://geargrow.sk/en/kids-bike-size/">Kids' bike sizes</a>
+        <a href="https://geargrow.sk/en/kids-helmet-size/">Kids' helmet sizes</a>
+        <a href="https://geargrow.sk/en/kids-shoe-size/">Kids' shoe sizes</a>
+        <a href="https://geargrow.sk/en/kids-clothing-size/">Kids' clothing sizes</a></p>
       <p id="privacy-foot">Your child's data is not stored or sent anywhere; all calculations run on your device. We count visits anonymously and without cookies (Cloudflare Web Analytics).</p>
       <div class="src">
         <span>Sources:</span>
@@ -1582,6 +1625,29 @@
     korcule_hokejove: ["en/kids-skate-size", "Guide: hockey skate sizes"],
     korcule_kolieskove: ["en/kids-skate-size", "Guide: inline skate sizes"]
   };
+  var GUIDE_LABEL = {
+    "en/kids-bike-size": "Guide: kids' bike sizes",
+    "en/kids-shoe-size": "Guide: kids' shoe sizes and how to measure the foot",
+    "en/kids-helmet-size": "Guide: kids' helmet sizes",
+    "en/kids-cross-country-ski-length": "Guide: kids' cross-country ski length",
+    "en/kids-clothing-size": "Guide: kids' clothing size chart"
+  };
+  var GUIDE_BY_ITEM = {
+    bicykel: "en/kids-bike-size", odrazadlo: "en/kids-bike-size",
+    prve_topanky: "en/kids-shoe-size", tenisky: "en/kids-shoe-size", bezecka_obuv: "en/kids-shoe-size",
+    zimna_obuv: "en/kids-shoe-size", gumaky: "en/kids-shoe-size", sandale: "en/kids-shoe-size",
+    papuce: "en/kids-shoe-size", turisticka_obuv: "en/kids-shoe-size", kopacky: "en/kids-shoe-size",
+    halovky: "en/kids-shoe-size", obuv_do_vody: "en/kids-shoe-size", cvicky: "en/kids-shoe-size",
+    prilba_bicykel: "en/kids-helmet-size", lyziarska_prilba: "en/kids-helmet-size", hokejova_prilba: "en/kids-helmet-size",
+    bezky: "en/kids-cross-country-ski-length", bezky_topanky: "en/kids-cross-country-ski-length",
+    body_dupacky: "en/kids-clothing-size", kombineza_babatko: "en/kids-clothing-size", lyziarska_bunda: "en/kids-clothing-size",
+    lyziarske_nohavice: "en/kids-clothing-size", kombineza: "en/kids-clothing-size", termopradlo: "en/kids-clothing-size",
+    softshell_bunda: "en/kids-clothing-size", nepremokava_bunda: "en/kids-clothing-size", softshell_nohavice: "en/kids-clothing-size",
+    zimna_bunda: "en/kids-clothing-size", prechodna_bunda: "en/kids-clothing-size", mikina: "en/kids-clothing-size",
+    teplaky: "en/kids-clothing-size", nohavice: "en/kids-clothing-size", tricko: "en/kids-clothing-size",
+    leginy: "en/kids-clothing-size", pyzamo: "en/kids-clothing-size"
+  };
+  Object.keys(GUIDE_BY_ITEM).forEach(function (id) { GUIDE_FOR[id] = [GUIDE_BY_ITEM[id], GUIDE_LABEL[GUIDE_BY_ITEM[id]]]; });
   // Pages opened straight from disk (file://) cannot follow site-absolute links: point them at the local files.
   var ROOT = document.documentElement.getAttribute("data-root") || "./";
   function localHref(href) {

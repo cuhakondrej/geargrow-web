@@ -2,7 +2,7 @@
 <html lang="sk" data-root="./" data-url-sk="/" data-url-en="/en/">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-0aJGrNu/plyuYjozO/K50iKegKW6O7WfP8LQq1YPI30=' 'sha256-+kar/q6XEYxod8e3sKepRLJ3PsSQ/nOx3bOGpQknKFM=' 'sha256-doPSVlDeHJDRLFDQE3Z9YUosz7XcYrlcYTV4GDhesDw=' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src https://cloudflareinsights.com; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-0aJGrNu/plyuYjozO/K50iKegKW6O7WfP8LQq1YPI30=' 'sha256-+kar/q6XEYxod8e3sKepRLJ3PsSQ/nOx3bOGpQknKFM=' 'sha256-zId+nGN4RVyN8atkOZsoj3U/DwOOE+T9tBlMfbVhCE4=' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src https://cloudflareinsights.com; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
 <meta property="og:title" content="Kalkulačka veľkosti pre deti – oblečenie, obuv, bicykel, lyže | GearGrow">
@@ -21,6 +21,7 @@
 <meta name="theme-color" content="#fffcf7" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#1d1c2a" media="(prefers-color-scheme: dark)">
 <meta property="og:image" content="https://geargrow.sk/icon-512.png">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","name":"GearGrow","url":"https://geargrow.sk/","inLanguage":"sk"},{"@type":"WebApplication","name":"GearGrow","url":"https://geargrow.sk/","description":"GearGrow vypočíta, akú veľkosť oblečenia, obuvi a športovej výbavy bude vaše dieťa potrebovať v nadchádzajúcej sezóne.","inLanguage":"sk","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"}}]}</script>
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "1cf2a7a0f417466692ab8e644a200949"}'></script><!-- End Cloudflare Web Analytics -->
 <title>Kalkulačka veľkosti pre deti – oblečenie, obuv, bicykel, lyže | GearGrow</title>
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -261,12 +262,13 @@
   footer .guides-foot a { font-weight: 600; }
 
   /* guide cards and links */
-  .guide-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  .guide-cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
   .guide-card { display: grid; gap: 6px; align-content: start; padding: 20px; border-radius: var(--radius); text-decoration: none; color: var(--ink);
     border: 2px solid transparent; transition: transform .15s ease, border-color .15s ease; }
-  .guide-card:nth-child(1) { background: var(--p-sky); }
-  .guide-card:nth-child(2) { background: var(--p-mint); }
-  .guide-card:nth-child(3) { background: var(--p-peach); }
+  .guide-card:nth-child(4n+1) { background: var(--p-sky); }
+  .guide-card:nth-child(4n+2) { background: var(--p-mint); }
+  .guide-card:nth-child(4n+3) { background: var(--p-peach); }
+  .guide-card:nth-child(4n+4) { background: var(--p-lilac); }
   .guide-card:hover { transform: translateY(-2px); border-color: var(--accent); }
   .guide-card .k { font-family: var(--font-display); font-weight: 800; color: var(--accent); font-size: 1.4rem; }
   .guide-card strong { font-size: 1.05rem; }
@@ -300,6 +302,14 @@
   table.size-table thead th { background: var(--p-butter); color: var(--ink); font-weight: 700; }
   table.size-table tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--accent-soft) 45%, transparent); }
   .table-note { font-size: .88rem; color: var(--muted); margin-top: 8px; max-width: 80ch; }
+  .faq-list { margin-top: 28px; display: grid; gap: 10px; max-width: 80ch; }
+  .faq-list h3 { margin: 0 0 4px; }
+  details.faq { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; }
+  details.faq summary { cursor: pointer; font-weight: 700; padding: 12px 16px; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
+  details.faq summary::-webkit-details-marker { display: none; }
+  details.faq summary::after { content: "+"; color: var(--accent); font-weight: 800; flex: none; }
+  details.faq[open] summary::after { content: "−"; }
+  details.faq p { margin: 0; padding: 0 16px 14px; color: var(--muted); }
 
   /* intro dialog */
   dialog#intro { border: 0; border-radius: 18px; padding: 0; width: min(560px, calc(100vw - 32px)); max-height: calc(100dvh - 32px); background: var(--surface); color: var(--ink);
@@ -319,9 +329,11 @@
     .offers { grid-template-columns: minmax(0, 1fr); }
     .pricing { grid-template-columns: minmax(0, 1fr); }
     .guide-grid { grid-template-columns: minmax(0, 1fr); }
-    .guide-cards { grid-template-columns: minmax(0, 1fr); }
+    .guide-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
   @media (max-width: 520px) {
+    table.size-table { font-size: .86rem; }
+    table.size-table th, table.size-table td { padding: 7px 6px; }
     header nav { margin-left: 0; width: 100%; justify-content: space-between; order: 3; }
     header .lang { order: 2; margin-left: auto; }
     header nav { flex-wrap: nowrap; gap: 0; }
@@ -379,7 +391,12 @@
     <p class="hero-guides"><span>Návody:</span>
       <a href="https://geargrow.sk/velkost-detskych-lyzi/">Lyže</a>
       <a href="https://geargrow.sk/velkost-detskych-lyziarok/">Lyžiarky</a>
-      <a href="https://geargrow.sk/velkost-detskych-korcul/">Korčule</a></p>
+      <a href="https://geargrow.sk/velkost-detskych-korcul/">Korčule</a>
+      <a href="https://geargrow.sk/dlzka-detskych-beziek/">Bežky</a>
+      <a href="https://geargrow.sk/velkost-detskeho-bicykla/">Bicykel</a>
+      <a href="https://geargrow.sk/velkost-detskej-prilby/">Prilba</a>
+      <a href="https://geargrow.sk/velkost-detskej-obuvi/">Obuv</a>
+      <a href="https://geargrow.sk/velkost-detskeho-oblecenia/">Oblečenie</a></p>
   </div>
   <!--/HERO-->
 
@@ -523,6 +540,21 @@
         <a class="guide-card" data-slug="velkost-detskych-korcul" href="https://geargrow.sk/velkost-detskych-korcul/">
           <span class="k">Korčule</span><strong>Akú veľkosť korčúľ?</strong>
           <span>Hokejové, ľadové aj kolieskové: koľko rezervy a prečo nie „na rast“.</span><span class="go">Otvoriť návod →</span></a>
+        <a class="guide-card" data-slug="dlzka-detskych-beziek" href="https://geargrow.sk/dlzka-detskych-beziek/">
+          <span class="k">Bežky</span><strong>Aké dlhé bežky?</strong>
+          <span>Dĺžka podľa výšky, palice, topánky a viazanie.</span><span class="go">Otvoriť návod →</span></a>
+        <a class="guide-card" data-slug="velkost-detskeho-bicykla" href="https://geargrow.sk/velkost-detskeho-bicykla/">
+          <span class="k">Bicykel</span><strong>Aký veľký bicykel?</strong>
+          <span>Veľkosť kolies podľa výšky, odrážadlo a prečo nie „na rast“.</span><span class="go">Otvoriť návod →</span></a>
+        <a class="guide-card" data-slug="velkost-detskej-prilby" href="https://geargrow.sk/velkost-detskej-prilby/">
+          <span class="k">Prilba</span><strong>Akú veľkosť prilby?</strong>
+          <span>Obvod hlavy, výber rozsahu a ako má prilba sedieť.</span><span class="go">Otvoriť návod →</span></a>
+        <a class="guide-card" data-slug="velkost-detskej-obuvi" href="https://geargrow.sk/velkost-detskej-obuvi/">
+          <span class="k">Obuv</span><strong>Akú veľkosť topánok?</strong>
+          <span>Ako zmerať nohu, koľko rezervy a tabuľka veľkostí EU.</span><span class="go">Otvoriť návod →</span></a>
+        <a class="guide-card" data-slug="velkost-detskeho-oblecenia" href="https://geargrow.sk/velkost-detskeho-oblecenia/">
+          <span class="k">Oblečenie</span><strong>Akú veľkosť oblečenia?</strong>
+          <span>Tabuľka veľkostí 50 až 176 podľa výšky a veku.</span><span class="go">Otvoriť návod →</span></a>
       </div>
     </div>
   </section>
@@ -624,7 +656,12 @@
       <p class="guides-foot"><span>Návody:</span>
         <a href="https://geargrow.sk/velkost-detskych-lyzi/">Aké dlhé lyže pre dieťa</a>
         <a href="https://geargrow.sk/velkost-detskych-lyziarok/">Veľkosť detských lyžiarok</a>
-        <a href="https://geargrow.sk/velkost-detskych-korcul/">Veľkosť detských korčúľ</a></p>
+        <a href="https://geargrow.sk/velkost-detskych-korcul/">Veľkosť detských korčúľ</a>
+        <a href="https://geargrow.sk/dlzka-detskych-beziek/">Aké dlhé bežky pre dieťa</a>
+        <a href="https://geargrow.sk/velkost-detskeho-bicykla/">Veľkosť detského bicykla</a>
+        <a href="https://geargrow.sk/velkost-detskej-prilby/">Veľkosť detskej prilby</a>
+        <a href="https://geargrow.sk/velkost-detskej-obuvi/">Veľkosť detskej obuvi</a>
+        <a href="https://geargrow.sk/velkost-detskeho-oblecenia/">Veľkosti detského oblečenia</a></p>
       <p id="privacy-foot">Údaje o dieťati sa neukladajú ani neodosielajú, všetky výpočty prebiehajú vo vašom zariadení. Návštevnosť stránky meriame anonymne a bez cookies (Cloudflare Web Analytics).</p>
       <div class="src">
         <span>Zdroje:</span>
@@ -1596,6 +1633,29 @@
     korcule_hokejove: ["velkost-detskych-korcul", "Návod: veľkosť hokejových korčúľ"],
     korcule_kolieskove: ["velkost-detskych-korcul", "Návod: veľkosť kolieskových korčúľ"]
   };
+  var GUIDE_LABEL = {
+    "velkost-detskeho-bicykla": "Návod: veľkosť detského bicykla",
+    "velkost-detskej-obuvi": "Návod: veľkosť detskej obuvi a ako zmerať nohu",
+    "velkost-detskej-prilby": "Návod: veľkosť detskej prilby",
+    "dlzka-detskych-beziek": "Návod: dĺžka detských bežiek",
+    "velkost-detskeho-oblecenia": "Návod: tabuľka veľkostí detského oblečenia"
+  };
+  var GUIDE_BY_ITEM = {
+    bicykel: "velkost-detskeho-bicykla", odrazadlo: "velkost-detskeho-bicykla",
+    prve_topanky: "velkost-detskej-obuvi", tenisky: "velkost-detskej-obuvi", bezecka_obuv: "velkost-detskej-obuvi",
+    zimna_obuv: "velkost-detskej-obuvi", gumaky: "velkost-detskej-obuvi", sandale: "velkost-detskej-obuvi",
+    papuce: "velkost-detskej-obuvi", turisticka_obuv: "velkost-detskej-obuvi", kopacky: "velkost-detskej-obuvi",
+    halovky: "velkost-detskej-obuvi", obuv_do_vody: "velkost-detskej-obuvi", cvicky: "velkost-detskej-obuvi",
+    prilba_bicykel: "velkost-detskej-prilby", lyziarska_prilba: "velkost-detskej-prilby", hokejova_prilba: "velkost-detskej-prilby",
+    bezky: "dlzka-detskych-beziek", bezky_topanky: "dlzka-detskych-beziek",
+    body_dupacky: "velkost-detskeho-oblecenia", kombineza_babatko: "velkost-detskeho-oblecenia", lyziarska_bunda: "velkost-detskeho-oblecenia",
+    lyziarske_nohavice: "velkost-detskeho-oblecenia", kombineza: "velkost-detskeho-oblecenia", termopradlo: "velkost-detskeho-oblecenia",
+    softshell_bunda: "velkost-detskeho-oblecenia", nepremokava_bunda: "velkost-detskeho-oblecenia", softshell_nohavice: "velkost-detskeho-oblecenia",
+    zimna_bunda: "velkost-detskeho-oblecenia", prechodna_bunda: "velkost-detskeho-oblecenia", mikina: "velkost-detskeho-oblecenia",
+    teplaky: "velkost-detskeho-oblecenia", nohavice: "velkost-detskeho-oblecenia", tricko: "velkost-detskeho-oblecenia",
+    leginy: "velkost-detskeho-oblecenia", pyzamo: "velkost-detskeho-oblecenia"
+  };
+  Object.keys(GUIDE_BY_ITEM).forEach(function (id) { GUIDE_FOR[id] = [GUIDE_BY_ITEM[id], GUIDE_LABEL[GUIDE_BY_ITEM[id]]]; });
   // Pages opened straight from disk (file://) cannot follow site-absolute links: point them at the local files.
   var ROOT = document.documentElement.getAttribute("data-root") || "./";
   function localHref(href) {
