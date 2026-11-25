@@ -2,7 +2,7 @@
 <html lang="sk" data-root="./" data-url-sk="/" data-url-en="/en/">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-0aJGrNu/plyuYjozO/K50iKegKW6O7WfP8LQq1YPI30=' 'sha256-+kar/q6XEYxod8e3sKepRLJ3PsSQ/nOx3bOGpQknKFM=' 'sha256-zQgsoPG3Pixzzmb6JGYowbhSURgKlKXOLdoCt6dtHsY=' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src https://cloudflareinsights.com; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-0aJGrNu/plyuYjozO/K50iKegKW6O7WfP8LQq1YPI30=' 'sha256-+kar/q6XEYxod8e3sKepRLJ3PsSQ/nOx3bOGpQknKFM=' 'sha256-doPSVlDeHJDRLFDQE3Z9YUosz7XcYrlcYTV4GDhesDw=' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src https://cloudflareinsights.com; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
 <meta property="og:title" content="Kalkulačka veľkosti pre deti – oblečenie, obuv, bicykel, lyže | GearGrow">
@@ -133,7 +133,7 @@
   /* calculator */
   .calc { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 22px; align-items: start; padding-bottom: 46px; }
   .panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; min-width: 0; box-shadow: 0 8px 24px rgb(var(--shade) / .06); }
-  .sample { display: flex; gap: 10px; align-items: center; background: var(--warn-soft); color: var(--warn); border-radius: 10px; padding: 9px 12px; font-size: .9rem; margin-bottom: 14px; }
+  .sample { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; background: var(--warn-soft); color: var(--warn); border-radius: 10px; padding: 9px 12px; font-size: .9rem; margin-bottom: 14px; }
   fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
   fieldset + fieldset { margin-top: 22px; padding-top: 18px; border-top: 1px dashed var(--line); }
   legend { font-family: var(--font-display); font-weight: 800; font-size: 1.05rem; padding: 0; margin-bottom: 10px; display: flex; gap: 8px; align-items: baseline; }
@@ -187,6 +187,8 @@
   .tape text { font: 600 9px var(--font-body); fill: var(--ink); }
   .tape .t-muted { fill: var(--muted); }
   .result-warn { background: var(--warn-soft); color: var(--warn); border-radius: 12px; padding: 10px 12px; font-weight: 600; font-size: .92rem; margin: 0 0 10px; }
+  .btn.sample-ok { flex: none; padding: 5px 12px; font-size: .85rem; min-height: 0; color: var(--warn); border-color: currentColor; }
+  .result-warn .btn.sample-ok { display: inline-block; margin-top: 8px; }
   .fb { border-top: 1px solid var(--line); padding: 14px 0 4px; display: grid; gap: 10px; }
   .fb-q { font-size: .95rem; }
   .fb-btns { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -1774,6 +1776,8 @@
         warn.textContent = "Pozor: " + pend.map(function (k) { return NAMES[k]; }).join(", ") +
           (pend.length > 1 ? " sú stále ukážkové" : (pend[0] === "birth" ? " je stále ukážkový" : " je stále ukážková")) +
           ", výsledok preto nepatrí vášmu dieťaťu.";
+        warn.appendChild(document.createElement("br"));
+        warn.appendChild(confirmSampleButton());
         result.insertBefore(warn, result.firstChild);
       }
       renderFeedback(child, itemSel.value, r);
@@ -1811,6 +1815,20 @@
     var list = pending.map(function (k) { return NAMES[k]; }).join(", ");
     sample.textContent = "Stále sú tu ukážkové údaje: " + list + ". Prepíšte ich údajmi vášho dieťaťa" +
       (pending.indexOf("birth") >= 0 ? " a skontrolujte aj pohlavie." : ".");
+    sample.appendChild(confirmSampleButton());
+  }
+  // A child may really be born on the sample date or be exactly 118 cm tall: let the parent confirm the values.
+  function confirmSampleButton() {
+    var b = document.createElement("button");
+    b.type = "button";
+    b.className = "btn ghost sample-ok";
+    b.textContent = "Áno, údaje sú správne";
+    b.addEventListener("click", function () {
+      pendingSample().forEach(function (k) { edited[k] = true; });
+      updateSample();
+      render();
+    });
+    return b;
   }
   // --- anonymous feedback: does today's computed size match what the child wears? ----------------
   var answered = {};
