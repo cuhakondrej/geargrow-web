@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Ukážka widgetu pre e-shopy | GearGrow</title>
+<meta name="description" content="Vyskúšajte si veľkostného poradcu GearGrow na vzorovej stránke produktu: veľkosť na sezónu podľa rastu dieťaťa a výber variantu jedným klikom.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-48.png" sizes="48x48" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<style>
+  :root {
+    --bg: #fffcf7; --surface: #ffffff; --ink: #2d2b3d; --muted: #666377; --line: #ebe5dc;
+    --accent: #2b7a63; --accent-soft: #dcf2e8; --btn: #a8e0c9; --btn-ink: #173d31;
+    --tape: #ffd97a; --tape-ink: #5a4410; --p-sky: #dcecfb; --p-peach: #ffe6d6; --p-lilac: #ece7fb;
+    --font-display: ui-rounded, "SF Pro Rounded", "Segoe UI Variable Display", "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
+    color-scheme: light;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; color: var(--ink); background: var(--bg); line-height: 1.5; }
+  h1, h2, h3 { font-family: var(--font-display); line-height: 1.15; margin: 0; letter-spacing: -0.01em; text-wrap: balance; }
+  a { color: var(--accent); }
+  .wrap { max-width: 1060px; margin: 0 auto; padding: 0 16px; }
+  .top { background: var(--surface); border-bottom: 1px solid var(--line); }
+  .top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 60px; flex-wrap: wrap; }
+  .brand { display: inline-flex; align-items: center; gap: 9px; text-decoration: none; color: var(--ink); font-family: var(--font-display); font-weight: 800; font-size: 1.15rem; }
+  .brand small { font-family: system-ui, sans-serif; font-weight: 500; color: var(--muted); font-size: .85rem; }
+  .back { font-weight: 600; text-decoration: none; font-size: .95rem; }
+  .intro { padding: 30px 0 14px; }
+  .eyebrow { display: inline-block; background: var(--tape); color: var(--tape-ink); font-weight: 700; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; padding: 3px 10px; border-radius: 999px; }
+  .intro h1 { font-size: clamp(1.6rem, 4vw, 2.3rem); margin: 10px 0 8px; max-width: 24ch; }
+  .intro p { color: var(--muted); margin: 0; max-width: 64ch; font-size: 1.05rem; }
+  .picker { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 6px; align-items: center; }
+  .chip { font: inherit; font-weight: 600; font-size: .92rem; border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 999px; padding: 7px 14px; cursor: pointer; }
+  .chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .picker select, .settings select { font: inherit; font-size: .9rem; padding: 6px 8px; border-radius: 10px; border: 1px solid #d8d2c8; background: var(--surface); color: var(--ink); max-width: 100%; }
+  .other { color: var(--muted); font-size: .9rem; display: inline-flex; gap: 6px; align-items: center; max-width: 100%; }
+  .other select { width: 210px; max-width: calc(100vw - 90px); }
+  .settings { margin: 4px 0 0; }
+  .settings summary { cursor: pointer; color: var(--muted); font-size: .9rem; font-weight: 600; }
+  .settings .row { display: flex; flex-wrap: wrap; gap: 10px 18px; padding: 10px 0 0; }
+  .settings label { font-size: .88rem; color: var(--muted); display: flex; gap: 6px; align-items: center; }
+  .shop { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; margin: 16px 0 10px; padding: 22px; display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.2fr); gap: 28px; }
+  .shop-label { grid-column: 1 / -1; margin: -6px 0 -10px; font-size: .78rem; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; font-weight: 700; }
+  .photo { aspect-ratio: 1; border-radius: 16px; background: linear-gradient(140deg, var(--p-sky), var(--accent-soft)); display: flex; align-items: center; justify-content: center; font-size: clamp(70px, 14vw, 120px); }
+  .cat { color: var(--muted); font-size: .85rem; margin: 0; }
+  .shop h2 { margin: .15rem 0 .35rem; font-size: 1.6rem; }
+  .price { font-size: 1.25rem; font-weight: 700; margin: 0 0 1rem; }
+  fieldset { border: 0; padding: 0; margin: 0 0 1rem; min-width: 0; }
+  legend { font-weight: 700; margin-bottom: .4rem; padding: 0; }
+  .sizes { display: flex; flex-wrap: wrap; gap: 6px; }
+  .sizes label { position: relative; }
+  .sizes input { position: absolute; opacity: 0; pointer-events: none; }
+  .sizes span { display: inline-block; min-width: 46px; text-align: center; padding: 7px 10px; border: 1px solid #d8d2c8; border-radius: 8px; background: #fff; cursor: pointer; font-size: .9rem; }
+  .sizes input:checked + span { border-color: var(--ink); background: var(--ink); color: #fff; }
+  .sizes input:focus-visible + span { outline: 3px solid var(--btn); outline-offset: 2px; }
+  .buy { background: var(--ink); color: #fff; border: 0; border-radius: 10px; padding: 12px 22px; font: inherit; font-weight: 700; margin-top: 4px; }
+  .chart { font-size: .78rem; background: #fffdf8; border: 1px dashed #d8d2c8; border-radius: 8px; padding: 8px 10px; color: var(--muted); white-space: pre-wrap; margin: 0 0 1rem; max-height: 120px; overflow: auto; }
+  .none { padding: 12px; border-radius: 10px; background: #fff; border: 1px dashed #d8d2c8; color: var(--muted); }
+  .fineprint { color: var(--muted); font-size: .85rem; margin: 0 0 30px; }
+  .points { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin: 10px 0 26px; }
+  .point { border-radius: 16px; padding: 18px; }
+  .point:nth-child(1) { background: var(--accent-soft); } .point:nth-child(2) { background: var(--p-sky); } .point:nth-child(3) { background: var(--p-peach); }
+  .point h3 { font-size: 1.05rem; margin-bottom: 6px; }
+  .point p { margin: 0; font-size: .95rem; }
+  .cta { background: var(--p-lilac); border-radius: 20px; padding: 24px; margin: 0 0 40px; display: flex; flex-wrap: wrap; gap: 14px 24px; align-items: center; justify-content: space-between; }
+  .cta h2 { font-size: 1.35rem; margin-bottom: 6px; }
+  .cta p { margin: 0; max-width: 60ch; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; border-radius: 999px; padding: 12px 22px; background: var(--btn); color: var(--btn-ink); text-decoration: none; white-space: nowrap; }
+  footer { border-top: 1px solid var(--line); padding: 18px 0 30px; color: var(--muted); font-size: .85rem; }
+  @media (max-width: 800px) {
+    .shop { grid-template-columns: minmax(0, 1fr); padding: 16px; gap: 18px; }
+    .photo { aspect-ratio: auto; height: 150px; }
+    .points { grid-template-columns: minmax(0, 1fr); }
+  }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="/" aria-label="GearGrow – hlavná stránka">
+      <svg width="28" height="28" viewBox="0 0 30 30" aria-hidden="true">
+        <rect x="9" y="1" width="12" height="28" rx="3" fill="#ffd97a"></rect>
+        <path d="M9 6h5M9 10h3M9 14h5M9 18h3M9 22h5M9 26h3" stroke="#5a4410" stroke-width="1.6"></path>
+      </svg>
+      GearGrow <small>ukážka pre e-shopy</small>
+    </a>
+    <a class="back" href="/#pre-obchody">← Späť na geargrow.sk</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="intro">
+    <span class="eyebrow">Pre e-shopy</span>
+    <h1>Takto vyzerá veľkostný poradca na stránke produktu</h1>
+    <p>Vyskúšajte si ho ako rodič: zadajte dátum narodenia a výšku alebo dĺžku chodidla dieťaťa. Poradca vypočíta veľkosť
+      na sezónu, keď bude dieťa vec nosiť, a jedným klikom ju označí v ponuke veľkostí obchodu.</p>
+    <div class="picker" role="group" aria-label="Vzorový produkt">
+      <button class="chip" type="button" data-item="zimna_obuv">Zimné topánky</button>
+      <button class="chip" type="button" data-item="zimna_bunda">Zimná bunda</button>
+      <button class="chip" type="button" data-item="bicykel">Detský bicykel</button>
+      <button class="chip" type="button" data-item="kopacky">Kopačky</button>
+      <button class="chip" type="button" data-item="lyze">Lyže</button>
+      <button class="chip" type="button" data-item="prilba_bicykel">Prilba</button>
+      <label class="other">alebo <select id="item" aria-label="Iný druh tovaru"></select></label>
+    </div>
+    <details class="settings">
+      <summary>Nastavenia ukážky</summary>
+      <div class="row">
+        <label>Jazyk widgetu <select id="lang"><option value="sk">slovenčina</option><option value="en">angličtina</option></select></label>
+        <label>Vlastná tabuľka veľkostí obchodu <select id="chart"><option value="">nie</option><option value="1">áno</option></select></label>
+        <label>Názvy variantov <select id="style"><option value="plain">122 · 31</option><option value="word">Veľkosť 122 · EU 31</option></select></label>
+      </div>
+    </details>
+  </section>
+
+  <section class="shop" aria-label="Vzorová stránka produktu">
+    <p class="shop-label">Vzorový e-shop</p>
+    <div class="photo" id="photo" aria-hidden="true">🧒</div>
+    <div>
+      <p class="cat" id="cat"></p>
+      <h2 id="title"></h2>
+      <p class="price">49,90 €</p>
+      <fieldset id="sizes-wrap"><legend id="legend">Veľkosť</legend><div class="sizes" id="sizes"></div></fieldset>
+      <pre class="chart" id="chart-text" hidden></pre>
+      <div id="slot"></div>
+      <button class="buy" type="button">Pridať do košíka</button>
+    </div>
+  </section>
+  <p class="fineprint">Vymyslený produkt na vyskúšanie. Poradca beží presne tak, ako by bežal vo vašom e-shope: počíta priamo
+    v prehliadači a tlačidlo „Vybrať veľkosť“ označí variant v ponuke veľkostí.</p>
+
+  <section class="points" aria-label="Čo poradca robí">
+    <div class="point"><h3>Počíta s rastom</h3><p>Odporučí veľkosť na termín, keď bude dieťa vec nosiť, podľa rastových kriviek WHO a štúdií rastu nohy.</p></div>
+    <div class="point"><h3>Hovorí vaším číslovaním</h3><p>Použije vašu tabuľku veľkostí, napríklad dĺžky stielok, a vyberie variant, ktorý naozaj predávate.</p></div>
+    <div class="point"><h3>Nič neukladá</h3><p>Všetko sa počíta v prehliadači zákazníka. Žiadne osobné údaje ani cookies, žiadne starosti s GDPR.</p></div>
+  </section>
+
+  <section class="cta">
+    <div>
+      <h2>Chcete poradcu na svojom e-shope?</h2>
+      <p>Hľadáme 5 obchodov na pilot: 3 mesiace zadarmo, inštaláciu urobíme za vás a po pilote sa nič automaticky neplatí.
+        Funguje na Shoptete, WooCommerce, Shopify aj na vlastnom webe.</p>
+    </div>
+    <a class="btn" href="mailto:info@geargrow.sk?subject=Pilot%20GearGrow">Napísať na info@geargrow.sk</a>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">GearGrow · <a href="/">geargrow.sk</a> · Odporúčané veľkosti vychádzajú z rastových kriviek a štúdií, nie sú však zárukou.</div>
+</footer>
+<script src="/widget/geargrow-2.0.0.js" defer></script>
+<script src="ukazka.js" defer></script>
+</body>
+</html>
